@@ -1,0 +1,30 @@
+# Folders
+/data/
+/saved_objects/
+/runs/
+__pycache__/
+.mypy_cache/
+/results/
+*build/
+*dist/
+*venv/
+*env/
+*site/
+*.egg-info/
+.pytest_cache/
+*.ruff_cache/
+.cache
+.complexipy_cache/
+.kiro
+*target/
+
+# Files
+*.pyc
+*.pyo
+*.pyd
+*.egg-info
+.python-version
+
+# Exceptions
+!/.github/**
+node_modules/

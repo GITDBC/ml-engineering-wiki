@@ -395,6 +395,6 @@ En cuanto a la representación tensorial de los datos, cada tipo de dato se mape
 rango específico de tensor. Los datos vectoriales se representan como tensores de rango
 2 con forma $(muestras, características)$. Las series temporales o datos secuenciales
 adoptan tensores de rango 3 con forma $(muestras, pasos\_temporales, características)$.
-Las imágenes se codifican como tensores de rango 4 con forma
-$(muestras, alto, ancho, canales)$. Finalmente, los vídeos se representan como tensores
-de rango 5 con forma $(muestras, fotogramas, alto, ancho, canales)$.
+Las imágenes se codifican como tensores de rango 4 con forma $(muestras, alto, ancho,
+canales)$. Finalmente, los vídeos se representan como tensores de rango 5 con forma
+$(muestras, fotogramas, alto, ancho, canales)$.

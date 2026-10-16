@@ -1,11 +1,11 @@
 <p align="center">
-  <a href="https://github.com/danibcorr/se-ml-wiki/actions/workflows/workflow.yml"><img src="https://github.com/danibcorr/se-ml-wiki/actions/workflows/workflow.yml/badge.svg"></a>
+  <a href="https://github.com/GITDBC/ml-engineering-wiki/actions/workflows/workflow.yml"><img src="https://github.com/GITDBC/ml-engineering-wiki/actions/workflows/workflow.yml/badge.svg"></a>
   <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es" target="_blank">
     <img src="https://img.shields.io/badge/licencia-CC%20BY--NC--SA%204.0-blue" alt="Licencia CC BY-NC-SA 4.0">
   </a>
 </p>
 
-# La Wiki de un ingeniero
+# Wiki sobre Ingeniería en Aprendizaje Automático
 
 ¡Hola! 👋
 
@@ -16,4 +16,4 @@ inteligencia artificial, ciencia de datos y programación.
 ## Contacto
 
 Si te interesa conectar, no dudes en hacerlo a través de mi
-[LinkedIn](https://www.linkedin.com/in/danibcorr/).
+[LinkedIn](https://www.linkedin.com/in/daniel-bazo-correa/).

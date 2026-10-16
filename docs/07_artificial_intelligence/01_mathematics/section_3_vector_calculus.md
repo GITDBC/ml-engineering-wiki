@@ -138,9 +138,9 @@ $$
 
 ### Gradientes de funciones con valor vectorial
 
-Para una función $f: \mathbb{R}^{n} \to \mathbb{R}^{m}$ y un vector
-$\mathbf{x} = \lbrack x_1, \ldots, x_n \rbrack^{T} \in \mathbb{R}^{n}$, el vector de
-valores de la función se escribe como:
+Para una función $f: \mathbb{R}^{n} \to \mathbb{R}^{m}$ y un vector $\mathbf{x} =
+\lbrack x_1, \ldots, x_n \rbrack^{T} \in \mathbb{R}^{n}$, el vector de valores de la
+función se escribe como:
 
 $$
 f(\mathbf{x}) = \begin{bmatrix} f_1(\mathbf{x}) \\ \vdots \\ f_m(\mathbf{x})
@@ -166,9 +166,8 @@ $$
 $$
 
 Para el sistema $y_1 = -2x_1 + x_2$ e $y_2 = x_1 + x_2$, las cuatro derivadas parciales
-son $\partial y_1/\partial x_1 = -2$, $\partial y_1/\partial x_2 = 1$,
-$\partial y_2/\partial x_1 = 1$ y $\partial y_2/\partial x_2 = 1$, lo que da el
-Jacobiano:
+son $\partial y_1/\partial x_1 = -2$, $\partial y_1/\partial x_2 = 1$, $\partial
+y_2/\partial x_1 = 1$ y $\partial y_2/\partial x_2 = 1$, lo que da el Jacobiano:
 
 $$
 \mathbf{J} = \begin{bmatrix} -2 & 1 \\ 1 & 1 \end{bmatrix}
@@ -184,11 +183,11 @@ escalan las áreas o los volúmenes al transformar las coordenadas.
 En determinadas situaciones es necesario calcular gradientes de matrices respecto a
 vectores o respecto a otras matrices, lo que da como resultado un tensor
 multidimensional. Este tensor puede entenderse como una estructura que recoge derivadas
-parciales organizadas en varias dimensiones. Para una matriz
-$\mathbf{A} \in \mathbb{R}^{4 \times 2}$ derivada respecto a un vector
-$\mathbf{x} \in \mathbb{R}^{3}$, cada derivada parcial
-$\partial \mathbf{A} / \partial x_i$ es una matriz de $\mathbb{R}^{4 \times 2}$, y al
-agrupar las tres se obtiene un tensor de $\mathbb{R}^{4 \times 2 \times 3}$.
+parciales organizadas en varias dimensiones. Para una matriz $\mathbf{A} \in
+\mathbb{R}^{4 \times 2}$ derivada respecto a un vector $\mathbf{x} \in \mathbb{R}^{3}$,
+cada derivada parcial $\partial \mathbf{A} / \partial x_i$ es una matriz de
+$\mathbb{R}^{4 \times 2}$, y al agrupar las tres se obtiene un tensor de $\mathbb{R}^{4
+\times 2 \times 3}$.
 
 ## Retropropagación y diferenciación automática
 
@@ -236,9 +235,9 @@ gradiente de una función de pérdida $L$ respecto a todos los parámetros $\mat
 $\mathbf{b}_j$, lo que a su vez exige calcular el gradiente respecto a las entradas de
 cada capa.
 
-Dada una estructura de red definida por $f_0 := \mathbf{x}_0$ y
-$f_i := \sigma_i(\mathbf{A}_{i-1} f_{i-1} + \mathbf{b}_{i-1})$ para $i = 1, \ldots, K$,
-el objetivo consiste en encontrar los parámetros que minimizan la pérdida cuadrática:
+Dada una estructura de red definida por $f_0 := \mathbf{x}_0$ y $f_i :=
+\sigma_i(\mathbf{A}_{i-1} f_{i-1} + \mathbf{b}_{i-1})$ para $i = 1, \ldots, K$, el
+objetivo consiste en encontrar los parámetros que minimizan la pérdida cuadrática:
 
 $$
 L(\theta) = \lVert y - f_K(\theta, \mathbf{x}) \rVert^{2}
@@ -249,9 +248,9 @@ $$
 $$
 
 Para obtener el gradiente respecto al conjunto $\theta$ se necesitan las derivadas
-parciales de la pérdida respecto a los parámetros
-$\theta_j = \{\mathbf{A}_j, \mathbf{b}_j\}$ de cada capa $j = 0, \ldots, K-1$. La regla
-de la cadena permite escribirlas de forma recursiva. Para la última capa:
+parciales de la pérdida respecto a los parámetros $\theta_j = \{\mathbf{A}_j,
+\mathbf{b}_j\}$ de cada capa $j = 0, \ldots, K-1$. La regla de la cadena permite
+escribirlas de forma recursiva. Para la última capa:
 
 $$
 \frac{\partial L}{\partial \theta_{K-1}} = \frac{\partial L}{\partial f_K}
@@ -332,9 +331,9 @@ $$
 f(x) = \sqrt{x^2 + \exp(x^2)} + \cos\left(x^2 + \exp(x^2)\right)
 $$
 
-se definen las variables intermedias $a = x^2$, $b = \exp(a)$, $c = a + b$,
-$d = \sqrt{c}$ y $e = \cos(c)$, de modo que el resultado final es $f = d + e$. El grafo
-de cómputo resultante evita recalcular las subexpresiones repetidas:
+se definen las variables intermedias $a = x^2$, $b = \exp(a)$, $c = a + b$, $d =
+\sqrt{c}$ y $e = \cos(c)$, de modo que el resultado final es $f = d + e$. El grafo de
+cómputo resultante evita recalcular las subexpresiones repetidas:
 
 ```mermaid
 flowchart LR

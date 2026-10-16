@@ -94,27 +94,29 @@ base cuantitativa para comparar decisiones. La **función de valor de estado**
 $V^{\pi}(s)$ calcula el retorno esperado al iniciar en el estado $s$ y seguir la
 política $\pi$:
 
-$V^{\pi}(s) = \mathbb{E}_{\pi}\left[\sum_{t=0}^{\infty} \gamma^t R_t \mid S_0 = s\right]$
+$V^{\pi}(s) = \mathbb{E}_{\pi}\left[\sum_{t=0}^{\infty} \gamma^t R_t \mid S_0 =
+s\right]$
 
 La **función de valor acción–estado** $Q^{\pi}(s,a)$ estima el retorno esperado al
 ejecutar la acción $a$ en el estado $s$ y continuar siguiendo la política $\pi$:
 
-$Q^{\pi}(s,a) = \mathbb{E}_{\pi}\left[\sum_{t=0}^{\infty} \gamma^t R_t \mid S_0 = s, A_0 = a\right]$
+$Q^{\pi}(s,a) = \mathbb{E}_{\pi}\left[\sum_{t=0}^{\infty} \gamma^t R_t \mid S_0 = s, A_0
+= a\right]$
 
 Estas funciones permiten al agente seleccionar acciones que maximizan el retorno a largo
 plazo.
 
 ## Optimalidad y ecuación de Bellman
 
-Las **funciones de valor óptimas**, $V^*(S)$ y $Q^*(S,a)$, representan el mejor
+Las **funciones de valor óptimas**, $V^_(S)$ y $Q^_(S,a)$, representan el mejor
 desempeño alcanzable por cualquier política:
 
-$V^*(S) = \max_{\pi} V^{\pi}(S) = \max_a Q^*(S,a)$
+$V^_(S) = \max\_{\pi} V^{\pi}(S) = \max_a Q^_(S,a)$
 
 La **ecuación de Bellman** establece una relación recursiva que permite calcular estos
 valores. Para entornos deterministas:
 
-$Q^*(s,a) = R(s) + \gamma \max_{a'} Q^*(s', a')$
+$Q^_(s,a) = R(s) + \gamma \max\_{a'} Q^_(s', a')$
 
 donde $s'$ es el estado alcanzado tras ejecutar la acción $a$ en $s$. En entornos
 estocásticos, esta relación se expresa en términos de valor esperado, considerando la
@@ -155,7 +157,8 @@ Ejemplos de algoritmos incluyen **SARSA**, **Expected SARSA** y **Q-learning**, 
 diferencian en su enfoque **on-policy** u **off-policy** y en la forma de actualizar los
 valores de acción $Q(s,a)$:
 
-$Q(S_t, a_t) \leftarrow Q(S_t, a_t) + \alpha [r_t + \gamma Q(S_{t+1}, a_{t+1}) - Q(S_t, a_t)]$
+$Q(S_t, a_t) \leftarrow Q(S_t, a_t) + \alpha [r_t + \gamma Q(S_{t+1}, a_{t+1}) - Q(S_t,
+a_t)]$
 
 donde $\alpha$ es la tasa de aprendizaje.
 
@@ -177,8 +180,8 @@ $G = 0 + 0.25 \cdot 0 + 0.25^2 \cdot 100 = 6.25$
 En un ejemplo de función $Q$ con $\gamma = 0.5$, si el estado $S=2$ puede transitar a
 $S=3$ o $S=4$:
 
-$Q(S=2, a=\rightarrow) = 0 + 0.5^3 \cdot 100 = 12.5$,
-$Q(S=2, a=\leftarrow) = 0 + 0.5 \cdot 100 = 50$
+$Q(S=2, a=\rightarrow) = 0 + 0.5^3 \cdot 100 = 12.5$, $Q(S=2, a=\leftarrow) = 0 + 0.5
+\cdot 100 = 50$
 
 La acción óptima se selecciona como $\max Q(S, a) = 50$, correspondiendo a la acción
 izquierda.

@@ -1,10 +1,10 @@
 [project]
 site_name = "Daniel Bazo Correa"
-site_description = "🏛️ Mi wiki personal como ingeniero y científico de datos en Español"
+site_description = "Wiki personal sobre Ingeniería de Aprendizaje Automático"
 site_author = "Daniel Bazo Correa"
-site_url = "https://danibcorr.github.io/se-ml-wiki/"
-repo_url = "https://github.com/danibcorr/se-ml-wiki"
-repo_name = "danibcorr/se-ml-wiki"
+site_url = "https://GITDBC.github.io/ml-engineering-wiki/"
+repo_url = "https://github.com/GITDBC/ml-engineering-wiki"
+repo_name = "GITDBC/ml-engineering-wiki"
 copyright = "Copyright &copy; 2026 Daniel Bazo Correa"
 nav = [
     {"Inicio" = "index.md"},
@@ -146,11 +146,11 @@ toggle.name = "Switch to light mode"
 repo = "fontawesome/brands/github"
 
 [project.extra]
-homepage = "https://www.linkedin.com/in/danibcorr/"
+homepage = "https://www.linkedin.com/in/daniel-bazo-correa/"
 
 [[project.extra.social]]
 icon = "fontawesome/brands/linkedin"
-link = "https://www.linkedin.com/in/danibcorr/"
+link = "https://www.linkedin.com/in/daniel-bazo-correa/"
 
 [project.markdown_extensions.admonition]
 [project.markdown_extensions.tables]

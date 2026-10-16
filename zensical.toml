@@ -1,6 +1,6 @@
 [project]
 site_name = "Daniel Bazo Correa"
-site_description = "Wiki personal sobre Ingeniería de Aprendizaje Automático"
+site_description = "Wiki personal sobre Ingeniería en Aprendizaje Automático"
 site_author = "Daniel Bazo Correa"
 site_url = "https://GITDBC.github.io/ml-engineering-wiki/"
 repo_url = "https://github.com/GITDBC/ml-engineering-wiki"

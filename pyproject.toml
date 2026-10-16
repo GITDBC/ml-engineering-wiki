@@ -1,6 +1,6 @@
 [project]
 name = "se-ml-wiki"
-description = "Wiki personal sobre Ingeniería de Aprendizaje Automático"
+description = "Wiki personal sobre Ingeniería en Aprendizaje Automático"
 authors = [
     {name = "Daniel Bazo Correa", email = "none@none.com"},
 ]

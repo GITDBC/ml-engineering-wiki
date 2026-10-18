@@ -2,7 +2,7 @@
 site_name = "Daniel Bazo Correa"
 site_description = "Wiki sobre Ingeniería en Aprendizaje Automático"
 site_author = "Daniel Bazo Correa"
-site_url = "https://GITDBC.github.io/ml-engineering-wiki/"
+site_url = "https://gitdbc.github.io/ml-engineering-wiki/"
 repo_url = "https://github.com/GITDBC/ml-engineering-wiki"
 repo_name = "GITDBC/ml-engineering-wiki"
 copyright = "Copyright &copy; 2026 Daniel Bazo Correa"

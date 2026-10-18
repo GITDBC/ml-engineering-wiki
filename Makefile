@@ -1,18 +1,12 @@
-.PHONY: setup \
-		clean-cache-temp-files \
-		doc  \
+.PHONY: clean-cache-temp-files \
+		setup \
 		format \
-		pipeline all
+		doc  \
+		all
 
 .DEFAULT_GOAL := all
 
-PATH_PROJECT_ROOT ?= .
-TEST_PATH ?= tests
-
-setup:
-	@echo "Installing dependencies..."
-	@uv sync --all-extras
-	@echo "✅ Dependencies installed."
+DOCS_PATH ?= docs
 
 clean-cache-temp-files:
 	@echo "Cleaning cache and temporary files..."
@@ -22,17 +16,19 @@ clean-cache-temp-files:
 	@find . -type f \( -name '*.pyc' -o -name '*.pyo' \) -delete
 	@echo "✅ Clean complete."
 
+setup:
+	@echo "Installing dependencies..."
+	@uv sync --all-extras
+	@echo "✅ Dependencies installed."
+
+format:
+	@echo "Formatting documents..."
+	@npx prettier --write $(DOCS_PATH)
+	@echo "✅ Formatting complete."
+
 doc:
 	@echo "Serving documentation..."
 	@uv run zensical serve
 
-pipeline: clean-cache-temp-files
-	@echo "✅ Pipeline complete."
-
-format:
-	@echo "Formatting documents..."
-	@npx prettier --write .
-	@echo "✅ Formatting complete."
-
-all: setup format pipeline
+all: clean-cache-temp-files setup format 
 	@echo "✅ All tasks complete."

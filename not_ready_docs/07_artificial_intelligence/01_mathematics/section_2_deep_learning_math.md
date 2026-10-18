@@ -146,9 +146,9 @@ operaciones, antes de volver a su expresión concreta en código.
 
 Cualquier objeto que pueda sumarse con otro objeto del mismo tipo y multiplicarse por un
 escalar, devolviendo en ambos casos otro objeto del mismo tipo, se considera un
-**vector**. La notación habitual emplea letra negrita, de forma que
-$\mathbf{a} = \lbrack 1, 2, 3 \rbrack$ con $\mathbf{a} \in \mathbb{R}^3$ designa un
-vector de tres componentes. En numerosas ocasiones los datos se tratan precisamente como
+**vector**. La notación habitual emplea letra negrita, de forma que $\mathbf{a} =
+\lbrack 1, 2, 3 \rbrack$ con $\mathbf{a} \in \mathbb{R}^3$ designa un vector de tres
+componentes. En numerosas ocasiones los datos se tratan precisamente como
 representaciones vectoriales en $\mathbb{R}^n$.
 
 Cuando se formaliza un concepto, un enfoque frecuente consiste en construir un conjunto
@@ -180,9 +180,9 @@ a_{m1}x_1 + a_{m2}x_2 + \ldots + a_{mn}x_n = b_m
 $$
 
 En estas expresiones $x_1, \ldots, x_n$ son las incógnitas del sistema, los $a_{ij}$ son
-los coeficientes y $b_1, \ldots, b_m$ los términos independientes. Cada $n$-tupla
-$(x_1, \ldots, x_n) \in \mathbb{R}^n$ que satisface todas las ecuaciones es una solución
-del sistema. En general no existe una única solución, sino que el sistema puede admitir
+los coeficientes y $b_1, \ldots, b_m$ los términos independientes. Cada $n$-tupla $(x_1,
+\ldots, x_n) \in \mathbb{R}^n$ que satisface todas las ecuaciones es una solución del
+sistema. En general no existe una única solución, sino que el sistema puede admitir
 infinitas o ninguna. Cuando no es posible resolverlo de forma exacta se recurre a la
 regresión lineal para obtener una aproximación.
 
@@ -214,13 +214,13 @@ entrada y $\mathbf{b}$ el sesgo.
 
 Las matrices sirven para compactar sistemas de ecuaciones lineales, pero también para
 representar funciones lineales o mapeos lineales. Una matriz puede además reorganizarse
-como un vector de mayor longitud, de modo que una matriz
-$\mathbf{A} \in \mathbb{R}^{4 \times 2}$ equivale, tras un cambio de forma, a un vector
-$\mathbf{a} \in \mathbb{R}^8$. Esta operación de reorganización es la que en las
-bibliotecas de cálculo numérico se conoce como _reshape_.
+como un vector de mayor longitud, de modo que una matriz $\mathbf{A} \in \mathbb{R}^{4
+\times 2}$ equivale, tras un cambio de forma, a un vector $\mathbf{a} \in \mathbb{R}^8$.
+Esta operación de reorganización es la que en las bibliotecas de cálculo numérico se
+conoce como _reshape_.
 
-La suma de dos matrices $\mathbf{A} \in \mathbb{R}^{m \times n}$ y
-$\mathbf{B} \in \mathbb{R}^{m \times n}$ se define elemento a elemento:
+La suma de dos matrices $\mathbf{A} \in \mathbb{R}^{m \times n}$ y $\mathbf{B} \in
+\mathbb{R}^{m \times n}$ se define elemento a elemento:
 
 $$
 \mathbf{A} + \mathbf{B} :=
@@ -232,9 +232,9 @@ a_{m1} + b_{m1} & \cdots & a_{mn} + b_{mn}
 $$
 
 El producto, en cambio, se calcula fila por columna y exige que el número de columnas de
-la primera matriz coincida con el número de filas de la segunda. Para
-$\mathbf{A} \in \mathbb{R}^{2 \times 3}$ y $\mathbf{B} \in \mathbb{R}^{3 \times 2}$ el
-resultado pertenece a $\mathbb{R}^{2 \times 2}$:
+la primera matriz coincida con el número de filas de la segunda. Para $\mathbf{A} \in
+\mathbb{R}^{2 \times 3}$ y $\mathbf{B} \in \mathbb{R}^{3 \times 2}$ el resultado
+pertenece a $\mathbb{R}^{2 \times 2}$:
 
 $$
 \begin{bmatrix} 1 & 2 & 3 \\ 3 & 2 & 1 \end{bmatrix}
@@ -249,11 +249,11 @@ por ejemplo, resulta de $1 \cdot 0 + 2 \cdot 1 + 3 \cdot 0 = 2$.
 
 El producto de matrices satisface varias propiedades que conviene retener. No es
 conmutativo, de forma que $\mathbf{A}\mathbf{B} \neq \mathbf{B}\mathbf{A}$ en general.
-Sí es asociativo, por lo que
-$(\mathbf{A}\mathbf{B})\mathbf{C} = \mathbf{A}(\mathbf{B}\mathbf{C})$ para dimensiones
-compatibles. Y es distributivo respecto a la suma, cumpliéndose tanto
-$(\mathbf{A} + \mathbf{B})\mathbf{C} = \mathbf{A}\mathbf{C} + \mathbf{B}\mathbf{C}$ como
-$\mathbf{A}(\mathbf{C} + \mathbf{D}) = \mathbf{A}\mathbf{C} + \mathbf{A}\mathbf{D}$.
+Sí es asociativo, por lo que $(\mathbf{A}\mathbf{B})\mathbf{C} =
+\mathbf{A}(\mathbf{B}\mathbf{C})$ para dimensiones compatibles. Y es distributivo
+respecto a la suma, cumpliéndose tanto $(\mathbf{A} + \mathbf{B})\mathbf{C} =
+\mathbf{A}\mathbf{C} + \mathbf{B}\mathbf{C}$ como $\mathbf{A}(\mathbf{C} + \mathbf{D}) =
+\mathbf{A}\mathbf{C} + \mathbf{A}\mathbf{D}$.
 
 La **matriz identidad** $\mathbf{I}_n \in \mathbb{R}^{n \times n}$ es una matriz
 cuadrada, con igual número de filas que de columnas, que presenta unos en la diagonal
@@ -270,21 +270,19 @@ $$
 \in \mathbb{R}^{n \times n}
 $$
 
-Actúa como elemento neutro del producto, de modo que
-$\mathbf{I}_m \mathbf{A} = \mathbf{A} \mathbf{I}_n = \mathbf{A}$ para cualquier
-$\mathbf{A} \in \mathbb{R}^{m \times n}$. Conviene notar que
-$\mathbf{I}_m \neq \mathbf{I}_n$ cuando $m \neq n$.
+Actúa como elemento neutro del producto, de modo que $\mathbf{I}_m \mathbf{A} =
+\mathbf{A} \mathbf{I}_n = \mathbf{A}$ para cualquier $\mathbf{A} \in \mathbb{R}^{m
+\times n}$. Conviene notar que $\mathbf{I}_m \neq \mathbf{I}_n$ cuando $m \neq n$.
 
 ### Inversa y transpuesta
 
 Dada una matriz cuadrada $\mathbf{A} \in \mathbb{R}^{n \times n}$, si existe otra matriz
-$\mathbf{B} \in \mathbb{R}^{n \times n}$ tal que
-$\mathbf{A}\mathbf{B} = \mathbf{I} = \mathbf{B}\mathbf{A}$, entonces $\mathbf{B}$ es la
-**inversa** de $\mathbf{A}$ y se denota $\mathbf{A}^{-1}$. No todas las matrices tienen
-inversa. Cuando la tienen se denominan regulares, invertibles o no singulares, y en caso
-contrario singulares o no invertibles. Si la inversa existe es única, y la matriz ha de
-ser necesariamente cuadrada. Una matriz es regular si, y solo si, su determinante es
-distinto de cero.
+$\mathbf{B} \in \mathbb{R}^{n \times n}$ tal que $\mathbf{A}\mathbf{B} = \mathbf{I} =
+\mathbf{B}\mathbf{A}$, entonces $\mathbf{B}$ es la **inversa** de $\mathbf{A}$ y se
+denota $\mathbf{A}^{-1}$. No todas las matrices tienen inversa. Cuando la tienen se
+denominan regulares, invertibles o no singulares, y en caso contrario singulares o no
+invertibles. Si la inversa existe es única, y la matriz ha de ser necesariamente
+cuadrada. Una matriz es regular si, y solo si, su determinante es distinto de cero.
 
 La **transpuesta** de una matriz se obtiene escribiendo las columnas en la posición de
 las filas y viceversa. Para $\mathbf{A} \in \mathbb{R}^{m \times n}$, la matriz
@@ -312,28 +310,28 @@ Ambas operaciones cumplen un conjunto de propiedades de uso frecuente:
 - $\mathbf{A}\mathbf{A}^{-1} = \mathbf{I} = \mathbf{A}^{-1}\mathbf{A}$.
 - La inversa de un producto invierte el orden de los factores:
   $(\mathbf{A}\mathbf{B})^{-1} = \mathbf{B}^{-1}\mathbf{A}^{-1}$. Esta propiedad no se
-  cumple para la suma, donde
-  $(\mathbf{A} + \mathbf{B})^{-1} \neq \mathbf{A}^{-1} + \mathbf{B}^{-1}$.
+  cumple para la suma, donde $(\mathbf{A} + \mathbf{B})^{-1} \neq \mathbf{A}^{-1} +
+  \mathbf{B}^{-1}$.
 - La transposición es involutiva: $(\mathbf{A}^T)^T = \mathbf{A}$.
-- La transpuesta de un producto también invierte el orden:
-  $(\mathbf{A}\mathbf{B})^T = \mathbf{B}^T\mathbf{A}^T$.
-- La transpuesta de una suma es la suma de transpuestas:
-  $(\mathbf{A} + \mathbf{B})^T = \mathbf{A}^T + \mathbf{B}^T$.
-- Inversa y transpuesta conmutan entre sí:
-  $(\mathbf{A}^{-1})^T = (\mathbf{A}^T)^{-1} = \mathbf{A}^{-T}$.
+- La transpuesta de un producto también invierte el orden: $(\mathbf{A}\mathbf{B})^T =
+  \mathbf{B}^T\mathbf{A}^T$.
+- La transpuesta de una suma es la suma de transpuestas: $(\mathbf{A} + \mathbf{B})^T =
+  \mathbf{A}^T + \mathbf{B}^T$.
+- Inversa y transpuesta conmutan entre sí: $(\mathbf{A}^{-1})^T = (\mathbf{A}^T)^{-1} =
+  \mathbf{A}^{-T}$.
 
-Una matriz $\mathbf{A} \in \mathbb{R}^{n \times n}$ es **simétrica** si
-$\mathbf{A} = \mathbf{A}^T$. Solo las matrices cuadradas pueden serlo. La suma de
-matrices simétricas es siempre simétrica, mientras que el producto generalmente no lo
-es. Las matrices simétricas aparecen de forma natural en inteligencia artificial como
-matrices de covarianza y matrices de Gram, y su estructura es precisamente lo que hace
-posibles las descomposiciones que se tratan más adelante.
+Una matriz $\mathbf{A} \in \mathbb{R}^{n \times n}$ es **simétrica** si $\mathbf{A} =
+\mathbf{A}^T$. Solo las matrices cuadradas pueden serlo. La suma de matrices simétricas
+es siempre simétrica, mientras que el producto generalmente no lo es. Las matrices
+simétricas aparecen de forma natural en inteligencia artificial como matrices de
+covarianza y matrices de Gram, y su estructura es precisamente lo que hace posibles las
+descomposiciones que se tratan más adelante.
 
 ## Eliminación gaussiana
 
 Un sistema de ecuaciones lineales admite una representación compacta en forma matricial.
-El sistema formado por las tres ecuaciones $2x_1 + 3x_2 + 5x_3 = 1$,
-$4x_1 + 2x_2 + 7x_3 = -8$ y $9x_1 - 5x_2 - 3x_3 = 2$ se escribe como:
+El sistema formado por las tres ecuaciones $2x_1 + 3x_2 + 5x_3 = 1$, $4x_1 + 2x_2 + 7x_3
+= -8$ y $9x_1 - 5x_2 - 3x_3 = 2$ se escribe como:
 
 $$
 \begin{bmatrix}
@@ -380,9 +378,9 @@ $$
 
 Para resolver un sistema de la forma $\mathbf{A}\mathbf{x} = \mathbf{b}$ se parte del
 supuesto de que la solución existe. En algunos casos particulares la inversa de la
-matriz proporciona directamente la solución mediante
-$\mathbf{x} = \mathbf{A}^{-1}\mathbf{b}$, aunque esto solo es posible si $\mathbf{A}$ es
-cuadrada e invertible, lo que no suele ocurrir en la práctica.
+matriz proporciona directamente la solución mediante $\mathbf{x} =
+\mathbf{A}^{-1}\mathbf{b}$, aunque esto solo es posible si $\mathbf{A}$ es cuadrada e
+invertible, lo que no suele ocurrir en la práctica.
 
 Cuando $\mathbf{A}$ tiene columnas linealmente independientes se recurre a la siguiente
 transformación:
@@ -407,8 +405,8 @@ forma iterativa cuando el número de parámetros es grande.
 Los espacios vectoriales son los espacios estructurados donde residen los vectores. Un
 **espacio vectorial** es un conjunto $V$ sobre el que están definidas dos operaciones,
 la suma de vectores y el producto por un escalar, de forma que el resultado de ambas
-sigue perteneciendo a $V$. El elemento neutro de la suma es el vector cero
-$\mathbf{0} = \lbrack 0 \; 0 \; \ldots \; 0 \rbrack^{T}$.
+sigue perteneciendo a $V$. El elemento neutro de la suma es el vector cero $\mathbf{0} =
+\lbrack 0 \; 0 \; \ldots \; 0 \rbrack^{T}$.
 
 En la práctica de la inteligencia artificial el espacio vectorial relevante es
 $\mathbb{R}^n$, donde residen los _embeddings_, las activaciones de cada capa y los
@@ -433,8 +431,8 @@ la mayor parte de la información.
 
 ## Independencia lineal
 
-Considerando un espacio vectorial $V$ y un número finito de vectores
-$\mathbf{x}_1, \ldots, \mathbf{x}_k \in V$, cada vector $\mathbf{v} \in V$ de la forma:
+Considerando un espacio vectorial $V$ y un número finito de vectores $\mathbf{x}_1,
+\ldots, \mathbf{x}_k \in V$, cada vector $\mathbf{v} \in V$ de la forma:
 
 $$
 \mathbf{v} = \lambda_1 \mathbf{x}_1 + \ldots + \lambda_k \mathbf{x}_k = \sum_{i=1}^{k}
@@ -460,11 +458,11 @@ independiente:
 
 ### Conjuntos generadores y bases
 
-Considerando un espacio vectorial $V = (V, +, \cdot)$ y un conjunto de vectores
-$A = \{\mathbf{x}_1, \ldots, \mathbf{x}_k\} \subseteq V$, si cada vector
-$\mathbf{v} \in V$ puede expresarse como combinación lineal de los elementos de $A$,
-entonces $A$ es un **conjunto generador** de $V$. El conjunto de todas las combinaciones
-lineales de los vectores de $A$ se denomina _span_ de $A$.
+Considerando un espacio vectorial $V = (V, +, \cdot)$ y un conjunto de vectores $A =
+\{\mathbf{x}_1, \ldots, \mathbf{x}_k\} \subseteq V$, si cada vector $\mathbf{v} \in V$
+puede expresarse como combinación lineal de los elementos de $A$, entonces $A$ es un
+**conjunto generador** de $V$. El conjunto de todas las combinaciones lineales de los
+vectores de $A$ se denomina _span_ de $A$.
 
 Una **base** es un sistema generador cuyos vectores son linealmente independientes. Una
 de las bases más empleadas es la base canónica, que en $\mathbb{R}^n$ toma la forma:
@@ -484,14 +482,14 @@ matrices equivalentes por filas comparten el mismo rango, y en el caso de las ma
 escalonadas reducidas el rango coincide con el número de filas no nulas. Esta magnitud
 presenta propiedades de interés directo en el análisis de datos:
 
-- El rango es invariante frente a la transposición:
-  $\mathrm{rk}(\mathbf{A}) = \mathrm{rk}(\mathbf{A}^{T})$.
+- El rango es invariante frente a la transposición: $\mathrm{rk}(\mathbf{A}) =
+  \mathrm{rk}(\mathbf{A}^{T})$.
 - Una matriz cuadrada $\mathbf{A} \in \mathbb{R}^{n \times n}$ es regular, es decir
   invertible, si y solo si $\mathrm{rk}(\mathbf{A}) = n$.
 - Dado un vector $\mathbf{b}$ con el mismo número de filas que $\mathbf{A}$, el sistema
   $\mathbf{A}\mathbf{x} = \mathbf{b}$ tiene solución si y solo si
-  $\mathrm{rk}(\mathbf{A}) = \mathrm{rk}(\mathbf{A} \mid \mathbf{b})$, donde
-  $\mathbf{A} \mid \mathbf{b}$ denota la matriz aumentada.
+  $\mathrm{rk}(\mathbf{A}) = \mathrm{rk}(\mathbf{A} \mid \mathbf{b})$, donde $\mathbf{A}
+  \mid \mathbf{b}$ denota la matriz aumentada.
 - El subespacio formado por las soluciones de $\mathbf{A}\mathbf{x} = \mathbf{0}$ tiene
   dimensión $n - \mathrm{rk}(\mathbf{A})$. Este subespacio recibe el nombre de núcleo o
   _kernel_.
@@ -518,9 +516,9 @@ $$
 En este caso el escalar $\alpha$ es el mismo en ambos miembros.
 
 Un ejemplo ilustrativo toma $V_1 = \mathbb{R}_3\lbrack x \rbrack$, el espacio de los
-polinomios de grado menor o igual que tres sobre $\mathbb{R}$, y
-$V_2 = \mathbb{R}_2\lbrack x \rbrack$. La función $T$ definida como $T(p(x)) = p'(x)$,
-es decir la derivada, cumple ambas condiciones:
+polinomios de grado menor o igual que tres sobre $\mathbb{R}$, y $V_2 =
+\mathbb{R}_2\lbrack x \rbrack$. La función $T$ definida como $T(p(x)) = p'(x)$, es decir
+la derivada, cumple ambas condiciones:
 
 $$
 T(p(x) + q(x)) = (p(x) + q(x))' = p'(x) + q'(x) = T(p(x)) + T(q(x))
@@ -540,8 +538,8 @@ imagen pertenezca a $\mathbb{R}_2\lbrack x \rbrack$.
     función, y su interpretación geométrica corresponde con la pendiente de la recta
     tangente a la función en un punto.
 
-Toda transformación lineal $T: V_1 \rightarrow V_2$ satisface además
-$T(\mathbf{0}) = \mathbf{0}$ y $T(-\mathbf{v}) = -T(\mathbf{v})$.
+Toda transformación lineal $T: V_1 \rightarrow V_2$ satisface además $T(\mathbf{0}) =
+\mathbf{0}$ y $T(-\mathbf{v}) = -T(\mathbf{v})$.
 
 Las transformaciones lineales se representan mediante matrices, ya que al trabajar con
 matrices se está operando en realidad con transformaciones lineales o con colecciones de
@@ -555,10 +553,10 @@ equidistantes tras la transformación. La segunda es que el origen se mantiene f
 posición.
 
 Para describir numéricamente estas transformaciones conviene partir de un ejemplo.
-Considerando el vector
-$\mathbf{v} = \lbrack -1, 2 \rbrack = -1\mathbf{i} + 2\mathbf{j}$, la propiedad de que
-las líneas permanecen paralelas y equidistantes implica que el vector transformado es la
-misma combinación lineal de los vectores base transformados:
+Considerando el vector $\mathbf{v} = \lbrack -1, 2 \rbrack = -1\mathbf{i} +
+2\mathbf{j}$, la propiedad de que las líneas permanecen paralelas y equidistantes
+implica que el vector transformado es la misma combinación lineal de los vectores base
+transformados:
 
 $$
 T(\mathbf{v}) = -1 \cdot T(\mathbf{i}) + 2 \cdot T(\mathbf{j})
@@ -616,10 +614,9 @@ Un vector $\mathbf{u} = \begin{pmatrix}4\\3\end{pmatrix}$ expresado en la base c
 se denota $\lbrack \mathbf{u} \rbrack_C$. Sin embargo, la base canónica no es la única
 posible. Tomando otros dos vectores $\mathbf{v}$ y $\mathbf{w}$ que también formen base
 de $\mathbb{R}^2$, se obtiene una base alternativa $B = \{\mathbf{v}, \mathbf{w}\}$. Si
-$\mathbf{v} = 0{,}64\hat{\mathbf{i}} + 0{,}77\hat{\mathbf{j}}$ y
-$\mathbf{w} = -0{,}5\hat{\mathbf{i}} + 0{,}87\hat{\mathbf{j}}$, un vector cuyas
-coordenadas en la base $B$ son $(4, 3)$ se expresa en la base canónica mediante el
-siguiente producto:
+$\mathbf{v} = 0{,}64\hat{\mathbf{i}} + 0{,}77\hat{\mathbf{j}}$ y $\mathbf{w} =
+-0{,}5\hat{\mathbf{i}} + 0{,}87\hat{\mathbf{j}}$, un vector cuyas coordenadas en la base
+$B$ son $(4, 3)$ se expresa en la base canónica mediante el siguiente producto:
 
 $$
 \begin{pmatrix}0{,}64 & -0{,}5\\0{,}77 & 0{,}87\end{pmatrix}
@@ -627,12 +624,12 @@ $$
 $$
 
 La primera matriz es la matriz de cambio de base $\mathbf{P}_{BC}$, el vector $(4, 3)$
-corresponde a $\lbrack \mathbf{u} \rbrack_B$ y el resultado a
-$\lbrack \mathbf{u} \rbrack_C$. La matriz $\mathbf{P}_{BC}$ se construye colocando en
-columnas los vectores de la base de partida expresados en la base de destino. Para
-recorrer el camino inverso basta con aplicar su inversa, ya que de
-$\mathbf{P}_{BC} \lbrack \mathbf{u} \rbrack_B = \lbrack \mathbf{u} \rbrack_C$ se deduce
-que $\lbrack \mathbf{u} \rbrack_B = \mathbf{P}_{BC}^{-1} \lbrack \mathbf{u} \rbrack_C$.
+corresponde a $\lbrack \mathbf{u} \rbrack_B$ y el resultado a $\lbrack \mathbf{u}
+\rbrack_C$. La matriz $\mathbf{P}_{BC}$ se construye colocando en columnas los vectores
+de la base de partida expresados en la base de destino. Para recorrer el camino inverso
+basta con aplicar su inversa, ya que de $\mathbf{P}_{BC} \lbrack \mathbf{u} \rbrack_B =
+\lbrack \mathbf{u} \rbrack_C$ se deduce que $\lbrack \mathbf{u} \rbrack_B =
+\mathbf{P}_{BC}^{-1} \lbrack \mathbf{u} \rbrack_C$.
 
 Este cambio de representación es exactamente lo que realiza el análisis de componentes
 principales: elegir una base nueva, alineada con las direcciones de máxima varianza de
@@ -662,14 +659,14 @@ de modo que para ambos puede calcularse la dimensión y obtenerse una base. El n
 nunca es el conjunto vacío, ya que contiene como mínimo el vector cero.
 
 Considerando una matriz $\mathbf{A} \in \mathbb{R}^{m \times n}$ y la transformación
-lineal asociada $T: \mathbb{R}^n \rightarrow \mathbb{R}^m$ definida por
-$\mathbf{x} \mapsto \mathbf{A}\mathbf{x}$, se cumplen las siguientes relaciones:
+lineal asociada $T: \mathbb{R}^n \rightarrow \mathbb{R}^m$ definida por $\mathbf{x}
+\mapsto \mathbf{A}\mathbf{x}$, se cumplen las siguientes relaciones:
 
-- El rango coincide con la dimensión de la imagen:
-  $\mathrm{rk}(\mathbf{A}) = \dim(\mathrm{Im}(T))$.
-- El núcleo es la solución general del sistema homogéneo
-  $\mathbf{A}\mathbf{x} = \mathbf{0}$ y recoge todas las combinaciones lineales de
-  elementos de $\mathbb{R}^n$ que producen el vector cero de $\mathbb{R}^m$.
+- El rango coincide con la dimensión de la imagen: $\mathrm{rk}(\mathbf{A}) =
+  \dim(\mathrm{Im}(T))$.
+- El núcleo es la solución general del sistema homogéneo $\mathbf{A}\mathbf{x} =
+  \mathbf{0}$ y recoge todas las combinaciones lineales de elementos de $\mathbb{R}^n$
+  que producen el vector cero de $\mathbb{R}^m$.
 - El núcleo es un subespacio de $\mathbb{R}^n$, donde $n$ es el número de columnas de la
   matriz.
 - El núcleo describe la relación entre las columnas, por lo que permite determinar cómo
@@ -695,8 +692,8 @@ tensores unidimensionales, habitualmente representados como $x \sim (d)$, donde 
 indica la dimensión del tensor. Resulta fundamental distinguir entre vectores columna y
 vectores fila, denotados respectivamente por $\mathbf{x}$ y $\mathbf{x}^\top$ mediante
 la transpuesta introducida anteriormente. Un vector columna puede considerarse como un
-tensor bidimensional de forma $(d, 1)$, mientras que un vector fila posee forma
-$(1, d)$.
+tensor bidimensional de forma $(d, 1)$, mientras que un vector fila posee forma $(1,
+d)$.
 
 Esta distinción es particularmente relevante en entornos de programación, donde las
 operaciones entre tensores deben cumplir las reglas de **_broadcasting_**, las cuales
@@ -726,15 +723,14 @@ longitud de un vector se corresponde intuitivamente con la distancia desde el or
 hasta su extremo. Esta noción se formaliza mediante el concepto de **norma**, definida
 como la magnitud o longitud de un vector. Toda norma satisface tres propiedades:
 
-- Definida positiva: $\|\mathbf{x}\| \geq 0$ y
-  $\|\mathbf{x}\| = 0 \Leftrightarrow \mathbf{x} = \mathbf{0}$, es decir, la distancia
-  no puede ser negativa.
+- Definida positiva: $\|\mathbf{x}\| \geq 0$ y $\|\mathbf{x}\| = 0 \Leftrightarrow
+  \mathbf{x} = \mathbf{0}$, es decir, la distancia no puede ser negativa.
 - Absolutamente homogénea: $\|\lambda \mathbf{x}\| = |\lambda| \|\mathbf{x}\|$, de modo
   que la distancia crece o decrece con el producto por un escalar tomado en valor
   absoluto.
-- Desigualdad triangular:
-  $\|\mathbf{x}+\mathbf{y}\| \leq \|\mathbf{x}\| + \|\mathbf{y}\|$. La igualdad se
-  alcanza únicamente cuando los vectores son colineales y del mismo sentido.
+- Desigualdad triangular: $\|\mathbf{x}+\mathbf{y}\| \leq \|\mathbf{x}\| +
+  \|\mathbf{y}\|$. La igualdad se alcanza únicamente cuando los vectores son colineales
+  y del mismo sentido.
 
 Existen diferentes tipos de normas, agrupadas bajo la familia de las normas de Hölder:
 
@@ -778,15 +774,14 @@ $$
 $$
 
 De forma más general, dada una matriz $\mathbf{A} \in \mathbb{R}^{n \times n}$ simétrica
-y definida positiva, la expresión
-$\langle \mathbf{x},\mathbf{y} \rangle = \mathbf{x}^T \mathbf{A} \mathbf{y}$ también
-define un producto interno. Esta forma cuadrática aparece en la **distancia de
-Mahalanobis**, donde $\mathbf{A}$ es la inversa de la matriz de covarianza y permite
-medir distancias teniendo en cuenta la escala y la correlación entre características, en
-lugar de tratar todas las dimensiones por igual. Una propiedad que conviene retener es
-que si $\mathbf{A}$ es definida positiva, entonces
-$\mathbf{x}^T \mathbf{A} \mathbf{x} > 0$ para todo $\mathbf{x} \neq \mathbf{0}$, lo que
-garantiza que ciertas descomposiciones, como la de Cholesky, resulten aplicables.
+y definida positiva, la expresión $\langle \mathbf{x},\mathbf{y} \rangle = \mathbf{x}^T
+\mathbf{A} \mathbf{y}$ también define un producto interno. Esta forma cuadrática aparece
+en la **distancia de Mahalanobis**, donde $\mathbf{A}$ es la inversa de la matriz de
+covarianza y permite medir distancias teniendo en cuenta la escala y la correlación
+entre características, en lugar de tratar todas las dimensiones por igual. Una propiedad
+que conviene retener es que si $\mathbf{A}$ es definida positiva, entonces $\mathbf{x}^T
+\mathbf{A} \mathbf{x} > 0$ para todo $\mathbf{x} \neq \mathbf{0}$, lo que garantiza que
+ciertas descomposiciones, como la de Cholesky, resulten aplicables.
 
 El resultado del producto interno es un escalar con una interpretación geométrica
 directa, ya que permite determinar el **ángulo entre dos vectores** y, en consecuencia,
@@ -838,10 +833,10 @@ esta propiedad resulta muy útil, ya que permite identificar qué característic
 independientes de las demás y, por tanto, decidir qué columnas conviene mantener y
 cuáles pueden descartarse al reducir la dimensionalidad de un conjunto de datos.
 
-Si además ambos vectores son unitarios, de forma que
-$\|\mathbf{x}\| = 1 = \|\mathbf{y}\|$, entonces se denominan **ortonormales**. Una
-implicación de la definición es que el vector cero resulta ortogonal a cualquier vector
-del espacio vectorial.
+Si además ambos vectores son unitarios, de forma que $\|\mathbf{x}\| = 1 =
+\|\mathbf{y}\|$, entonces se denominan **ortonormales**. Una implicación de la
+definición es que el vector cero resulta ortogonal a cualquier vector del espacio
+vectorial.
 
 A continuación, se presenta un ejemplo de implementación de la similitud del coseno
 utilizando Python con la biblioteca **NumPy**:
@@ -900,8 +895,8 @@ una matriz $X \in \mathbb{R}^{A \times B}$ está compuesta por $A$ filas y $B$ c
 donde cada elemento $x_{ij}$ representa el valor ubicado en la fila $i$ y la columna
 $j$.
 
-Si se dispone de una matriz $X \in \mathbb{R}^{A \times B}$ y otra
-$Y \in \mathbb{R}^{B \times C}$, su **producto matricial** se define como:
+Si se dispone de una matriz $X \in \mathbb{R}^{A \times B}$ y otra $Y \in \mathbb{R}^{B
+\times C}$, su **producto matricial** se define como:
 
 $$
 Z = X Y,
@@ -1149,14 +1144,13 @@ transponerla.
 
 En el caso de las bases, dado un espacio vectorial $V$ de dimensión $n$ y una base
 $\{\mathbf{b}_1,\dots,\mathbf{b}_n\}$ de $V$, la base es ortonormal cuando se cumplen
-dos condiciones para todo $i,j = 1,\dots,n$. La primera es que
-$\langle \mathbf{b}_i, \mathbf{b}_j \rangle = 0$ cuando $i \neq j$, es decir, los
-vectores son ortogonales entre sí. La segunda es que
-$\langle \mathbf{b}_i, \mathbf{b}_i \rangle = 1$, lo que implica que cada vector de la
-base tiene norma unitaria. Si solo se satisface la primera condición la base es
-simplemente ortogonal. La eliminación gaussiana permite encontrar bases de un espacio
-vectorial, y el procedimiento para construir bases ortonormales se denomina proceso de
-Gram-Schmidt.
+dos condiciones para todo $i,j = 1,\dots,n$. La primera es que $\langle \mathbf{b}_i,
+\mathbf{b}_j \rangle = 0$ cuando $i \neq j$, es decir, los vectores son ortogonales
+entre sí. La segunda es que $\langle \mathbf{b}_i, \mathbf{b}_i \rangle = 1$, lo que
+implica que cada vector de la base tiene norma unitaria. Si solo se satisface la primera
+condición la base es simplemente ortogonal. La eliminación gaussiana permite encontrar
+bases de un espacio vectorial, y el procedimiento para construir bases ortonormales se
+denomina proceso de Gram-Schmidt.
 
 ### Proyecciones ortogonales
 
@@ -1172,8 +1166,8 @@ $$
 \mathbf{v}}{\mathbf{v} \cdot \mathbf{v}} \mathbf{v}
 $$
 
-Tomando $\mathbf{y} = \begin{pmatrix} 7 \\ 6 \end{pmatrix}$ y
-$\mathbf{v} = \begin{pmatrix} 2 \\ 1 \end{pmatrix}$, el cálculo resulta:
+Tomando $\mathbf{y} = \begin{pmatrix} 7 \\ 6 \end{pmatrix}$ y $\mathbf{v} =
+\begin{pmatrix} 2 \\ 1 \end{pmatrix}$, el cálculo resulta:
 
 $$
 \widehat{\mathbf{y}} = \frac{7 \cdot 2 + 6 \cdot 1}{2 \cdot 2 + 1 \cdot 1}
@@ -1196,9 +1190,9 @@ ortonormal, teniendo en cuenta que normalizar consiste simplemente en dividir ca
 vector entre su norma.
 
 Partiendo de una base $B = \{\mathbf{v}_1, \mathbf{v}_2, \ldots, \mathbf{v}_n\}$ de
-vectores linealmente independientes, el método conduce a una nueva base
-$B' = \{\mathbf{w}_1, \mathbf{w}_2, \ldots, \mathbf{w}_n\}$ en la que todas las parejas
-de vectores son perpendiculares entre sí. Cada vector se obtiene restando al vector
+vectores linealmente independientes, el método conduce a una nueva base $B' =
+\{\mathbf{w}_1, \mathbf{w}_2, \ldots, \mathbf{w}_n\}$ en la que todas las parejas de
+vectores son perpendiculares entre sí. Cada vector se obtiene restando al vector
 original sus proyecciones sobre los vectores ya calculados:
 
 $$
@@ -1285,11 +1279,10 @@ $$
 \frac{a}{\lVert \mathbf{w} \rVert}
 $$
 
-La interpretación geométrica es directa. El término
-$\lVert \mathbf{v} \rVert \cos\theta$ es la longitud de la proyección del vector de
-datos sobre la dirección del vector de pesos, mientras que
-$\frac{a}{\lVert \mathbf{w} \rVert}$ marca un punto fijo sobre esa misma dirección. Si
-la proyección supera ese punto, se satisface la condición
+La interpretación geométrica es directa. El término $\lVert \mathbf{v} \rVert
+\cos\theta$ es la longitud de la proyección del vector de datos sobre la dirección del
+vector de pesos, mientras que $\frac{a}{\lVert \mathbf{w} \rVert}$ marca un punto fijo
+sobre esa misma dirección. Si la proyección supera ese punto, se satisface la condición
 $\mathbf{w} \cdot \mathbf{v} > a$ y la muestra queda a un lado del hiperplano. Este
 desarrollo es el fundamento geométrico de las máquinas de vectores de soporte, tratadas
 en el capítulo de modelos supervisados.
@@ -1334,16 +1327,15 @@ $$
 \mathrm{tr}(\mathbf{A}) = \sum_{i=1}^{n} a_{ii}
 $$
 
-La traza es lineal, de forma que
-$\mathrm{tr}(\mathbf{A}+\mathbf{B}) = \mathrm{tr}(\mathbf{A}) + \mathrm{tr}(\mathbf{B})$
-y $\mathrm{tr}(\alpha \mathbf{A}) = \alpha \, \mathrm{tr}(\mathbf{A})$ para
-$\alpha \in \mathbb{R}$. La traza de la matriz identidad de orden $n$ es igual a $n$.
-Además es invariante frente al orden del producto, cumpliéndose
-$\mathrm{tr}(\mathbf{A}\mathbf{B}) = \mathrm{tr}(\mathbf{B}\mathbf{A})$ cuando las
-dimensiones lo permiten.
+La traza es lineal, de forma que $\mathrm{tr}(\mathbf{A}+\mathbf{B}) =
+\mathrm{tr}(\mathbf{A}) + \mathrm{tr}(\mathbf{B})$ y $\mathrm{tr}(\alpha \mathbf{A}) =
+\alpha \, \mathrm{tr}(\mathbf{A})$ para $\alpha \in \mathbb{R}$. La traza de la matriz
+identidad de orden $n$ es igual a $n$. Además es invariante frente al orden del
+producto, cumpliéndose $\mathrm{tr}(\mathbf{A}\mathbf{B}) =
+\mathrm{tr}(\mathbf{B}\mathbf{A})$ cuando las dimensiones lo permiten.
 
-Para $\lambda \in \mathbb{R}$ y una matriz cuadrada
-$\mathbf{A} \in \mathbb{R}^{n \times n}$, la expresión:
+Para $\lambda \in \mathbb{R}$ y una matriz cuadrada $\mathbf{A} \in \mathbb{R}^{n \times
+n}$, la expresión:
 
 $$
 p_{\mathbf{A}}(\lambda) = \det(\mathbf{A} - \lambda \mathbf{I})
@@ -1357,10 +1349,9 @@ El análisis de autovalores y autovectores permite interpretar el efecto de una
 transformación lineal. Los autovalores indican cómo de particular resulta un conjunto de
 vectores, los autovectores, cuando se les aplica la transformación.
 
-Siendo $\mathbf{A} \in \mathbb{R}^{n \times n}$ una matriz cuadrada, el escalar
-$\lambda \in \mathbb{R}$ es un **autovalor** de $\mathbf{A}$ y el vector
-$\mathbf{x} \in \mathbb{R}^n \setminus \{\mathbf{0}\}$ su **autovector** asociado si se
-cumple:
+Siendo $\mathbf{A} \in \mathbb{R}^{n \times n}$ una matriz cuadrada, el escalar $\lambda
+\in \mathbb{R}$ es un **autovalor** de $\mathbf{A}$ y el vector $\mathbf{x} \in
+\mathbb{R}^n \setminus \{\mathbf{0}\}$ su **autovector** asociado si se cumple:
 
 $$
 \mathbf{A}\mathbf{x} = \lambda \mathbf{x}
@@ -1368,13 +1359,13 @@ $$
 
 Por convención los autovalores se ordenan de forma descendente. La condición anterior
 admite tres formulaciones equivalentes: que $\lambda$ sea autovalor de $\mathbf{A}$, que
-$\mathrm{rk}(\mathbf{A} - \lambda \mathbf{I}_n) < n$, o que
-$\det(\mathbf{A} - \lambda \mathbf{I}_n) = 0$.
+$\mathrm{rk}(\mathbf{A} - \lambda \mathbf{I}_n) < n$, o que $\det(\mathbf{A} - \lambda
+\mathbf{I}_n) = 0$.
 
 Dos vectores que apuntan en la misma dirección se denominan codirigidos, y son
 colineales cuando apuntan en la misma dirección o en la contraria. Si $\mathbf{x}$ es un
-autovector de $\mathbf{A}$ asociado al autovalor $\lambda$, entonces para cualquier
-$c \in \mathbb{R} \setminus \{0\}$ el vector $c\mathbf{x}$ también es autovector con el
+autovector de $\mathbf{A}$ asociado al autovalor $\lambda$, entonces para cualquier $c
+\in \mathbb{R} \setminus \{0\}$ el vector $c\mathbf{x}$ también es autovector con el
 mismo autovalor, ya que:
 
 $$
@@ -1395,8 +1386,8 @@ $(\mathbf{A} - \lambda \mathbf{I})\mathbf{x} = \mathbf{0}$.
 
 Varias propiedades resultan de interés práctico. Una matriz $\mathbf{A}$ y su
 transpuesta $\mathbf{A}^T$ comparten los mismos autovalores, aunque no necesariamente
-los mismos autovectores. El espacio propio $E_\lambda$ es el núcleo de
-$\mathbf{A} - \lambda \mathbf{I}$, puesto que:
+los mismos autovectores. El espacio propio $E_\lambda$ es el núcleo de $\mathbf{A} -
+\lambda \mathbf{I}$, puesto que:
 
 $$
 \mathbf{A}\mathbf{x} = \lambda \mathbf{x} \iff (\mathbf{A} - \lambda
@@ -1486,12 +1477,11 @@ de una página $a_i$ contando el número de páginas que apuntan a ella, pondera
 importancia de esas mismas páginas. El comportamiento de navegación de un usuario se
 modela mediante una matriz de transición $\mathbf{A}$ que recoge la probabilidad de
 terminar en una página distinta. Esta matriz tiene la propiedad de que, para cualquier
-vector de importancia inicial $\mathbf{x}$, la secuencia
-$\mathbf{x}, \mathbf{A}\mathbf{x}, \mathbf{A}^2\mathbf{x}, \ldots$ converge a un vector
-$\mathbf{x}^*$. Ese vector es el PageRank y satisface
-$\mathbf{A}\mathbf{x}^* = \mathbf{x}^*$, de modo que es un autovector asociado al
-autovalor 1. Tras normalizarlo para que $\|\mathbf{x}^*\| = 1$, sus entradas se
-interpretan como probabilidades.
+vector de importancia inicial $\mathbf{x}$, la secuencia $\mathbf{x},
+\mathbf{A}\mathbf{x}, \mathbf{A}^2\mathbf{x}, \ldots$ converge a un vector
+$\mathbf{x}^_$. Ese vector es el PageRank y satisface $\mathbf{A}\mathbf{x}^_ =
+\mathbf{x}^_$, de modo que es un autovector asociado al autovalor 1. Tras normalizarlo
+para que $\|\mathbf{x}^_\| = 1$, sus entradas se interpretan como probabilidades.
 
 ### Descomposición de Cholesky
 
@@ -1514,12 +1504,11 @@ de reparametrización de los _autoencoders_ variacionales. Resulta además más 
 numéricamente más estable que calcular una inversa, por lo que se utiliza al evaluar
 verosimilitudes gaussianas.
 
-Un resultado estrechamente relacionado establece que una matriz simétrica
-$\mathbf{S} \in \mathbb{R}^{n \times n}$ siempre puede diagonalizarse con una matriz de
-paso $\mathbf{P}$ ortogonal, de modo que
-$\mathbf{D} = \mathbf{P}^T \mathbf{S} \mathbf{P}$. Esta propiedad es la que garantiza
-que el análisis de componentes principales siempre pueda calcularse sobre una matriz de
-covarianza.
+Un resultado estrechamente relacionado establece que una matriz simétrica $\mathbf{S}
+\in \mathbb{R}^{n \times n}$ siempre puede diagonalizarse con una matriz de paso
+$\mathbf{P}$ ortogonal, de modo que $\mathbf{D} = \mathbf{P}^T \mathbf{S} \mathbf{P}$.
+Esta propiedad es la que garantiza que el análisis de componentes principales siempre
+pueda calcularse sobre una matriz de covarianza.
 
 ### Descomposición en valores singulares
 
@@ -1543,11 +1532,10 @@ $$
 \mathbf{A} = \mathbf{U} \mathbf{\Sigma} \mathbf{V}^T
 $$
 
-donde $\mathbf{U} \in \mathbb{R}^{m \times m}$ y
-$\mathbf{V} \in \mathbb{R}^{n \times n}$ son matrices ortogonales y
-$\mathbf{\Sigma} \in \mathbb{R}^{m \times n}$ es una matriz diagonal cuyas entradas, los
-valores singulares, no son negativas. Para obtener estas matrices se parte de las dos
-relaciones siguientes:
+donde $\mathbf{U} \in \mathbb{R}^{m \times m}$ y $\mathbf{V} \in \mathbb{R}^{n \times
+n}$ son matrices ortogonales y $\mathbf{\Sigma} \in \mathbb{R}^{m \times n}$ es una
+matriz diagonal cuyas entradas, los valores singulares, no son negativas. Para obtener
+estas matrices se parte de las dos relaciones siguientes:
 
 $$
 \mathbf{A}^T \mathbf{A} = \mathbf{V} \mathbf{\Sigma}^T \mathbf{\Sigma} \mathbf{V}^T
@@ -1626,8 +1614,8 @@ $$
 
 La aproximación que conserva únicamente los $k$ primeros términos se denota
 $\widehat{\mathbf{A}}(k)$. Para medir la calidad de estas aproximaciones se emplea la
-**norma espectral**, definida para
-$\mathbf{x} \in \mathbb{R}^n \setminus \{\mathbf{0}\}$ como:
+**norma espectral**, definida para $\mathbf{x} \in \mathbb{R}^n \setminus
+\{\mathbf{0}\}$ como:
 
 $$
 \|\mathbf{A}\|_2 = \max \frac{\|\mathbf{A}\mathbf{x}\|_2}{\|\mathbf{x}\|_2}
@@ -1637,8 +1625,8 @@ La norma espectral de $\mathbf{A}$ coincide con su mayor valor singular $\sigma_
 
 El **teorema de Eckart-Young-Mirsky** establece el resultado central sobre estas
 aproximaciones. Considerando una matriz $\mathbf{A} \in \mathbb{R}^{m \times n}$ de
-rango $r$ y cualquier matriz $\mathbf{B} \in \mathbb{R}^{m \times n}$ de rango
-$k \le r$, la aproximación truncada $\widehat{\mathbf{A}}(k)$ es la mejor posible:
+rango $r$ y cualquier matriz $\mathbf{B} \in \mathbb{R}^{m \times n}$ de rango $k \le
+r$, la aproximación truncada $\widehat{\mathbf{A}}(k)$ es la mejor posible:
 
 $$
 \widehat{\mathbf{A}}(k) = \operatorname{arg\,min}_{\mathrm{rk}(\mathbf{B})=k}

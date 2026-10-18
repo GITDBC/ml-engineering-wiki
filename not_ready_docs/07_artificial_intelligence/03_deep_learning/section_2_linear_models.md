@@ -46,13 +46,12 @@ $$
 \hat{y} = \mathbf{w}^\top \mathbf{x} + b,
 $$
 
-donde $\mathbf{x} \in \mathbb{R}^n$ es el vector de entrada,
-$\mathbf{w} \in \mathbb{R}^n$ representa el vector de pesos del modelo,
-$b \in \mathbb{R}$ es el sesgo o término independiente, y $\hat{y} \in \mathbb{R}$ es la
-salida predicha por el modelo. Cuando la salida $\hat{y}$ no está restringida a un rango
-específico, el modelo se utiliza en tareas de regresión, donde el objetivo es predecir
-valores continuos. En este contexto, la salida puede tomar cualquier valor real,
-positivo o negativo.
+donde $\mathbf{x} \in \mathbb{R}^n$ es el vector de entrada, $\mathbf{w} \in
+\mathbb{R}^n$ representa el vector de pesos del modelo, $b \in \mathbb{R}$ es el sesgo o
+término independiente, y $\hat{y} \in \mathbb{R}$ es la salida predicha por el modelo.
+Cuando la salida $\hat{y}$ no está restringida a un rango específico, el modelo se
+utiliza en tareas de regresión, donde el objetivo es predecir valores continuos. En este
+contexto, la salida puede tomar cualquier valor real, positivo o negativo.
 
 Sin embargo, cuando la salida está asociada a un conjunto discreto de clases
 $\mathcal{C} = \{1, 2, \dots, M\}$, el modelo aborda un problema de clasificación. En
@@ -133,9 +132,9 @@ matrices de color se **aplanan (_flatten_)**, convirtiéndose en un único vecto
 de dimensión $12288 \times 1$. Este vector conserva la información de los píxeles, pero
 la reorganiza en una estructura unidimensional apta para cálculos matriciales.
 
-Si se dispone de $M$ ejemplos, la matriz de características $X$ tendrá dimensión
-$(n, M)$, donde $n = 12288$, mientras que el vector de etiquetas $Y$ tendrá dimensión
-$(1, M)$ y contendrá los valores binarios correspondientes a cada muestra.
+Si se dispone de $M$ ejemplos, la matriz de características $X$ tendrá dimensión $(n,
+M)$, donde $n = 12288$, mientras que el vector de etiquetas $Y$ tendrá dimensión $(1,
+M)$ y contendrá los valores binarios correspondientes a cada muestra.
 
 Para resolver este problema, se emplea la regresión logística, un algoritmo de
 aprendizaje supervisado diseñado específicamente para tareas de clasificación binaria.

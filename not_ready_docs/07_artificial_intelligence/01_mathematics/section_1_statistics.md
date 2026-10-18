@@ -618,9 +618,9 @@ $$
 F(\mathbf{x}) = P(X_1 \le x_1, \ldots, X_D \le x_D)
 $$
 
-donde $\mathbf{X}=\lbrack X_1,\ldots,X_D \rbrack$ y
-$\mathbf{x}=\lbrack x_1,\ldots,x_D \rbrack$, lo que representa la probabilidad de que
-cada variable aleatoria $X_i$ tome un valor menor o igual que $x_i$.
+donde $\mathbf{X}=\lbrack X_1,\ldots,X_D \rbrack$ y $\mathbf{x}=\lbrack x_1,\ldots,x_D
+\rbrack$, lo que representa la probabilidad de que cada variable aleatoria $X_i$ tome un
+valor menor o igual que $x_i$.
 
 !!! note "Densidad frente a probabilidad"
 

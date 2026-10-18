@@ -1,10 +1,10 @@
 [project]
 site_name = "Daniel Bazo Correa"
-site_description = "🏛️ Mi wiki personal como ingeniero y científico de datos en Español"
+site_description = "Wiki sobre Ingeniería en Aprendizaje Automático"
 site_author = "Daniel Bazo Correa"
-site_url = "https://danibcorr.github.io/se-ml-wiki/"
-repo_url = "https://github.com/danibcorr/se-ml-wiki"
-repo_name = "danibcorr/se-ml-wiki"
+site_url = "https://GITDBC.github.io/ml-engineering-wiki/"
+repo_url = "https://github.com/GITDBC/ml-engineering-wiki"
+repo_name = "GITDBC/ml-engineering-wiki"
 copyright = "Copyright &copy; 2026 Daniel Bazo Correa"
 nav = [
     {"Inicio" = "index.md"},
@@ -25,7 +25,7 @@ nav = [
         {"Python" = [
             "03_programming/01_python/section_1_environments.md",
             "03_programming/01_python/section_2_fundamentals.md",
-            "03_programming/01_python/section_3_libraries.md",
+            "03_programming/01_python/section_3_libraries.md"
         ]},
         {"Rust" = [
             "03_programming/02_rust/section_1_fundamentals.md",
@@ -38,61 +38,6 @@ nav = [
         ]},
         {"Desarrollo web" = [
             "03_programming/04_web/section_1_fundamentals.md"
-        ]}
-    ]},
-    {"Ingeniería y operaciones" = [
-        {"Ingeniería del software" = [
-            "04_software_engineering/section_1_data_structures.md",
-            "04_software_engineering/section_2_algorithms.md",
-            "04_software_engineering/section_3_sustainable_code.md"
-        ]},
-        {"Bases de datos" = [
-            "05_infrastructure/01_databases/section_1_sql.md"
-        ]},
-        {"Operaciones y despliegue" = [
-            "06_operations/section_1_containers.md",
-            "06_operations/section_2_ci_cd.md",
-            "06_operations/section_3_orchestrators.md",
-            "06_operations/section_4_experiment_management.md",
-            "06_operations/section_5_deployment.md",
-            "06_operations/section_6_monitoring.md"
-        ]},
-        {"Cloud" = [
-            "05_infrastructure/02_cloud/section_1_fundamentals.md",
-            "05_infrastructure/02_cloud/section_2_aws.md"
-        ]}
-    ]},
-    {"Inteligencia artificial" = [
-        {"Matemáticas" = [
-            "07_artificial_intelligence/01_mathematics/section_1_statistics.md",
-            "07_artificial_intelligence/01_mathematics/section_2_deep_learning_math.md",
-            "07_artificial_intelligence/01_mathematics/section_3_vector_calculus.md"
-        ]},
-        {"Machine Learning" = [
-            "07_artificial_intelligence/02_machine_learning/section_1_fundamentals.md",
-            "07_artificial_intelligence/02_machine_learning/section_2_supervised_models.md",
-            "07_artificial_intelligence/02_machine_learning/section_3_clustering.md",
-            "07_artificial_intelligence/02_machine_learning/section_4_evaluation.md",
-            "07_artificial_intelligence/02_machine_learning/section_5_dimensionality_reduction.md",
-            "07_artificial_intelligence/02_machine_learning/section_6_advanced.md"
-        ]},
-        {"Deep Learning" = [
-            "07_artificial_intelligence/03_deep_learning/section_1_fundamentals.md",
-            "07_artificial_intelligence/03_deep_learning/section_2_linear_models.md",
-            "07_artificial_intelligence/03_deep_learning/section_3_neural_networks.md",
-            "07_artificial_intelligence/03_deep_learning/section_4_cnn.md",
-            "07_artificial_intelligence/03_deep_learning/section_5_sequential_models.md",
-            "07_artificial_intelligence/03_deep_learning/section_6_other_paradigms.md",
-            "07_artificial_intelligence/03_deep_learning/section_7_generative_ai.md",
-            "07_artificial_intelligence/03_deep_learning/section_8_graph_neural_networks.md",
-            "07_artificial_intelligence/03_deep_learning/section_9_reinforcement_learning.md",
-            "07_artificial_intelligence/03_deep_learning/section_10_agents.md",
-            "07_artificial_intelligence/03_deep_learning/libraries/jax.md",
-            "07_artificial_intelligence/03_deep_learning/libraries/pytorch.md",
-            "07_artificial_intelligence/03_deep_learning/libraries/tensorflow.md"
-        ]},
-        {"Desarrollo con IA" = [
-            "07_artificial_intelligence/04_ai_development/section_1_fundamentals.md"
         ]}
     ]},
     {"Carrera profesional" = [
@@ -146,11 +91,11 @@ toggle.name = "Switch to light mode"
 repo = "fontawesome/brands/github"
 
 [project.extra]
-homepage = "https://www.linkedin.com/in/danibcorr/"
+homepage = "https://www.linkedin.com/in/daniel-bazo-correa/"
 
 [[project.extra.social]]
 icon = "fontawesome/brands/linkedin"
-link = "https://www.linkedin.com/in/danibcorr/"
+link = "https://www.linkedin.com/in/daniel-bazo-correa/"
 
 [project.markdown_extensions.admonition]
 [project.markdown_extensions.tables]

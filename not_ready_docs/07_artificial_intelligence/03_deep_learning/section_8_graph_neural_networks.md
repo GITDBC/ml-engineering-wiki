@@ -72,11 +72,11 @@ generación, como sucede en simulaciones de sistemas complejos.
 ## Componentes y definición de un grafo
 
 Un grafo se compone de un conjunto de nodos o vértices, denotado por $N$, y un conjunto
-de enlaces o aristas, denotado por $E$. El sistema completo se representa como
-$G(N, E)$. Para definir un grafo es necesario especificar ambos conjuntos, aunque en
-algunos casos la representación es única y en otros pueden existir múltiples
-alternativas igualmente válidas. En la práctica, la forma en que se asignan los enlaces
-resulta especialmente relevante, ya que determina la estructura relacional del sistema y
+de enlaces o aristas, denotado por $E$. El sistema completo se representa como $G(N,
+E)$. Para definir un grafo es necesario especificar ambos conjuntos, aunque en algunos
+casos la representación es única y en otros pueden existir múltiples alternativas
+igualmente válidas. En la práctica, la forma en que se asignan los enlaces resulta
+especialmente relevante, ya que determina la estructura relacional del sistema y
 condiciona los patrones que pueden ser aprendidos.
 
 Los grafos pueden clasificarse según la naturaleza de sus enlaces. En los grafos no
@@ -111,8 +111,8 @@ usuario–objeto.
 
 ## Representación matricial de los grafos
 
-Una de las representaciones más habituales de un grafo es la matriz de adyacencia
-$A \in \mathbb{R}^{N \times N}$, definida como
+Una de las representaciones más habituales de un grafo es la matriz de adyacencia $A \in
+\mathbb{R}^{N \times N}$, definida como
 
 $$
 A_{ij} = 1 \quad \text{si existe un enlace entre los nodos } i \text{ y } j,

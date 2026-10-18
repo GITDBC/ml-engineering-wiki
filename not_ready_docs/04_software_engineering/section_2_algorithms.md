@@ -53,8 +53,8 @@ número de variables utilizadas por el algoritmo.
 El interés de esta notación reside en que describe el comportamiento **asintótico**, es
 decir, la tendencia de crecimiento cuando el tamaño de la entrada aumenta. Por ese
 motivo se descartan las constantes multiplicativas y los términos de menor orden, ya que
-dejan de ser relevantes frente al término dominante. Un algoritmo cuyo coste es
-$3N + 10$ se clasifica simplemente como $O(N)$.
+dejan de ser relevantes frente al término dominante. Un algoritmo cuyo coste es $3N +
+10$ se clasifica simplemente como $O(N)$.
 
 ### Órdenes de complejidad
 

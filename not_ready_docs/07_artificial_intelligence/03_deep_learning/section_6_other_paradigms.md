@@ -60,12 +60,12 @@ dimensionalidad.
 El planteamiento habitual consiste en aprender una **función de similitud**
 $\mathrm{Sim}(\mathbf{x}, \mathbf{x}')$ que indique en qué grado dos muestras pertenecen
 a la misma clase. Con dos imágenes de gato $\mathbf{x}_1$ y $\mathbf{x}_2$ y una imagen
-de perro $\mathbf{x}_3$, la función ideal devolvería
-$\mathrm{Sim}(\mathbf{x}_1, \mathbf{x}_2) = 1$ frente a
-$\mathrm{Sim}(\mathbf{x}_1, \mathbf{x}_3) = 0$. El procedimiento se divide en dos fases:
-primero se aprende la función de similitud sobre un conjunto de entrenamiento de gran
-tamaño, y después se aplica para la predicción comparando la muestra de consulta con
-cada elemento del _Support Set_ y seleccionando aquel que obtenga la mayor puntuación.
+de perro $\mathbf{x}_3$, la función ideal devolvería $\mathrm{Sim}(\mathbf{x}_1,
+\mathbf{x}_2) = 1$ frente a $\mathrm{Sim}(\mathbf{x}_1, \mathbf{x}_3) = 0$. El
+procedimiento se divide en dos fases: primero se aprende la función de similitud sobre
+un conjunto de entrenamiento de gran tamaño, y después se aplica para la predicción
+comparando la muestra de consulta con cada elemento del _Support Set_ y seleccionando
+aquel que obtenga la mayor puntuación.
 
 El rendimiento depende de forma sistemática de los dos parámetros que caracterizan el
 _Support Set_. La precisión disminuye al aumentar el número de clases (_ways_), puesto

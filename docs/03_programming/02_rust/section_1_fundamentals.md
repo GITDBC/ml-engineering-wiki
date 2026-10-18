@@ -182,8 +182,8 @@ compilación anterior, Cargo no lo recompila, lo que acelera el ciclo de desarro
     license = "MIT"
     description = "Kindle Notes Parser (knp) is a CLI tool."
     readme = "README.md"
-    homepage = "https://github.com/danibcorr/kindle-notes-parser"
-    repository = "https://github.com/danibcorr/kindle-notes-parser"
+    homepage = "https://github.com/GITDBC/kindle-notes-parser"
+    repository = "https://github.com/GITDBC/kindle-notes-parser"
     keywords = ["cli", "kindle"]
     categories = ["command-line-utilities"]
 

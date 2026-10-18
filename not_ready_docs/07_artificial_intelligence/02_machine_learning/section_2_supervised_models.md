@@ -81,11 +81,11 @@ $$
 H(p_1) = -p_1 \log_2(p_1) - (1 - p_1) \log_2(1 - p_1)
 $$
 
-La función parte de cero cuando $p_1 = 0$, alcanza su valor máximo de 1 cuando
-$p_1 = 0{,}5$, y vuelve a cero cuando $p_1 = 1$. La lectura es inmediata: un nodo con
-muestras de una sola clase tiene entropía nula, mientras que un nodo con las clases
-perfectamente repartidas presenta la máxima incertidumbre posible. Puesto que $\log(0)$
-no está definido, se adopta por convención $0 \cdot \log(0) = 0$.
+La función parte de cero cuando $p_1 = 0$, alcanza su valor máximo de 1 cuando $p_1 =
+0{,}5$, y vuelve a cero cuando $p_1 = 1$. La lectura es inmediata: un nodo con muestras
+de una sola clase tiene entropía nula, mientras que un nodo con las clases perfectamente
+repartidas presenta la máxima incertidumbre posible. Puesto que $\log(0)$ no está
+definido, se adopta por convención $0 \cdot \log(0) = 0$.
 
 Para un nodo que contiene las etiquetas `1 1 1 1 1 0`, donde 1 representa una clase y 0
 la otra, las proporciones son $p_1 = 5/6 \approx 0{,}83$ y $p_0 = 1/6$, lo que arroja
@@ -227,9 +227,8 @@ $$
 $$
 
 El problema de optimización consiste precisamente en maximizar la anchura de ese margen,
-lo que de forma equivalente se plantea como la minimización de
-$\frac{1}{2}\mathbf{w} \cdot \mathbf{w}$ sujeta a las restricciones de clasificación
-correcta.
+lo que de forma equivalente se plantea como la minimización de $\frac{1}{2}\mathbf{w}
+\cdot \mathbf{w}$ sujeta a las restricciones de clasificación correcta.
 
 En problemas donde los datos no son linealmente separables, las SVM emplean el
 denominado **truco del kernel** (_kernel trick_), que consiste en proyectar los datos a

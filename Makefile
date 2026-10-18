@@ -34,5 +34,5 @@ format:
 	@npx prettier --write .
 	@echo "✅ Formatting complete."
 
-all: setup format pipeline doc
+all: setup format pipeline
 	@echo "✅ All tasks complete."

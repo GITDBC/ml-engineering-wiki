@@ -18,11 +18,6 @@ numérica tiene sobre el rendimiento.
 
 ## Introducción
 
-<figure markdown="span">
-  ![Logo de CUDA](../../assets/img/docs/logos/cuda-logo.png)
-  <figcaption>Logo de CUDA.</figcaption>
-</figure>
-
 **CUDA** (_Compute Unified Device Architecture_) es una plataforma de computación
 paralela y una interfaz de programación de aplicaciones (_Application Programming
 Interface_, API) desarrollada por NVIDIA. Permite emplear unidades de procesamiento

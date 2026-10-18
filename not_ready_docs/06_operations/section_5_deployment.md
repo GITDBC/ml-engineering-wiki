@@ -122,12 +122,11 @@ ocupa 1 byte, a costa de introducir un error de cuantización.
 ### Tipos numéricos
 
 Comprender la cuantización exige precisar los rangos de los tipos implicados. Para los
-tipos enteros de $n$ bits, la variante sin signo cubre el rango
-$\lbrack 0, 2^n - 1 \rbrack$, lo que para 8 bits equivale a $\lbrack 0, 255 \rbrack$. La
-variante con signo, representada en complemento a dos, cubre
-$\lbrack -2^{n-1}, 2^{n-1} - 1 \rbrack$, es decir $\lbrack -128, 127 \rbrack$ para 8
-bits. En PyTorch, la función `torch.iinfo` consultada sobre un tipo concreto devuelve
-esos límites.
+tipos enteros de $n$ bits, la variante sin signo cubre el rango $\lbrack 0, 2^n - 1
+\rbrack$, lo que para 8 bits equivale a $\lbrack 0, 255 \rbrack$. La variante con signo,
+representada en complemento a dos, cubre $\lbrack -2^{n-1}, 2^{n-1} - 1 \rbrack$, es
+decir $\lbrack -128, 127 \rbrack$ para 8 bits. En PyTorch, la función `torch.iinfo`
+consultada sobre un tipo concreto devuelve esos límites.
 
 Los tipos en coma flotante se componen de signo, exponente y mantisa. Los tres formatos
 de uso habitual presentan compromisos distintos entre rango dinámico y precisión:
@@ -202,10 +201,9 @@ s = \frac{\beta - \alpha}{2^b - 1}
 $$
 
 donde $b$ es el número de bits del tipo de destino. En la **configuración simétrica** se
-emplea el mayor valor absoluto en ambos sentidos, de forma que
-$-\alpha = \beta = \max(|r_{min}|, |r_{max}|)$ y el punto cero es $z = 0$. Esta segunda
-variante se aplica típicamente a los pesos de la red, cuya distribución tiende a estar
-centrada en cero.
+emplea el mayor valor absoluto en ambos sentidos, de forma que $-\alpha = \beta =
+\max(|r_{min}|, |r_{max}|)$ y el punto cero es $z = 0$. Esta segunda variante se aplica
+típicamente a los pesos de la red, cuya distribución tiende a estar centrada en cero.
 
 La cuantización no tiene que aplicarse al modelo completo. Es habitual cuantizar
 únicamente determinadas capas, conservando en precisión alta aquellas más sensibles.

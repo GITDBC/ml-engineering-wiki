@@ -1,11 +1,11 @@
-# Dependencias y entornos
+# Dependencies and environments
 node_modules/
 .venv/
 
 # Build
 site/
 
-# Ficheros de bloqueo
+# Lock files
 uv.lock
 package-lock.json
 

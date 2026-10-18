@@ -1,0 +1,186 @@
+[project]
+site_name = "Daniel Bazo Correa"
+site_description = "Wiki sobre Ingeniería en Aprendizaje Automático"
+site_author = "Daniel Bazo Correa"
+site_url = "https://GITDBC.github.io/ml-engineering-wiki/"
+repo_url = "https://github.com/GITDBC/ml-engineering-wiki"
+repo_name = "GITDBC/ml-engineering-wiki"
+copyright = "Copyright &copy; 2026 Daniel Bazo Correa"
+nav = [
+    {"Inicio" = "index.md"},
+    {"Sistemas y herramientas" = [
+        {"Linux" = [
+            "01_operative_systems/01_linux/section_1_fundamentals.md"
+        ]},
+        {"Git" = [
+            "02_dev_tools/01_git/section_1_fundamentals.md",
+            "02_dev_tools/01_git/section_2_practical_cases.md"
+        ]},
+        {"Scripting" = [
+            "02_dev_tools/02_scripting/section_1_bash.md",
+            "02_dev_tools/02_scripting/section_2_makefile.md"
+        ]}
+    ]},
+    {"Programación" = [
+        {"Python" = [
+            "03_programming/01_python/section_1_environments.md",
+            "03_programming/01_python/section_2_fundamentals.md",
+            "03_programming/01_python/section_3_libraries.md",
+        ]},
+        {"Rust" = [
+            "03_programming/02_rust/section_1_fundamentals.md",
+            "03_programming/02_rust/section_2_libraries.md"
+        ]},
+        {"CUDA" = [
+            "03_programming/03_cuda/section_1_fundamentals.md",
+            "03_programming/03_cuda/section_2_cuda_c.md",
+            "03_programming/03_cuda/section_3_cuda_python.md"
+        ]},
+        {"Desarrollo web" = [
+            "03_programming/04_web/section_1_fundamentals.md"
+        ]}
+    ]},
+    {"Ingeniería y operaciones" = [
+        {"Ingeniería del software" = [
+            "04_software_engineering/section_1_data_structures.md",
+            "04_software_engineering/section_2_algorithms.md",
+            "04_software_engineering/section_3_sustainable_code.md"
+        ]},
+        {"Bases de datos" = [
+            "05_infrastructure/01_databases/section_1_sql.md"
+        ]},
+        {"Operaciones y despliegue" = [
+            "06_operations/section_1_containers.md",
+            "06_operations/section_2_ci_cd.md",
+            "06_operations/section_3_orchestrators.md",
+            "06_operations/section_4_experiment_management.md",
+            "06_operations/section_5_deployment.md",
+            "06_operations/section_6_monitoring.md"
+        ]},
+        {"Cloud" = [
+            "05_infrastructure/02_cloud/section_1_fundamentals.md",
+            "05_infrastructure/02_cloud/section_2_aws.md"
+        ]}
+    ]},
+    {"Inteligencia artificial" = [
+        {"Matemáticas" = [
+            "07_artificial_intelligence/01_mathematics/section_1_statistics.md",
+            "07_artificial_intelligence/01_mathematics/section_2_deep_learning_math.md",
+            "07_artificial_intelligence/01_mathematics/section_3_vector_calculus.md"
+        ]},
+        {"Machine Learning" = [
+            "07_artificial_intelligence/02_machine_learning/section_1_fundamentals.md",
+            "07_artificial_intelligence/02_machine_learning/section_2_supervised_models.md",
+            "07_artificial_intelligence/02_machine_learning/section_3_clustering.md",
+            "07_artificial_intelligence/02_machine_learning/section_4_evaluation.md",
+            "07_artificial_intelligence/02_machine_learning/section_5_dimensionality_reduction.md",
+            "07_artificial_intelligence/02_machine_learning/section_6_advanced.md"
+        ]},
+        {"Deep Learning" = [
+            "07_artificial_intelligence/03_deep_learning/section_1_fundamentals.md",
+            "07_artificial_intelligence/03_deep_learning/section_2_linear_models.md",
+            "07_artificial_intelligence/03_deep_learning/section_3_neural_networks.md",
+            "07_artificial_intelligence/03_deep_learning/section_4_cnn.md",
+            "07_artificial_intelligence/03_deep_learning/section_5_sequential_models.md",
+            "07_artificial_intelligence/03_deep_learning/section_6_other_paradigms.md",
+            "07_artificial_intelligence/03_deep_learning/section_7_generative_ai.md",
+            "07_artificial_intelligence/03_deep_learning/section_8_graph_neural_networks.md",
+            "07_artificial_intelligence/03_deep_learning/section_9_reinforcement_learning.md",
+            "07_artificial_intelligence/03_deep_learning/section_10_agents.md",
+            "07_artificial_intelligence/03_deep_learning/libraries/jax.md",
+            "07_artificial_intelligence/03_deep_learning/libraries/pytorch.md",
+            "07_artificial_intelligence/03_deep_learning/libraries/tensorflow.md"
+        ]},
+        {"Desarrollo con IA" = [
+            "07_artificial_intelligence/04_ai_development/section_1_fundamentals.md"
+        ]}
+    ]},
+    {"Carrera profesional" = [
+        "08_career/cv_guide.md"
+    ]},
+]
+extra_css = ["assets/stylesheets/extra.css"]
+extra_javascript = [
+    "assets/javascripts/mathjax.js",
+    "https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js"
+]
+
+[project.theme]
+language = "es"
+logo = "assets/img/branding/white_logo.svg"
+favicon = "assets/img/branding/logo.ico"
+features = [
+    "announce.dismiss",
+    "content.code.annotate",
+    "content.code.copy",
+    "content.code.select",
+    "content.footnote.tooltips",
+    "content.tabs.link",
+    "content.tooltips",
+    "navigation.footer",
+    "navigation.indexes",
+    "navigation.instant",
+    "navigation.instant.prefetch",
+    "navigation.sections",
+    "navigation.tabs",
+    "navigation.top",
+    "navigation.tracking",
+    "search.highlight",
+]
+
+[[project.theme.palette]]
+accent = "orange"
+media = "(prefers-color-scheme: light)"
+scheme = "default"
+toggle.icon = "lucide/sun"
+toggle.name = "Switch to dark mode"
+
+[[project.theme.palette]]
+accent = "orange"
+media = "(prefers-color-scheme: dark)"
+scheme = "slate"
+toggle.icon = "lucide/moon"
+toggle.name = "Switch to light mode"
+
+[project.theme.icon]
+repo = "fontawesome/brands/github"
+
+[project.extra]
+homepage = "https://www.linkedin.com/in/daniel-bazo-correa/"
+
+[[project.extra.social]]
+icon = "fontawesome/brands/linkedin"
+link = "https://www.linkedin.com/in/daniel-bazo-correa/"
+
+[project.markdown_extensions.admonition]
+[project.markdown_extensions.tables]
+[project.markdown_extensions.attr_list]
+[project.markdown_extensions.md_in_html]
+
+[project.markdown_extensions.toc]
+permalink = true
+toc_depth = 3
+
+[project.markdown_extensions.pymdownx.details]
+[project.markdown_extensions.pymdownx.inlinehilite]
+[project.markdown_extensions.pymdownx.snippets]
+
+[project.markdown_extensions.pymdownx.arithmatex]
+generic = true
+
+[project.markdown_extensions.pymdownx.emoji]
+emoji_index = "zensical.extensions.emoji.twemoji"
+emoji_generator = "zensical.extensions.emoji.to_svg"
+
+[project.markdown_extensions.pymdownx.tabbed]
+alternate_style = true
+
+[project.markdown_extensions.pymdownx.highlight]
+anchor_linenums = true
+line_spans = "__span"
+pygments_lang_class = true
+
+[project.markdown_extensions.pymdownx.superfences]
+custom_fences = [
+  { name = "mermaid", class = "mermaid", format = "pymdownx.superfences.fence_code_format" }
+]

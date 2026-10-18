@@ -158,12 +158,11 @@ salida de una capa constituye la entrada de la siguiente.
 
 Sin embargo, si todas las funciones de la composición son lineales, la cadena completa
 colapsa en una única transformación lineal, independientemente del número de capas. Por
-ejemplo, si se tienen dos funciones lineales sucesivas $f_1(x) = W_1 x + b_1$ y
-$f_2(h) = W_2 h + b_2$, la composición resulta en
-$f_2(f_1(x)) = W_2 W_1 x + W_2 b_1 + b_2$, que sigue siendo una función lineal. Por
-ello, la introducción de **funciones de activación no lineales** entre capas resulta
-imprescindible para romper este colapso y dotar a la red de la capacidad de modelar
-relaciones complejas.
+ejemplo, si se tienen dos funciones lineales sucesivas $f_1(x) = W_1 x + b_1$ y $f_2(h)
+= W_2 h + b_2$, la composición resulta en $f_2(f_1(x)) = W_2 W_1 x + W_2 b_1 + b_2$, que
+sigue siendo una función lineal. Por ello, la introducción de **funciones de activación
+no lineales** entre capas resulta imprescindible para romper este colapso y dotar a la
+red de la capacidad de modelar relaciones complejas.
 
 ### De neuronas a redes neuronales
 

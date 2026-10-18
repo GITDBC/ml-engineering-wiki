@@ -1,6 +1,6 @@
 [project]
 name = "se-ml-wiki"
-description = "Wiki personal sobre Ingeniería en Aprendizaje Automático"
+description = "Wiki sobre Ingeniería en Aprendizaje Automático"
 authors = [
     {name = "Daniel Bazo Correa", email = "none@none.com"},
 ]
@@ -16,8 +16,12 @@ classifiers = [
 ]
 keywords = ["machine learning", "data science", "software", "wiki"]
 dependencies = [
-    "zensical==0.0.70",
+    "zensical==0.0.71",
+    "mike",
 ]
 
 [tool.uv]
 cache-keys = [{ file = "pyproject.toml" }, { git = { commit = true } }]
+
+[tool.uv.sources]
+mike = { git = "https://github.com/squidfunk/mike.git" }

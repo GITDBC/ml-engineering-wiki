@@ -6,28 +6,110 @@ on:
   pull_request:
     branches: [main, dev]
 
+env:
+  docs-path: "./docs"
+  docs-branch: "gh-pages"
+
 concurrency:
   group: pages
   cancel-in-progress: false
 
 jobs:
+  check-docs-format:
+    name: Check Documentation Format
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v7
+
+      - name: Install Node
+        uses: actions/setup-node@v7
+        with:
+          node-version: latest
+          cache: npm
+          cache-dependency-path: package-lock.json
+
+      - name: Install Node Dependencies
+        run: npm install
+
+      - name: Prettier Format Checking
+        run: npx prettier --check ${{ env.docs-path }}
+
   build-deploy-docs:
+    needs: check-docs-format
     name: Build and Deploy Documentation
     runs-on: ubuntu-latest
     permissions:
       contents: write
       pages: write
       id-token: write
+    steps:
+      - name: Configure GitHub Pages
+        if: github.ref == 'refs/heads/main'
+        uses: actions/configure-pages@v6
 
+      - name: Checkout Repository
+        uses: actions/checkout@v7
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v7
+        with:
+          enable-cache: true
+
+      - name: Install Python Dependencies
+        run: uv sync --locked
+
+      - name: Build Documentation
+        run: uv run zensical build --clean
+
+      - name: Deploy Documentation
+        if: github.ref == 'refs/heads/main'
+        run: |
+          VERSION=$(uv version --short)
+          uv run mike deploy --branch ${{ env.docs-branch }} "v${VERSION}" --ignore-remote-status
+          uv run mike deploy --branch ${{ env.docs-branch }} "latest" --ignore-remote-status
+          uv run mike set-default --branch ${{ env.docs-branch }} latest --ignore-remote-status
+
+      - name: Upload Pages Artifact
+        if: github.ref == 'refs/heads/main'
+        uses: actions/upload-pages-artifact@v5
+        with:
+          path: site
+
+      - name: Deploy to GitHub Pages
+        if: github.ref == 'refs/heads/main'
+        uses: actions/deploy-pages@v5
+
+  release:
+    name: Release
+    needs: build-deploy-docs
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v7
 
-      - name: Check formatting
-        run: npx prettier@3 --check .
+      - name: Install uv
+        uses: astral-sh/setup-uv@v7
+        with:
+          enable-cache: true
 
-      - name: Setup Python Environment
-        uses: ./.github/actions/setup-python-env
+      - name: Resolve Version and Check Tag
+        run: |
+          tag="v$(uv version --short)"
+          echo "tag=$tag" >> "$GITHUB_OUTPUT"
+          if git ls-remote --tags origin "refs/tags/$tag" | grep -q .; then
+            echo "::notice::Tag $tag already exists, skipping release"
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+          fi
 
-      - name: Build and Deploy Documentation
-        uses: ./.github/actions/build-docs
+      - name: Create Release
+        uses: softprops/action-gh-release@v3
+        with:
+          tag_name: "v$(uv version --short)"
+          target_commitish: ${{ github.sha }}
+          generate_release_notes: true

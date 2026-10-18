@@ -66,6 +66,8 @@ jobs:
         if: github.ref == 'refs/heads/main'
         run: |
           VERSION=$(uv version --short)
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
           uv run mike deploy --branch ${{ env.docs-branch }} "v${VERSION}" --ignore-remote-status
           uv run mike deploy --branch ${{ env.docs-branch }} "latest" --ignore-remote-status
           uv run mike set-default --branch ${{ env.docs-branch }} latest --ignore-remote-status

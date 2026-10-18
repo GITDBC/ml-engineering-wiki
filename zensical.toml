@@ -93,6 +93,10 @@ repo = "fontawesome/brands/github"
 [project.extra]
 homepage = "https://www.linkedin.com/in/daniel-bazo-correa/"
 
+[project.extra.version]
+provider = "mike"
+default = "latest"
+
 [[project.extra.social]]
 icon = "fontawesome/brands/linkedin"
 link = "https://www.linkedin.com/in/daniel-bazo-correa/"

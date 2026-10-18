@@ -99,9 +99,12 @@ jobs:
           enable-cache: true
 
       - name: Resolve Version and Check Tag
+        id: get-version
         run: |
-          tag="v$(uv version --short)"
+          version=$(uv version --short)
+          tag="v$version"
           echo "tag=$tag" >> "$GITHUB_OUTPUT"
+
           if git ls-remote --tags origin "refs/tags/$tag" | grep -q .; then
             echo "::notice::Tag $tag already exists, skipping release"
             echo "exists=true" >> "$GITHUB_OUTPUT"
@@ -110,8 +113,9 @@ jobs:
           fi
 
       - name: Create Release
+        if: steps.get-version.outputs.exists == 'false'
         uses: softprops/action-gh-release@v3
         with:
-          tag_name: "v$(uv version --short)"
+          tag_name: ${{ steps.get-version.outputs.tag }}
           target_commitish: ${{ github.sha }}
           generate_release_notes: true

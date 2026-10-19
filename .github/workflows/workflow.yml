@@ -11,7 +11,7 @@ env:
   docs-branch: "gh-pages"
 
 concurrency:
-  group: pages
+  group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: false
 
 jobs:
@@ -25,12 +25,11 @@ jobs:
       - name: Install Node
         uses: actions/setup-node@v7
         with:
-          node-version: latest
+          node-version: lts/*
           cache: npm
-          cache-dependency-path: package-lock.json
 
       - name: Install Node Dependencies
-        run: npm install
+        run: npm ci
 
       - name: Prettier Format Checking
         run: npx prettier --check ${{ env.docs-path }}
@@ -41,13 +40,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
-      pages: write
-      id-token: write
     steps:
-      - name: Configure GitHub Pages
-        if: github.ref == 'refs/heads/main'
-        uses: actions/configure-pages@v6
-
       - name: Checkout Repository
         uses: actions/checkout@v7
 
@@ -62,34 +55,15 @@ jobs:
       - name: Build Documentation
         run: uv run zensical build --clean
 
-      - name: Configure Git
-        run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-
-      - name: Setup Docs Branch
-        run: |
-          CURRENT_BRANCH=$(git branch --show-current)
-
-          if git ls-remote --heads origin ${{ env.docs-branch }} | grep -q ${{ env.docs-branch }}; then
-            echo "${{ env.docs-branch }} branch exists, fetching..."
-            git fetch origin ${{ env.docs-branch }}:${{ env.docs-branch }}
-          else
-            echo "${{ env.docs-branch }} branch doesn't exist, creating..."
-            git checkout --orphan ${{ env.docs-branch }}
-            git reset --hard
-            git commit --allow-empty -m "Initial ${{ env.docs-branch }} commit"
-            git push origin ${{ env.docs-branch }}
-            git checkout "$CURRENT_BRANCH"
-          fi
-
-      - name: Build and Deploy Docs with Mike
-        if: github.ref == 'refs/heads/main'
+      - name: Deploy Documentation with Mike
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: |
           VERSION=$(uv version --short)
-          uv run mike deploy --branch ${{ env.docs-branch }} "v${VERSION}" --ignore-remote-status
-          uv run mike deploy --branch ${{ env.docs-branch }} "latest" --ignore-remote-status
-          uv run mike set-default --branch ${{ env.docs-branch }} latest --ignore-remote-status
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git fetch origin ${{ env.docs-branch }} || echo "${{ env.docs-branch }} does not exist yet, mike will create it"
+          uv run mike deploy --branch ${{ env.docs-branch }} --push --update-aliases "v${VERSION}" latest
+          uv run mike set-default --branch ${{ env.docs-branch }} --push latest
 
   release:
     name: Release
@@ -110,8 +84,7 @@ jobs:
       - name: Resolve Version and Check Tag
         id: get-version
         run: |
-          version=$(uv version --short)
-          tag="v$version"
+          tag="v$(uv version --short)"
           echo "tag=$tag" >> "$GITHUB_OUTPUT"
 
           if git ls-remote --tags origin "refs/tags/$tag" | grep -q .; then

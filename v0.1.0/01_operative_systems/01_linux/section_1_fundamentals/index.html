@@ -1,0 +1,2919 @@
+
+<!doctype html>
+<html lang="es" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Conceptos esenciales de GNU/Linux, la terminal, los comandos básicos, la administración de usuarios, los procesos, la automatización y la gestión de red.">
+      
+      
+        <meta name="author" content="Daniel Bazo Correa">
+      
+      
+        <link rel="canonical" href="https://gitdbc.github.io/ml-engineering-wiki/v0.1.0/01_operative_systems/01_linux/section_1_fundamentals/">
+      
+      
+      
+        <link rel="prev" href="../../..">
+      
+      
+        <link rel="next" href="../../../02_dev_tools/01_git/section_1_fundamentals/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../assets/img/branding/logo.ico">
+      <meta name="generator" content="zensical-0.0.71">
+    
+    
+      
+        <title>Fundamentos - Daniel Bazo Correa</title>
+      
+    
+    
+      
+        
+      
+      <link rel="stylesheet" href="../../../assets/stylesheets/modern/main.e442bf79.min.css">
+      
+        
+          
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/modern/palette.b60ce83d.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,300i,400,400i,500,500i,700,700i%7CJetBrains+Mono:400,400i,700,700i&amp;display=fallback">
+        <style>:root{--md-text-font:"Inter";--md-code-font:"JetBrains Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_scope.pathname.endsWith("/")||(__md_scope=new URL(__md_scope.pathname+"/",location)),__md_hash=e=>[...e].reduce(((e,t)=>(e<<5)-e+t.charCodeAt(0)),0),__md_get=(e,t=localStorage,_=__md_scope)=>JSON.parse(t.getItem(_.pathname+"."+e)),__md_set=(e,t,_=localStorage,a=__md_scope)=>{try{_.setItem(a.pathname+"."+e,JSON.stringify(t))}catch(e){}},document.documentElement.setAttribute("data-platform",navigator.platform)</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="orange">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer" aria-hidden="true"></label>
+    <div data-md-component="skip">
+      <a href="#__skip" class="md-skip">
+        Saltar a contenido
+      </a>
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <div data-md-color-scheme="default" data-md-component="outdated" hidden>
+        
+      </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabecera">
+    <a href="https://www.linkedin.com/in/daniel-bazo-correa/" title="Daniel Bazo Correa" class="md-header__button md-logo" aria-label="Daniel Bazo Correa" data-md-component="logo">
+      
+  <img src="../../../assets/img/branding/white_logo.svg" alt="Daniel Bazo Correa">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer" aria-label="Navegación">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-menu" viewBox="0 0 24 24"><path d="M4 5h16M4 12h16M4 19h16"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Daniel Bazo Correa
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Fundamentos
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="orange"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="orange"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-moon" viewBox="0 0 24 24"><path d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search" aria-label="Buscar">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-search" viewBox="0 0 24 24"><path d="m21 21-4.34-4.34"/><circle cx="11" cy="11" r="8"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog" aria-label="Buscar">
+  <button type="button" class="md-search__button">
+    Buscar
+  </button>
+</div>
+      
+    
+    <div class="md-header__source">
+      
+        <a href="https://github.com/GITDBC/ml-engineering-wiki" title="Ir al repositorio" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.3.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2026 Fonticons, Inc.--><path fill="currentColor" d="M216.5 362.5c-66-8-112.5-55.5-112.5-117 0-25 9-52 24-70-6.5-16.5-5.5-51.5 2-66 20-2.5 47 8 63 22.5 19-6 39-9 63.5-9s44.5 3 62.5 8.5c15.5-14 43-24.5 63-22 7 13.5 8 48.5 1.5 65.5 16 19 24.5 44.5 24.5 70.5 0 61.5-46.5 108-113.5 116.5 17 11 28.5 35 28.5 62.5v52c0 15 12.5 23.5 27.5 17.5C441 459.5 512 369 512 257 512 115.5 397 0 255.5 0S0 115.5 0 257c0 111 70.5 203 165.5 237.5 13.5 5 26.5-4 26.5-17.5v-40c-7 3-16 5-24 5-33 0-52.5-18-66.5-51.5-5.5-13.5-11.5-21.5-23-23-6-.5-8-3-8-6 0-6 10-10.5 20-10.5 14.5 0 27 9 40 27.5 10 14.5 20.5 21 33 21s20.5-4.5 32-16c8.5-8.5 15-16 21-21"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GITDBC/ml-engineering-wiki
+  </div>
+</a>
+      
+    </div>
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Pestañas" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../.." class="md-tabs__link">
+        
+  
+  Inicio
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+      
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+  
+  
+  
+    
+  
+  
+    
+      
+      
+        
+      
+    
+    
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="././" class="md-tabs__link">
+          
+  
+  Sistemas y herramientas
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+      
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+  
+  
+  
+  
+    
+      
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../03_programming/01_python/section_1_environments/" class="md-tabs__link">
+          
+  
+  Programación
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+      
+      
+        
+      
+    
+    
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../08_career/cv_guide/" class="md-tabs__link">
+          
+  
+  Carrera profesional
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navegación" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="https://www.linkedin.com/in/daniel-bazo-correa/" title="Daniel Bazo Correa" class="md-nav__button md-logo" aria-label="Daniel Bazo Correa" data-md-component="logo">
+      
+  <img src="../../../assets/img/branding/white_logo.svg" alt="Daniel Bazo Correa">
+
+    </a>
+    Daniel Bazo Correa
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/GITDBC/ml-engineering-wiki" title="Ir al repositorio" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.3.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2026 Fonticons, Inc.--><path fill="currentColor" d="M216.5 362.5c-66-8-112.5-55.5-112.5-117 0-25 9-52 24-70-6.5-16.5-5.5-51.5 2-66 20-2.5 47 8 63 22.5 19-6 39-9 63.5-9s44.5 3 62.5 8.5c15.5-14 43-24.5 63-22 7 13.5 8 48.5 1.5 65.5 16 19 24.5 44.5 24.5 70.5 0 61.5-46.5 108-113.5 116.5 17 11 28.5 35 28.5 62.5v52c0 15 12.5 23.5 27.5 17.5C441 459.5 512 369 512 257 512 115.5 397 0 255.5 0S0 115.5 0 257c0 111 70.5 203 165.5 237.5 13.5 5 26.5-4 26.5-17.5v-40c-7 3-16 5-24 5-33 0-52.5-18-66.5-51.5-5.5-13.5-11.5-21.5-23-23-6-.5-8-3-8-6 0-6 10-10.5 20-10.5 14.5 0 27 9 40 27.5 10 14.5 20.5 21 33 21s20.5-4.5 32-16c8.5-8.5 15-16 21-21"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GITDBC/ml-engineering-wiki
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-house" viewBox="0 0 24 24"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+  
+  <span class="md-ellipsis">
+    
+  
+  Inicio
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Sistemas y herramientas
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        
+          <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+            <label class="md-nav__title" for="__nav_2">
+              <span class="md-nav__icon md-icon"></span>
+              
+  
+  Sistemas y herramientas
+
+            </label>
+            <ul class="md-nav__list" data-md-scrollfix>
+              
+                
+                  
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2_1" id="__nav_2_1_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Linux
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        
+          <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_1_label" aria-expanded="true">
+            <label class="md-nav__title" for="__nav_2_1">
+              <span class="md-nav__icon md-icon"></span>
+              
+  
+  Linux
+
+            </label>
+            <ul class="md-nav__list" data-md-scrollfix>
+              
+                
+                  
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-book-open" viewBox="0 0 24 24"><path d="M12 5v16M20.001 19A2 2 0 0 0 22 17V5a2 2 0 0 0-1.999-2L16 3.002A5 5 0 0 0 12 5a5 5 0 0 0-4-2H4a2 2 0 0 0-2 2v12a2 2 0 0 0 1.999 2H8a5 5 0 0 1 4 2 5 5 0 0 1 4-2z"/></svg>
+  
+  <span class="md-ellipsis">
+    
+  
+  Fundamentos
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="././" class="md-nav__link md-nav__link--active">
+        
+  
+  
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-book-open" viewBox="0 0 24 24"><path d="M12 5v16M20.001 19A2 2 0 0 0 22 17V5a2 2 0 0 0-1.999-2L16 3.002A5 5 0 0 0 12 5a5 5 0 0 0-4-2H4a2 2 0 0 0-2 2v12a2 2 0 0 0 1.999 2H8a5 5 0 0 1 4 2 5 5 0 0 1 4-2z"/></svg>
+  
+  <span class="md-ellipsis">
+    
+  
+  Fundamentos
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#bibliografia" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Bibliografía
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#introduccion" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Introducción
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#la-terminal" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        La terminal
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#comandos-basicos" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Comandos básicos
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#estructura-de-directorios" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Estructura de directorios
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#usuarios-y-grupos" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Usuarios y grupos
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Usuarios y grupos">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#permisos" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Permisos
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#modificacion-de-permisos" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Modificación de permisos
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#propiedad-de-archivos" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Propiedad de archivos
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#procesos-y-servicios" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Procesos y servicios
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Procesos y servicios">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#senales" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Señales
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ejecucion-persistente-de-procesos" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Ejecución persistente de procesos
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#daemons" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        <em>Daemons</em>
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#alias-y-atajos-de-comandos" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Alias y atajos de comandos
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#gestion-de-red-y-puertos" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Gestión de red y puertos
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+                
+              
+            </ul>
+          </nav>
+        
+      
+    </li>
+  
+
+                
+              
+                
+                  
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_2" id="__nav_2_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Git
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        
+          <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="false">
+            <label class="md-nav__title" for="__nav_2_2">
+              <span class="md-nav__icon md-icon"></span>
+              
+  
+  Git
+
+            </label>
+            <ul class="md-nav__list" data-md-scrollfix>
+              
+                
+                  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../02_dev_tools/01_git/section_1_fundamentals/" class="md-nav__link">
+        
+  
+  
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-book-open" viewBox="0 0 24 24"><path d="M12 5v16M20.001 19A2 2 0 0 0 22 17V5a2 2 0 0 0-1.999-2L16 3.002A5 5 0 0 0 12 5a5 5 0 0 0-4-2H4a2 2 0 0 0-2 2v12a2 2 0 0 0 1.999 2H8a5 5 0 0 1 4 2 5 5 0 0 1 4-2z"/></svg>
+  
+  <span class="md-ellipsis">
+    
+  
+  Fundamentos y comandos
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+                
+              
+                
+                  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../02_dev_tools/01_git/section_2_practical_cases/" class="md-nav__link">
+        
+  
+  
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-git-pull-request" viewBox="0 0 24 24"><circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M13 6h3a2 2 0 0 1 2 2v7M6 9v12"/></svg>
+  
+  <span class="md-ellipsis">
+    
+  
+  Hooks y casos prácticos
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+                
+              
+            </ul>
+          </nav>
+        
+      
+    </li>
+  
+
+                
+              
+                
+                  
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_3" id="__nav_2_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Scripting
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        
+          <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_3_label" aria-expanded="false">
+            <label class="md-nav__title" for="__nav_2_3">
+              <span class="md-nav__icon md-icon"></span>
+              
+  
+  Scripting
+
+            </label>
+            <ul class="md-nav__list" data-md-scrollfix>
+              
+                
+                  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../02_dev_tools/02_scripting/section_1_bash/" class="md-nav__link">
+        
+  
+  
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-square-terminal" viewBox="0 0 24 24"><path d="m7 11 2-2-2-2M11 13h4"/><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/></svg>
+  
+  <span class="md-ellipsis">
+    
+  
+  Bash
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+                
+              
+                
+                  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../02_dev_tools/02_scripting/section_2_makefile/" class="md-nav__link">
+        
+  
+  
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-hammer" viewBox="0 0 24 24"><path d="m15 12-9.373 9.373a1 1 0 0 1-3.001-3L12 9M18 15l4-4"/><path d="m21.5 11.5-1.914-1.914A2 2 0 0 1 19 8.172v-.344a2 2 0 0 0-.586-1.414l-1.657-1.657A6 6 0 0 0 12.516 3H9l1.243 1.243A6 6 0 0 1 12 8.485V10l2 2h1.172a2 2 0 0 1 1.414.586L18.5 14.5"/></svg>
+  
+  <span class="md-ellipsis">
+    
+  
+  Makefile
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+                
+              
+            </ul>
+          </nav>
+        
+      
+    </li>
+  
+
+                
+              
+            </ul>
+          </nav>
+        
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Programación
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        
+          <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+            <label class="md-nav__title" for="__nav_3">
+              <span class="md-nav__icon md-icon"></span>
+              
+  
+  Programación
+
+            </label>
+            <ul class="md-nav__list" data-md-scrollfix>
+              
+                
+                  
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_1" id="__nav_3_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Python
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        
+          <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_1_label" aria-expanded="false">
+            <label class="md-nav__title" for="__nav_3_1">
+              <span class="md-nav__icon md-icon"></span>
+              
+  
+  Python
+
+            </label>
+            <ul class="md-nav__list" data-md-scrollfix>
+              
+                
+                  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../03_programming/01_python/section_1_environments/" class="md-nav__link">
+        
+  
+  
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-package" viewBox="0 0 24 24"><path d="M11 21.73a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73zM12 22V12"/><path d="M3.29 7 12 12l8.71-5M7.5 4.27l9 5.15"/></svg>
+  
+  <span class="md-ellipsis">
+    
+  
+  Entornos virtuales
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+                
+              
+                
+                  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../03_programming/01_python/section_2_fundamentals/" class="md-nav__link">
+        
+  
+  
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-book-open" viewBox="0 0 24 24"><path d="M12 5v16M20.001 19A2 2 0 0 0 22 17V5a2 2 0 0 0-1.999-2L16 3.002A5 5 0 0 0 12 5a5 5 0 0 0-4-2H4a2 2 0 0 0-2 2v12a2 2 0 0 0 1.999 2H8a5 5 0 0 1 4 2 5 5 0 0 1 4-2z"/></svg>
+  
+  <span class="md-ellipsis">
+    
+  
+  Fundamentos
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+                
+              
+                
+                  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../03_programming/01_python/section_3_libraries/" class="md-nav__link">
+        
+  
+  
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-library" viewBox="0 0 24 24"><path d="m16 6 4 14M12 6v14M8 8v12M4 4v16"/></svg>
+  
+  <span class="md-ellipsis">
+    
+  
+  Librerías
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+                
+              
+            </ul>
+          </nav>
+        
+      
+    </li>
+  
+
+                
+              
+                
+                  
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Rust
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        
+          <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="false">
+            <label class="md-nav__title" for="__nav_3_2">
+              <span class="md-nav__icon md-icon"></span>
+              
+  
+  Rust
+
+            </label>
+            <ul class="md-nav__list" data-md-scrollfix>
+              
+                
+                  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../03_programming/02_rust/section_1_fundamentals/" class="md-nav__link">
+        
+  
+  
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-book-open" viewBox="0 0 24 24"><path d="M12 5v16M20.001 19A2 2 0 0 0 22 17V5a2 2 0 0 0-1.999-2L16 3.002A5 5 0 0 0 12 5a5 5 0 0 0-4-2H4a2 2 0 0 0-2 2v12a2 2 0 0 0 1.999 2H8a5 5 0 0 1 4 2 5 5 0 0 1 4-2z"/></svg>
+  
+  <span class="md-ellipsis">
+    
+  
+  Fundamentos
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+                
+              
+                
+                  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../03_programming/02_rust/section_2_libraries/" class="md-nav__link">
+        
+  
+  
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-library" viewBox="0 0 24 24"><path d="m16 6 4 14M12 6v14M8 8v12M4 4v16"/></svg>
+  
+  <span class="md-ellipsis">
+    
+  
+  Librerías
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+                
+              
+            </ul>
+          </nav>
+        
+      
+    </li>
+  
+
+                
+              
+                
+                  
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_3" id="__nav_3_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  CUDA
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        
+          <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="false">
+            <label class="md-nav__title" for="__nav_3_3">
+              <span class="md-nav__icon md-icon"></span>
+              
+  
+  CUDA
+
+            </label>
+            <ul class="md-nav__list" data-md-scrollfix>
+              
+                
+                  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../03_programming/03_cuda/section_1_fundamentals/" class="md-nav__link">
+        
+  
+  
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-book-open" viewBox="0 0 24 24"><path d="M12 5v16M20.001 19A2 2 0 0 0 22 17V5a2 2 0 0 0-1.999-2L16 3.002A5 5 0 0 0 12 5a5 5 0 0 0-4-2H4a2 2 0 0 0-2 2v12a2 2 0 0 0 1.999 2H8a5 5 0 0 1 4 2 5 5 0 0 1 4-2z"/></svg>
+  
+  <span class="md-ellipsis">
+    
+  
+  Fundamentos
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+                
+              
+                
+                  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../03_programming/03_cuda/section_2_cuda_c/" class="md-nav__link">
+        
+  
+  
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-file-code" viewBox="0 0 24 24"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z"/><path d="M14 2v5a1 1 0 0 0 1 1h5M10 12.5 8 15l2 2.5M14 12.5l2 2.5-2 2.5"/></svg>
+  
+  <span class="md-ellipsis">
+    
+  
+  CUDA en C
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+                
+              
+                
+                  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../03_programming/03_cuda/section_3_cuda_python/" class="md-nav__link">
+        
+  
+  
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-microchip" viewBox="0 0 24 24"><path d="M10 12h4M10 17h4M10 7h4M18 12h2M18 18h2M18 6h2M4 12h2M4 18h2M4 6h2"/><rect width="12" height="20" x="6" y="2" rx="2"/></svg>
+  
+  <span class="md-ellipsis">
+    
+  
+  CUDA en Python
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+                
+              
+            </ul>
+          </nav>
+        
+      
+    </li>
+  
+
+                
+              
+                
+                  
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_4" id="__nav_3_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Desarrollo web
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        
+          <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_4_label" aria-expanded="false">
+            <label class="md-nav__title" for="__nav_3_4">
+              <span class="md-nav__icon md-icon"></span>
+              
+  
+  Desarrollo web
+
+            </label>
+            <ul class="md-nav__list" data-md-scrollfix>
+              
+                
+                  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../03_programming/04_web/section_1_fundamentals/" class="md-nav__link">
+        
+  
+  
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-book-open" viewBox="0 0 24 24"><path d="M12 5v16M20.001 19A2 2 0 0 0 22 17V5a2 2 0 0 0-1.999-2L16 3.002A5 5 0 0 0 12 5a5 5 0 0 0-4-2H4a2 2 0 0 0-2 2v12a2 2 0 0 0 1.999 2H8a5 5 0 0 1 4 2 5 5 0 0 1 4-2z"/></svg>
+  
+  <span class="md-ellipsis">
+    
+  
+  Fundamentos
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+                
+              
+            </ul>
+          </nav>
+        
+      
+    </li>
+  
+
+                
+              
+            </ul>
+          </nav>
+        
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Carrera profesional
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        
+          <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+            <label class="md-nav__title" for="__nav_4">
+              <span class="md-nav__icon md-icon"></span>
+              
+  
+  Carrera profesional
+
+            </label>
+            <ul class="md-nav__list" data-md-scrollfix>
+              
+                
+                  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../08_career/cv_guide/" class="md-nav__link">
+        
+  
+  
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-briefcase" viewBox="0 0 24 24"><path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/><rect width="20" height="14" x="2" y="6" rx="2"/></svg>
+  
+  <span class="md-ellipsis">
+    
+  
+  Estrategias de empleo
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+                
+              
+            </ul>
+          </nav>
+        
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  
+                    
+                    
+                    
+                    
+                      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+                      <div class="md-sidebar-button__wrapper">
+                        <label class="md-sidebar-button" for="__toc"></label>
+                      </div>
+                    
+                  
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#bibliografia" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Bibliografía
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#introduccion" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Introducción
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#la-terminal" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        La terminal
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#comandos-basicos" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Comandos básicos
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#estructura-de-directorios" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Estructura de directorios
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#usuarios-y-grupos" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Usuarios y grupos
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Usuarios y grupos">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#permisos" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Permisos
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#modificacion-de-permisos" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Modificación de permisos
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#propiedad-de-archivos" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Propiedad de archivos
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#procesos-y-servicios" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Procesos y servicios
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Procesos y servicios">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#senales" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Señales
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ejecucion-persistente-de-procesos" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Ejecución persistente de procesos
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#daemons" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        <em>Daemons</em>
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#alias-y-atajos-de-comandos" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Alias y atajos de comandos
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#gestion-de-red-y-puertos" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Gestión de red y puertos
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                <a id="__skip" tabindex="-1"></a>
+                
+                  
+
+  
+  
+
+
+  <h1>Fundamentos</h1>
+
+<p>Este capítulo presenta los conceptos esenciales del sistema GNU/Linux, el funcionamiento
+de la terminal como interfaz principal de interacción, los comandos fundamentales para
+la navegación y la manipulación del sistema de archivos, el modelo de usuarios y
+permisos, la gestión de procesos y servicios, y las herramientas básicas de
+automatización y red.</p>
+<h2 id="bibliografia">Bibliografía<a class="headerlink" href="#bibliografia" title="Permanent link">&para;</a></h2>
+<ul>
+<li>NetworkChuck. (2023). <em>60 comandos de Linux que NECESITAS saber (en 10 minutos)</em>
+  [Vídeo]. YouTube. <a href="https://www.youtube.com/watch?v=gd7BXuUQ91w">https://www.youtube.com/watch?v=gd7BXuUQ91w</a></li>
+<li>DeciLearn. (2023). <em>Linux Para Principiantes - Curso completo</em> [Vídeo]. YouTube.
+  <a href="https://youtu.be/jVQKk8IB9pA">https://youtu.be/jVQKk8IB9pA</a></li>
+</ul>
+<h2 id="introduccion">Introducción<a class="headerlink" href="#introduccion" title="Permanent link">&para;</a></h2>
+<figure>
+  <img alt="Logo de Linux" src="../../../assets/img/docs/logos/linux-logo.png" />
+<br />
+<figcaption>Logo de Linux, representado por la mascota Tux.</figcaption>
+</figure>
+<p><strong>Linux</strong> no es un sistema operativo completo, sino un <strong><em>kernel</em></strong> de software libre
+desarrollado inicialmente por Linus Torvalds. Su código fuente es público y accesible,
+lo que permite a cualquier persona examinarlo, modificarlo, contribuir a su desarrollo o
+crear su propia distribución.</p>
+<p>El <em>kernel</em> de Linux se combina con las utilidades del proyecto <strong>GNU</strong>, que aportan las
+herramientas esenciales del entorno de usuario, como compiladores, intérpretes de
+comandos y bibliotecas básicas. Por esta razón, la denominación más precisa para
+referirse al sistema es <strong>GNU/Linux</strong>.</p>
+<p>GNU/Linux se caracteriza por ser una plataforma robusta, segura y flexible, capaz de
+adaptarse tanto a entornos personales como a infraestructuras críticas, incluyendo
+servidores y sistemas embebidos. Esta versatilidad lo ha convertido en la base de los
+sistemas operativos más utilizados en entornos distribuidos y plataformas en la nube,
+aunque también encuentra un lugar destacado en el ámbito doméstico.</p>
+<p>El modelo de desarrollo abierto, sustentado por una comunidad global de desarrolladores
+y usuarios, facilita una evolución constante, con mejoras continuas en rendimiento,
+estabilidad y seguridad. Esta diversidad se manifiesta en la existencia de múltiples
+proyectos que integran el <em>kernel</em> con diferentes herramientas, entornos gráficos y
+gestores de paquetes. Cuando estos componentes se combinan con configuraciones
+específicas se obtiene una <strong>distribución</strong>. Ejemplos representativos como Ubuntu,
+Debian, Fedora o Arch Linux ilustran cómo un mismo núcleo puede ajustarse a contextos de
+uso muy distintos.</p>
+<h2 id="la-terminal">La terminal<a class="headerlink" href="#la-terminal" title="Permanent link">&para;</a></h2>
+<p>La interacción directa con el sistema se realiza principalmente a través de la terminal
+o <strong><em>shell</em></strong>, un intérprete de comandos que traduce las órdenes del usuario en acciones
+ejecutables. Aunque existen alternativas modernas, <strong>Bash</strong> se mantiene como la <em>shell</em>
+más extendida y estandarizada.</p>
+<figure>
+  <img alt="Ventana de una shell o terminal en Pop!_OS" src="../../../assets/img/docs/linux/linux-shell-example.png" />
+<br />
+<figcaption>Ejemplo de una ventana de una <em>shell</em> o terminal en Pop!OS.</figcaption>
+</figure>
+<p>Los comandos disponibles en la terminal presentan una sintaxis basada en un nombre
+principal, un conjunto de opciones que modifican su comportamiento y una serie de
+argumentos que especifican el objetivo de la acción.</p>
+<details class="example" open="open">
+<summary>Anatomía de un comando</summary>
+<p>El comando <code>ls -l /home/usuario</code> combina el nombre principal <code>ls</code>, que lista los
+archivos y directorios, con la opción <code>-l</code>, que indica que la información se muestre
+en formato detallado, y el argumento <code>/home/usuario</code>, que especifica la ubicación
+del directorio cuyo contenido se desea visualizar.</p>
+</details>
+<p>El propio sistema facilita la consulta y el aprendizaje mediante documentación
+integrada. Herramientas como <code>man</code>, <code>help</code> o <code>type</code> permiten comprender el
+funcionamiento interno de los comandos y distinguir entre utilidades externas, funciones
+internas o alias definidos por el usuario.</p>
+<p>Los manuales se encuentran organizados en secciones que agrupan la información según su
+naturaleza, lo que permite acceder de manera más precisa a la documentación. Las
+secciones más comunes son las siguientes:</p>
+<ol>
+<li><strong>Comandos de usuario</strong>: Incluye programas ejecutables y comandos que pueden
+   invocarse desde la <em>shell</em>. Ejemplo: <code>ls</code>, <code>cp</code>.</li>
+<li><strong>Llamadas al sistema</strong>: Documenta las funciones proporcionadas por el <em>kernel</em> que
+   permiten a los programas interactuar con el sistema operativo. Ejemplo: <code>open()</code>,
+   <code>read()</code>.</li>
+<li><strong>Funciones de biblioteca</strong>: Contiene funciones disponibles en bibliotecas estándar,
+   como la biblioteca C (<code>libc</code>). Ejemplo: <code>printf()</code>, <code>malloc()</code>.</li>
+<li><strong>Archivos especiales y dispositivos</strong>: Describe archivos del sistema y dispositivos
+   especiales ubicados en <code>/dev</code> u otras rutas del sistema de archivos. Ejemplo:
+   <code>/dev/null</code>.</li>
+<li><strong>Formatos de archivo y convenciones</strong>: Incluye descripciones de formatos de archivo,
+   convenciones de configuración y estructuras de datos. Ejemplo: <code>/etc/passwd</code>.</li>
+<li><strong>Juegos y diversiones</strong>: Contiene documentación sobre juegos, ejemplos o programas
+   de entretenimiento incluidos en el sistema.</li>
+<li><strong>Miscelánea</strong>: Agrupa temas varios, convenciones, estándares o programas que no
+   encajan en otras secciones.</li>
+<li><strong>Comandos de administración del sistema</strong>: Incluye comandos reservados para la
+   administración y configuración del sistema, normalmente accesibles solo por el
+   superusuario (<code>root</code>). Ejemplo: <code>mount</code>, <code>passwd</code>.</li>
+</ol>
+<p>Al consultar un manual es posible especificar la sección deseada para acceder
+directamente a la información relevante.</p>
+<details class="example" open="open">
+<summary>Secciones del manual</summary>
+<p>El comando <code>man 2 open</code> muestra la documentación de la llamada al sistema <code>open()</code>,
+mientras que <code>man 1 open</code> se refiere al comando de usuario homónimo.</p>
+</details>
+<p>No todos los comandos cuentan con una sección específica en el manual. En algunos casos,
+la información solo está disponible a través de otras herramientas de ayuda o de
+documentación externa.</p>
+<h2 id="comandos-basicos">Comandos básicos<a class="headerlink" href="#comandos-basicos" title="Permanent link">&para;</a></h2>
+<p>La interacción cotidiana con el sistema se apoya en un conjunto de comandos
+fundamentales que permiten administrarlo, navegar por su estructura de directorios y
+manipular información.</p>
+<p>Entre ellos, <code>pwd</code> indica el directorio de trabajo actual, <code>ls</code> permite explorar el
+contenido de los directorios mostrando información detallada, permisos o archivos
+ocultos, y <code>cd</code> posibilita el desplazamiento entre directorios.</p>
+<figure>
+  <img alt="Ejemplo de los comandos pwd, ls y cd" src="../../../assets/img/docs/linux/linux-comandos-pwd-ls-cd.png" />
+<br />
+<figcaption>Ejemplo de los comandos pwd, ls y cd.</figcaption>
+</figure>
+<p>La creación de elementos básicos se realiza con <code>touch</code> para archivos y <code>mkdir</code> para
+directorios. La lectura de archivos puede efectuarse mediante <code>cat</code>, adecuada para
+contenidos breves, o <code>less</code>, que permite una navegación paginada en textos extensos. La
+gestión de archivos y directorios se completa con <code>cp</code> para copiar, <code>mv</code> para mover o
+renombrar, y <code>rm</code> o <code>rmdir</code> para eliminar elementos.</p>
+<p>La administración básica también incluye utilidades como <code>whoami</code>, que identifica al
+usuario activo, <code>useradd</code>, que crea nuevas cuentas, y <code>wget</code>, que descarga recursos
+desde la red.</p>
+<div class="admonition danger">
+<p class="admonition-title"><code>rm</code> no envía nada a la papelera</p>
+<p>A diferencia de los gestores de archivos gráficos, <code>rm</code> elimina de forma inmediata y
+definitiva, sin paso intermedio por ninguna papelera. La combinación <code>rm -rf</code>, que
+borra de manera recursiva y sin pedir confirmación, es la forma más rápida de
+destruir un directorio completo por error, especialmente si la ruta se construye a
+partir de una variable que puede estar vacía.</p>
+<p>Conviene comprobar la ruta antes de ejecutar la orden, por ejemplo listándola con
+<code>ls</code>, y emplear <code>rm -i</code> cuando se borre de forma interactiva. Para trabajar con una
+papelera real existen utilidades como <code>trash-cli</code>.</p>
+</div>
+<p>Otro de los flujos de trabajo más habituales, tanto en entornos corporativos como en
+servidores domésticos, es el acceso remoto a otros equipos. Este acceso se realiza
+mediante el protocolo <strong>SSH</strong> (<em>Secure Shell</em>), que permite establecer sesiones seguras
+desde la línea de comandos e integrar de manera fluida la administración de sistemas
+locales y remotos.</p>
+<figure>
+  <img alt="Funcionamiento del protocolo SSH" src="../../../assets/img/docs/linux/linux-ejemplo-protocolo-ssh.png" />
+<br />
+<figcaption>Funcionamiento del protocolo SSH. <a href="https://www.ssh.com/academy/ssh">Referencia</a></figcaption>
+</figure>
+<p>Los comandos anteriores cubren la mayor parte de las tareas cotidianas, aunque el
+catálogo real es mucho más amplio y el comportamiento de cada comando puede alterarse
+mediante sus opciones. Enumerar todos los comandos del sistema junto con sus múltiples
+opciones resulta impracticable debido a su cantidad y diversidad.</p>
+<p>Por esta razón, la opción <code>--help</code> está disponible en prácticamente cualquier comando y
+proporciona información detallada sobre su uso, las opciones admitidas y una breve
+descripción de su funcionalidad. También existen recursos externos como la documentación
+oficial o los motores de búsqueda, aunque explorar el propio sistema resulta igualmente
+enriquecedor, preferiblemente en un entorno controlado como una máquina virtual.</p>
+<p>La siguiente tabla recopila los comandos de uso más frecuente:</p>
+<table>
+<thead>
+<tr>
+<th>Comando</th>
+<th>Descripción</th>
+<th>Ejemplo de uso</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>pwd</code></td>
+<td>Muestra el directorio de trabajo actual.</td>
+<td><code>pwd</code></td>
+</tr>
+<tr>
+<td><code>ls</code></td>
+<td>Lista el contenido de directorios, mostrando información detallada y archivos ocultos.</td>
+<td><code>ls -la /home/usuario</code></td>
+</tr>
+<tr>
+<td><code>cd</code></td>
+<td>Cambia el directorio de trabajo.</td>
+<td><code>cd /var/log</code></td>
+</tr>
+<tr>
+<td><code>touch</code></td>
+<td>Crea archivos vacíos.</td>
+<td><code>touch archivo.txt</code></td>
+</tr>
+<tr>
+<td><code>mkdir</code></td>
+<td>Crea nuevos directorios.</td>
+<td><code>mkdir proyecto</code></td>
+</tr>
+<tr>
+<td><code>cat</code></td>
+<td>Muestra el contenido de archivos pequeños.</td>
+<td><code>cat archivo.txt</code></td>
+</tr>
+<tr>
+<td><code>less</code></td>
+<td>Visualiza archivos largos de forma paginada.</td>
+<td><code>less archivo_grande.txt</code></td>
+</tr>
+<tr>
+<td><code>cp</code></td>
+<td>Copia archivos o directorios.</td>
+<td><code>cp archivo.txt /home/usuario/backup/</code></td>
+</tr>
+<tr>
+<td><code>mv</code></td>
+<td>Mueve o renombra archivos o directorios.</td>
+<td><code>mv archivo.txt documento.txt</code></td>
+</tr>
+<tr>
+<td><code>rm</code></td>
+<td>Elimina archivos.</td>
+<td><code>rm archivo.txt</code></td>
+</tr>
+<tr>
+<td><code>rmdir</code></td>
+<td>Elimina directorios vacíos.</td>
+<td><code>rmdir carpeta_vacia</code></td>
+</tr>
+<tr>
+<td><code>whoami</code></td>
+<td>Muestra el usuario activo.</td>
+<td><code>whoami</code></td>
+</tr>
+<tr>
+<td><code>useradd</code></td>
+<td>Crea nuevas cuentas de usuario.</td>
+<td><code>sudo useradd nuevo_usuario</code></td>
+</tr>
+<tr>
+<td><code>passwd</code></td>
+<td>Cambia la contraseña de un usuario.</td>
+<td><code>passwd usuario</code></td>
+</tr>
+<tr>
+<td><code>man</code></td>
+<td>Accede a la documentación integrada de los comandos.</td>
+<td><code>man ls</code></td>
+</tr>
+<tr>
+<td><code>wget</code></td>
+<td>Descarga archivos desde la red.</td>
+<td><code>wget https://ejemplo.com/archivo.zip</code></td>
+</tr>
+<tr>
+<td><code>ssh</code></td>
+<td>Establece un acceso remoto seguro a otros equipos.</td>
+<td><code>ssh usuario@192.168.1.10</code></td>
+</tr>
+<tr>
+<td><code>chmod</code></td>
+<td>Modifica los permisos de archivos y directorios.</td>
+<td><code>chmod 755 script.sh</code></td>
+</tr>
+<tr>
+<td><code>chown</code></td>
+<td>Cambia el propietario de archivos o directorios.</td>
+<td><code>chown usuario:grupo archivo.txt</code></td>
+</tr>
+<tr>
+<td><code>find</code></td>
+<td>Busca archivos y directorios según criterios específicos.</td>
+<td><code>find /home -name "*.txt"</code></td>
+</tr>
+<tr>
+<td><code>grep</code></td>
+<td>Busca cadenas de texto dentro de archivos.</td>
+<td><code>grep "error" log.txt</code></td>
+</tr>
+<tr>
+<td><code>tar</code></td>
+<td>Comprime o descomprime archivos y directorios.</td>
+<td><code>tar -czvf backup.tar.gz /home/usuario</code></td>
+</tr>
+<tr>
+<td><code>zip</code></td>
+<td>Comprime archivos y directorios en formato ZIP.</td>
+<td><code>zip -r nombre.zip nombre_carpeta</code></td>
+</tr>
+<tr>
+<td><code>unzip</code></td>
+<td>Descomprime archivos en formato ZIP.</td>
+<td><code>unzip nombre.zip</code></td>
+</tr>
+<tr>
+<td><code>df</code></td>
+<td>Muestra el espacio disponible en los sistemas de archivos.</td>
+<td><code>df -h</code></td>
+</tr>
+<tr>
+<td><code>du</code></td>
+<td>Muestra el tamaño de archivos y directorios.</td>
+<td><code>du -sh /home/usuario</code></td>
+</tr>
+<tr>
+<td><code>top</code></td>
+<td>Muestra los procesos en ejecución y el uso de recursos en tiempo real.</td>
+<td><code>top</code></td>
+</tr>
+<tr>
+<td><code>ps</code></td>
+<td>Lista los procesos en ejecución.</td>
+<td><code>ps aux</code></td>
+</tr>
+<tr>
+<td><code>kill</code></td>
+<td>Envía una señal a un proceso identificado por su identificador (PID).</td>
+<td><code>kill -15 1234</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="estructura-de-directorios">Estructura de directorios<a class="headerlink" href="#estructura-de-directorios" title="Permanent link">&para;</a></h2>
+<p>El almacenamiento se organiza siguiendo una estructura jerárquica unificada en forma de
+árbol cuyo origen se encuentra en el directorio raíz (<code>/</code>).</p>
+<p>A diferencia de otros sistemas operativos, no existen unidades identificadas por letras.
+Todos los dispositivos de almacenamiento se incorporan a esta jerarquía mediante el
+proceso de montaje.</p>
+<figure>
+  <img alt="Jerarquía de los directorios de Linux" src="../../../assets/img/docs/linux/linux-file-system.png" />
+<br />
+<figcaption>Jerarquía de los directorios de Linux. <a href="https://goldinscrib.hashnode.dev/the-linux-file-system">Referencia</a></figcaption>
+</figure>
+<p>Dentro de esta estructura destacan una serie de directorios esenciales:</p>
+<ul>
+<li><code>/boot</code>: Alberga los componentes necesarios para el arranque del sistema, incluidos el
+  <em>kernel</em> y el gestor <strong>GRUB</strong>, el programa que se muestra al iniciar el equipo y que
+  permite seleccionar el sistema operativo cuando existen varias instalaciones.</li>
+<li><code>/etc</code>: Concentra los archivos de configuración en formato de texto plano, que
+  determinan el comportamiento del sistema y de sus servicios.</li>
+<li><code>/bin</code> y <code>/sbin</code>: Contienen los ejecutables imprescindibles para la operación básica y
+  la administración del sistema.</li>
+<li><code>/home</code>: Contiene los espacios de trabajo de los usuarios, mientras que <code>/root</code> se
+  reserva exclusivamente para el superusuario.</li>
+<li><code>/var</code>: Almacena datos variables como registros (<em>logs</em>), colas y bases de datos.</li>
+<li><code>/dev</code>, <code>/proc</code> y <code>/sys</code>: Proporcionan representaciones virtuales del hardware y del
+  estado interno del <em>kernel</em>, lo que permite un acceso sistemático y controlado a los
+  recursos del sistema.</li>
+</ul>
+<p>Uno de los directorios más visitados, de manera directa o indirecta, es el directorio
+oculta <code>~/.cache</code>, que almacena datos temporales generados por diversas aplicaciones
+para acelerar operaciones posteriores. En esta ubicación, las herramientas de gestión de
+dependencias mantienen sus propios directorios de <strong>caché</strong>, donde guardan paquetes
+descargados, compilaciones intermedias y metadatos. Ejemplos representativos son
+<code>~/.cache/uv</code> para el gestor de paquetes uv de Python o <code>~/.cache/pip</code> para pip.</p>
+<p>Con el tiempo, estos directorios de caché pueden acumular un volumen considerable de
+datos. Para identificar qué directorios consumen más espacio en disco resulta útil el
+comando <code>du</code> con opciones que limitan la profundidad de exploración.</p>
+<details class="example" open="open">
+<summary>Comprobar el espacio ocupado por directorios</summary>
+<p>Para visualizar el tamaño de cada subdirectorio inmediato dentro del directorio
+personal del usuario:</p>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1"></a>du<span class="w"> </span>-h<span class="w"> </span>--max-depth<span class="o">=</span><span class="m">1</span><span class="w"> </span>~
+</span></code></pre></div></td></tr></table></div>
+<p>Este comando muestra el espacio ocupado por cada directorio en formato legible (<code>-h</code>
+de <em>human-readable</em>), limitando la exploración a un solo nivel de profundidad.
+Resulta especialmente práctico para detectar directorios de caché que han crecido de
+forma descontrolada y que pueden limpiarse sin afectar al funcionamiento del
+sistema.</p>
+</details>
+<h2 id="usuarios-y-grupos">Usuarios y grupos<a class="headerlink" href="#usuarios-y-grupos" title="Permanent link">&para;</a></h2>
+<p>GNU/Linux es un sistema multiusuario en el que la seguridad y el control de acceso se
+articulan mediante un modelo basado en usuarios, grupos y permisos. Este enfoque permite
+que múltiples personas trabajen simultáneamente en el mismo sistema sin interferir entre
+sí, y garantiza al mismo tiempo la protección de los recursos y la estabilidad del
+entorno.</p>
+<p>Los permisos no se asignan únicamente a individuos, sino que también se agrupan mediante
+<strong>grupos</strong>, que actúan como conjuntos de privilegios compartidos, de forma similar a una
+plantilla de privilegios.</p>
+<p>Cada usuario dispone de un <strong>grupo primario</strong>, asociado por defecto a los archivos que
+crea, y puede pertenecer a varios <strong>grupos secundarios</strong> que amplían sus capacidades,
+como ocurre con el grupo <code>sudo</code>, destinado a la ejecución controlada de tareas
+administrativas.</p>
+<h3 id="permisos">Permisos<a class="headerlink" href="#permisos" title="Permanent link">&para;</a></h3>
+<p>Cada archivo o directorio define privilegios de <strong>lectura</strong>, <strong>escritura</strong> y
+<strong>ejecución</strong> para tres categorías claramente diferenciadas: el <strong>propietario</strong>, el
+<strong>grupo</strong> asociado y el resto de usuarios, denominados <strong>otros</strong>. Esta última categoría
+representa a cualquier usuario que no sea el propietario del archivo ni miembro del
+grupo asociado.</p>
+<p>Este esquema limita el acceso indebido a los recursos. Por encima de estas restricciones
+se sitúa el <strong>superusuario</strong>, identificado como <code>root</code>, que posee control total sobre el
+sistema y puede ignorar el modelo de permisos convencional.</p>
+<p>El sistema evalúa los permisos siguiendo un orden de prioridad estricto. Primero
+comprueba si el usuario es el propietario, en cuyo caso aplica los permisos
+correspondientes. Si no lo es, verifica si pertenece al grupo y, solo cuando no se
+cumple ninguna de estas condiciones, se aplican los permisos definidos para otros.</p>
+<figure>
+  <img alt="Registro de permisos de Linux" src="../../../assets/img/docs/linux/linux-file-permissions.png" />
+<br />
+<figcaption>Registro de permisos de Linux. <a href="https://bytebytego.com/guides/linux-file-permission-illustrated/">Referencia</a></figcaption>
+</figure>
+<p>Los permisos se visualizan habitualmente mediante el comando <code>ls -l</code>, que muestra una
+cadena simbólica como <code>rwxr-xr--</code>. Esta notación agrupa los permisos en tres bloques de
+tres caracteres, correspondientes al propietario, al grupo y a otros, respectivamente.
+Cada carácter indica si el permiso de lectura (<code>r</code>), escritura (<code>w</code>) o ejecución (<code>x</code>)
+está concedido. Cuando un permiso no está habilitado, se sustituye por un guion.</p>
+<div class="admonition warning">
+<p class="admonition-title">Los permisos significan otra cosa en un directorio</p>
+<p>Sobre un archivo, <code>r</code> permite leer su contenido, <code>w</code> modificarlo y <code>x</code> ejecutarlo.
+Sobre un directorio el significado cambia: <code>r</code> permite listar los nombres que
+contiene, <code>w</code> permite crear, renombrar y borrar entradas dentro de él, y <code>x</code> permite
+atravesarlo para acceder a lo que hay debajo.</p>
+<p>De ahí se derivan dos consecuencias que suelen sorprender. Un directorio con <code>r</code>
+pero sin <code>x</code> permite ver los nombres de los archivos pero no abrirlos. Y el permiso
+<code>w</code> sobre un directorio basta para borrar un archivo que hay dentro, aunque ese
+archivo pertenezca a otro usuario y no conceda permiso de escritura.</p>
+</div>
+<details class="example" open="open">
+<summary>Interpretar permisos con <code>ls -l</code></summary>
+<p>Al ejecutar <code>ls -l</code> sobre un archivo se obtiene una cadena de permisos como la
+siguiente:</p>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1"></a>rwxr-xr--
+</span></code></pre></div></td></tr></table></div>
+<p>La cadena se divide en bloques de tres caracteres (<code>rwx</code>, <code>r-x</code> y <code>r--</code>) que
+representan los permisos del propietario, del grupo y de los demás usuarios:</p>
+<table>
+<thead>
+<tr>
+<th>Permiso</th>
+<th>Propietario</th>
+<th>Grupo</th>
+<th>Otros</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Lectura (r)</td>
+<td>✔</td>
+<td>✔</td>
+<td>✔</td>
+</tr>
+<tr>
+<td>Escritura (w)</td>
+<td>✔</td>
+<td>✖</td>
+<td>✖</td>
+</tr>
+<tr>
+<td>Ejecución (x)</td>
+<td>✔</td>
+<td>✔</td>
+<td>✖</td>
+</tr>
+</tbody>
+</table>
+<p>En este contexto:</p>
+<ul>
+<li><strong>Propietario</strong>: Tiene permisos completos sobre el archivo, por lo que puede leer
+  su contenido, modificarlo y ejecutarlo si se trata de un archivo ejecutable.</li>
+<li><strong>Grupo</strong>: Posee permisos de lectura y ejecución, lo que le permite abrir y
+  ejecutar el archivo, pero no modificarlo.</li>
+<li><strong>Otros</strong>: Solo cuentan con permiso de lectura, por lo que pueden consultar el
+  contenido del archivo, pero no ejecutarlo ni realizar cambios sobre él.</li>
+</ul>
+<p>Siguiendo la misma lógica, <code>r--</code> indica que únicamente se permite la lectura,
+mientras que <code>rw-</code> permite lectura y escritura, pero no ejecución.</p>
+</details>
+<h3 id="modificacion-de-permisos">Modificación de permisos<a class="headerlink" href="#modificacion-de-permisos" title="Permanent link">&para;</a></h3>
+<p>Los permisos de archivos y directorios se modifican con el comando <code>chmod</code>, que admite
+dos notaciones principales, la <strong>octal</strong> y la <strong>simbólica</strong>.</p>
+<p>En la notación octal, cada permiso tiene un valor numérico fijo, donde la lectura
+equivale a 4, la escritura a 2 y la ejecución a 1. La suma de estos valores determina el
+permiso final para cada categoría. El comando recibe siempre tres dígitos que
+representan de izquierda a derecha los permisos del propietario, del grupo y de otros.</p>
+<details class="example" open="open">
+<summary>Notación octal</summary>
+<p>Al aplicar <code>chmod 754 archivo</code>, cada dígito resulta de sumar los valores de los
+permisos concedidos. El propietario obtiene el valor 7 (4 + 2 + 1), lo que equivale
+a lectura, escritura y ejecución. El grupo recibe el valor 5 (4 + 1), es decir,
+lectura y ejecución, pero no escritura. El resto de usuarios obtiene el valor 4, que
+corresponde únicamente a lectura.</p>
+</details>
+<p>Por otra parte, la notación simbólica utiliza letras para identificar a los sujetos, <code>u</code>
+para el propietario, <code>g</code> para el grupo, <code>o</code> para otros y <code>a</code> para todos, además de
+emplear operadores para añadir, quitar o asignar permisos.</p>
+<details class="example" open="open">
+<summary>Notación simbólica</summary>
+<ul>
+<li><strong>Añadir permisos de ejecución a todos</strong>: <code>chmod a+x backup.sh</code>. El operador <code>+</code>
+  suma el permiso de ejecución (<code>x</code>) a todas las categorías (<code>a</code> de <em>all</em>).</li>
+<li><strong>Dar acceso de lectura al grupo</strong>: <code>chmod g+r backup.sh</code>. Únicamente el grupo
+  (<code>g</code>) recibe el atributo de lectura (<code>r</code>).</li>
+<li><strong>Retirar permisos de escritura a otros</strong>: <code>chmod o-w backup.sh</code>. El operador <code>-</code>
+  garantiza que cualquier permiso de escritura previo para terceros sea revocado,
+  sin alterar los permisos del propietario o del grupo.</li>
+<li><strong>Asignación exacta de permisos</strong>: <code>chmod g=rx backup.sh</code>. El operador <code>=</code>
+  establece que el grupo tenga lectura y ejecución, y elimina de una sola vez
+  cualquier otro permiso previo, como el de escritura.</li>
+</ul>
+</details>
+<p>El comando <code>umask</code> define los permisos <strong>por defecto</strong> de los nuevos archivos y
+directorios. Mientras que <code>chmod</code> modifica permisos existentes, <code>umask</code> actúa como una
+máscara que restringe los permisos máximos iniciales.</p>
+<p>Para los archivos, el sistema parte de un valor máximo de lectura y escritura para todos
+y, para los directorios, de permisos completos. El valor de <code>umask</code> indica qué permisos
+deben eliminarse automáticamente, de modo que cuanto más restrictiva sea la máscara, más
+limitados serán los permisos resultantes.</p>
+<details class="example" open="open">
+<summary>Máscara <code>umask</code></summary>
+<p>Con una máscara <code>umask</code> de 022:</p>
+<ul>
+<li><strong>Archivo nuevo</strong>: El sistema parte de los permisos máximos <code>rw-rw-rw-</code> (lectura y
+  escritura para todos). La máscara elimina los permisos de escritura para el grupo
+  y para otros, por lo que el archivo se crea con permisos finales <code>rw-r--r--</code>.</li>
+<li><strong>Directorio nuevo</strong>: El sistema parte de permisos máximos <code>rwxrwxrwx</code> (lectura,
+  escritura y ejecución para todos). Al aplicar la misma máscara se eliminan los
+  permisos de escritura para el grupo y para otros, lo que resulta en permisos
+  finales <code>rwxr-xr-x</code>.</li>
+</ul>
+</details>
+<h3 id="propiedad-de-archivos">Propiedad de archivos<a class="headerlink" href="#propiedad-de-archivos" title="Permanent link">&para;</a></h3>
+<p>Además de los permisos, cada archivo y directorio posee un <strong>propietario</strong> y un
+<strong>grupo</strong> que determinan quién ejerce la autoridad principal sobre él.</p>
+<p>El comando <code>chown</code> permite modificar esta propiedad, definiendo quién es el dueño y a
+qué grupo pertenece un recurso. A diferencia de <code>chmod</code>, que puede ser utilizado por el
+propietario del archivo para ajustar sus permisos, <code>chown</code> requiere privilegios
+administrativos, ya que cambiar la propiedad implica transferir el control efectivo del
+recurso.</p>
+<p>Este comando permite modificar únicamente el usuario propietario, solo el grupo o ambos
+de forma simultánea, y puede aplicarse de manera recursiva a directorios completos.</p>
+<details class="example" open="open">
+<summary>Cambiar propietario con <code>chown</code></summary>
+<p>Para asignar la propiedad de un directorio llamado <code>proyecto</code> al usuario <code>ana</code>:</p>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-2-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1"></a>sudo<span class="w"> </span>chown<span class="w"> </span>ana<span class="w"> </span>proyecto
+</span></code></pre></div></td></tr></table></div>
+<p>Tras ejecutar el comando, <code>ana</code> es la propietaria del directorio, mientras que el
+grupo permanece sin cambios. Para cambiar solo el grupo a <code>desarrolladores</code>:</p>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-3-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1"></a>sudo<span class="w"> </span>chown<span class="w"> </span>:desarrolladores<span class="w"> </span>proyecto
+</span></code></pre></div></td></tr></table></div>
+<p>El propietario actual se mantiene, pero el grupo asociado pasa a ser
+<code>desarrolladores</code>. Para cambiar el propietario y el grupo de forma simultánea:</p>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-4-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1"></a>sudo<span class="w"> </span>chown<span class="w"> </span>ana:desarrolladores<span class="w"> </span>proyecto
+</span></code></pre></div></td></tr></table></div>
+<p>Por último, para aplicar los cambios de manera recursiva a todos los archivos y
+subdirectorios contenidos en <code>proyecto</code>:</p>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-5-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1"></a>sudo<span class="w"> </span>chown<span class="w"> </span>-R<span class="w"> </span>ana:desarrolladores<span class="w"> </span>proyecto
+</span></code></pre></div></td></tr></table></div>
+</details>
+<div class="admonition warning">
+<p class="admonition-title">Alcance de los cambios recursivos con <code>sudo</code></p>
+<p>La opción <code>-R</code> aplica el cambio a todo el árbol de directorios, y <code>sudo</code> elimina
+cualquier restricción que hubiera impedido hacerlo. Un error en la ruta puede dejar
+inservible una parte del sistema, y ejecutar <code>sudo chown -R</code> sobre <code>/</code> o sobre
+<code>/usr</code> obliga en la práctica a reinstalar.</p>
+<p>La precaución básica consiste en usar rutas relativas desde el directorio correcto,
+o rutas absolutas escritas por completo, y nunca una variable sin comprobar que
+tiene valor.</p>
+</div>
+<h2 id="procesos-y-servicios">Procesos y servicios<a class="headerlink" href="#procesos-y-servicios" title="Permanent link">&para;</a></h2>
+<p>Un <strong>proceso</strong> es un <strong>programa en ejecución</strong>. Cuando un usuario inicia un programa, el
+sistema operativo carga el archivo binario en memoria, asigna los recursos necesarios y
+lo transforma en un proceso activo.</p>
+<p>Cada proceso es gestionado por el <em>kernel</em> y recibe un identificador único denominado
+<strong>PID</strong> (<em>Process ID</em>). Todos los procesos forman una jerarquía cuyo origen es el
+proceso con PID 1, gestionado actualmente por <strong><code>systemd</code></strong>, que arranca junto al
+<em>kernel</em> y actúa como ancestro de todos los demás. Cuando un programa lanza otro, como
+ocurre cuando la terminal ejecuta <code>ls</code>, el primero actúa como proceso padre y el segundo
+como proceso hijo.</p>
+<p>Además del PID, cada proceso registra el <strong>PPID</strong> (<em>Parent Process ID</em>), que identifica
+al proceso que lo creó, y el <strong>UID</strong> (<em>User ID</em>), que indica el usuario que lo ejecuta y
+determina sus permisos sobre los archivos y los recursos del sistema.</p>
+<p>A lo largo de su ciclo de vida, un proceso puede encontrarse en distintos estados, que
+van desde la ejecución activa hasta la espera o la finalización:</p>
+<table>
+<thead>
+<tr>
+<th>Estado</th>
+<th>Código</th>
+<th>Descripción</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><em>Running</em></td>
+<td><code>R</code></td>
+<td>En ejecución o listo para ejecutarse.</td>
+</tr>
+<tr>
+<td><em>Sleeping</em></td>
+<td><code>S</code></td>
+<td>Esperando un evento, como una entrada del usuario o una lectura de disco.</td>
+</tr>
+<tr>
+<td><em>Sleeping</em></td>
+<td><code>D</code></td>
+<td>En espera ininterrumpible, asociada normalmente a operaciones de entrada y salida.</td>
+</tr>
+<tr>
+<td><em>Stopped</em></td>
+<td><code>T</code></td>
+<td>Pausado, por ejemplo mediante <code>Ctrl + Z</code>.</td>
+</tr>
+<tr>
+<td><em>Zombie</em></td>
+<td><code>Z</code></td>
+<td>Finalizado, pero sin que su proceso padre haya registrado la finalización.</td>
+</tr>
+</tbody>
+</table>
+<p>El estado y el consumo de recursos de los procesos pueden supervisarse mediante
+herramientas como <code>ps</code>, <code>top</code> o <code>htop</code>, que permiten analizar su comportamiento en
+tiempo real.</p>
+<h3 id="senales">Señales<a class="headerlink" href="#senales" title="Permanent link">&para;</a></h3>
+<p>Las <strong>señales</strong> son mecanismos que permiten comunicar eventos a un proceso en ejecución.
+Funcionan como mensajes que pueden solicitar la terminación, la pausa, la reanudación o
+la recarga de la configuración de un proceso. Las señales más utilizadas son las
+siguientes:</p>
+<table>
+<thead>
+<tr>
+<th>Señal</th>
+<th>Nombre</th>
+<th>Número</th>
+<th>Función</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>SIGTERM</code></td>
+<td>Terminate</td>
+<td>15</td>
+<td>Solicita al proceso que cierre de manera ordenada.</td>
+</tr>
+<tr>
+<td><code>SIGKILL</code></td>
+<td>Kill</td>
+<td>9</td>
+<td>Fuerza la terminación inmediata del proceso, sin posibilidad de reacción.</td>
+</tr>
+<tr>
+<td><code>SIGHUP</code></td>
+<td>Hangup</td>
+<td>1</td>
+<td>Solicita la recarga de la configuración de los <em>daemons</em>.</td>
+</tr>
+<tr>
+<td><code>SIGSTOP</code></td>
+<td>Stop</td>
+<td>19</td>
+<td>Pausa el proceso sin liberarlo de la memoria.</td>
+</tr>
+<tr>
+<td><code>SIGCONT</code></td>
+<td>Continue</td>
+<td>18</td>
+<td>Reanuda un proceso previamente detenido.</td>
+</tr>
+</tbody>
+</table>
+<p>El comando <code>kill</code> envía estas señales a procesos concretos identificados por su PID.
+Cuando el PID no se conoce, <code>pkill</code> permite operar directamente sobre el nombre del
+proceso. Los usuarios solo pueden enviar señales a sus propios procesos, de modo que
+interactuar con procesos de otros usuarios o del sistema requiere privilegios de
+superusuario mediante <code>sudo</code>.</p>
+<p>El teclado también genera señales durante la ejecución de un proceso en primer plano. La
+combinación <code>Ctrl + C</code> envía <code>SIGINT</code> e interrumpe la ejecución del proceso activo,
+mientras que <code>Ctrl + Z</code> envía <code>SIGTSTP</code>, pausa el proceso y lo traslada al segundo
+plano, desde donde puede reanudarse con <code>fg</code>.</p>
+<details class="example" open="open">
+<summary>Finalizar procesos por PID y por nombre</summary>
+<p>La forma estándar de <code>kill</code> envía la señal <code>SIGTERM</code>, que permite al proceso
+finalizar de manera ordenada liberando sus recursos:</p>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-6-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1"></a><span class="nb">kill</span><span class="w"> </span><span class="m">1234</span>
+</span></code></pre></div></td></tr></table></div>
+<p>Si el proceso no responde a <code>SIGTERM</code>, es posible forzar su terminación inmediata
+mediante <code>SIGKILL</code>:</p>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-7-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1"></a><span class="nb">kill</span><span class="w"> </span>-9<span class="w"> </span><span class="m">1234</span>
+</span></code></pre></div></td></tr></table></div>
+<p>Cuando un proceso de Python se queda bloqueado o sin responder, como ocurre con
+frecuencia con <em>notebooks</em> de Jupyter o <em>scripts</em> de larga duración, resulta
+práctico utilizar <code>pkill</code> para finalizar todos los procesos asociados a un nombre
+determinado sin necesidad de conocer sus PID individuales:</p>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-8-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1"></a>pkill<span class="w"> </span>python
+</span></code></pre></div></td></tr></table></div>
+</details>
+<div class="admonition danger">
+<p class="admonition-title"><code>kill -9</code> y <code>pkill</code> actúan sin contemplaciones</p>
+<p>La señal <code>SIGKILL</code>, que <code>kill -9</code> envía, no puede ser interceptada por el proceso,
+de modo que este termina sin ejecutar su rutina de cierre. El resultado puede ser
+trabajo sin guardar, archivos a medio escribir o bloqueos que quedan sin liberar.
+Conviene intentar primero <code>kill -15</code>, que envía <code>SIGTERM</code> y permite al proceso
+terminar de forma ordenada, y reservar <code>SIGKILL</code> para cuando no responda.</p>
+<p><code>pkill python</code> es más peligroso de lo que parece, porque termina <strong>todos</strong> los
+procesos cuyo nombre coincida, incluidos los que no se pretendía tocar. Conviene
+comprobar antes qué se va a eliminar con <code>pgrep -a python</code>, y acotar el alcance con
+<code>pkill -u $USER</code> para limitarlo a los procesos del usuario actual.</p>
+</div>
+<h3 id="ejecucion-persistente-de-procesos">Ejecución persistente de procesos<a class="headerlink" href="#ejecucion-persistente-de-procesos" title="Permanent link">&para;</a></h3>
+<p>En entornos de desarrollo y producción es frecuente la necesidad de mantener procesos en
+ejecución incluso después de cerrar la sesión del terminal. Cuando un usuario cierra su
+sesión, el sistema envía la señal <code>SIGHUP</code> a todos los procesos asociados a dicha
+sesión, lo que provoca su terminación.</p>
+<p>El comando <strong><code>nohup</code></strong> (<em>no hang up</em>) permite ignorar esta señal, lo que garantiza que
+el proceso continúe ejecutándose de forma independiente de la sesión del usuario. La
+salida estándar y la salida de error se redirigen automáticamente al archivo <code>nohup.out</code>
+en el directorio de trabajo actual.</p>
+<details class="example" open="open">
+<summary>Mantener un proceso activo tras cerrar sesión</summary>
+<p>Para ejecutar un <em>script</em> de Python que debe permanecer activo de forma indefinida,
+incluso si se cierra la terminal o finaliza la conexión SSH:</p>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-9-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1"></a>nohup<span class="w"> </span>python<span class="w"> </span>script_entrenamiento.py<span class="w"> </span><span class="p">&amp;</span>
+</span></code></pre></div></td></tr></table></div>
+<p>El símbolo <code>&amp;</code> al final envía el proceso al segundo plano y libera la terminal para
+continuar trabajando. La combinación de <code>nohup</code> con <code>&amp;</code> resulta idónea para tareas
+de larga duración, como entrenamientos de modelos de aprendizaje automático o
+procesamiento masivo de datos.</p>
+</details>
+<h3 id="daemons"><em>Daemons</em><a class="headerlink" href="#daemons" title="Permanent link">&para;</a></h3>
+<p>Los <strong><em>daemons</em></strong> son procesos diseñados para ejecutarse en segundo plano de manera
+continua, sin depender de la sesión de un usuario. Proporcionan servicios permanentes
+como servidores web, acceso remoto por SSH o tareas programadas.</p>
+<p>A diferencia de los procesos interactivos, los <em>daemons</em> se desvinculan de su terminal
+original y son adoptados por <code>systemd</code>, lo que garantiza su ejecución continua incluso
+cuando el usuario que los inició cierra su sesión.</p>
+<p>Por convención, muchos <em>daemons</em> tienen nombres terminados en <code>d</code>, como <code>sshd</code> para la
+gestión de conexiones SSH, <code>httpd</code> o <code>apache2</code> para el servicio web, <code>crond</code> para las
+tareas programadas y <code>systemd</code> para el control de servicios y procesos del sistema. Por
+razones de seguridad, los <em>daemons</em> no deben ejecutarse como <code>root</code> salvo que sea
+estrictamente necesario.</p>
+<p>El control de los <em>daemons</em> se realiza mediante <code>systemctl</code>, que permite iniciar,
+detener, reiniciar y habilitar servicios de manera uniforme:</p>
+<table>
+<thead>
+<tr>
+<th>Comando</th>
+<th>Descripción</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>sudo systemctl start sshd</code></td>
+<td>Inicia el <em>daemon</em> y crea el proceso correspondiente.</td>
+</tr>
+<tr>
+<td><code>sudo systemctl stop sshd</code></td>
+<td>Detiene el <em>daemon</em>.</td>
+</tr>
+<tr>
+<td><code>sudo systemctl status sshd</code></td>
+<td>Muestra el estado, el PID y el consumo de recursos del <em>daemon</em>.</td>
+</tr>
+<tr>
+<td><code>sudo systemctl enable sshd</code></td>
+<td>Configura el <em>daemon</em> para que se inicie automáticamente al arrancar el sistema.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="alias-y-atajos-de-comandos">Alias y atajos de comandos<a class="headerlink" href="#alias-y-atajos-de-comandos" title="Permanent link">&para;</a></h2>
+<p>La eficiencia operativa se potencia mediante la <strong>automatización</strong> de tareas repetitivas
+o complejas a través de la <em>shell</em>. Una herramienta fundamental para este propósito son
+los <strong>alias</strong>, que funcionan como atajos para comandos largos o de uso frecuente. Los
+alias permiten reducir errores, ahorrar tiempo y estandarizar procedimientos dentro del
+entorno de trabajo.</p>
+<p>Los alias se configuran generalmente en los archivos de inicialización de la <em>shell</em>,
+como <code>~/.bashrc</code> o <code>~/.zshrc</code>, lo que asegura que estén disponibles de manera automática
+en cada nueva sesión.</p>
+<details class="example" open="open">
+<summary>Alias para comandos frecuentes</summary>
+<p>El alias <code>alias ll='ls -alF'</code> convierte un comando largo y detallado en una
+instrucción breve y fácil de recordar.</p>
+</details>
+<p>La recarga inmediata de estos archivos mediante <code>source ~/.bashrc</code> aplica los cambios
+sin necesidad de cerrar la sesión, lo que mantiene la continuidad del trabajo.</p>
+<p>Más allá de los alias, el sistema ofrece mecanismos de automatización más completos,
+como los <a href="../../../02_dev_tools/02_scripting/section_1_bash/"><em>scripts</em> de Bash</a> y los
+<a href="../../../02_dev_tools/02_scripting/section_2_makefile/">Make</a>, que permiten encadenar
+secuencias de comandos y reutilizarlas como tareas con nombre específicos.</p>
+<h2 id="gestion-de-red-y-puertos">Gestión de red y puertos<a class="headerlink" href="#gestion-de-red-y-puertos" title="Permanent link">&para;</a></h2>
+<p>En entornos de desarrollo y de administración de sistemas es habitual inspeccionar el
+estado de la red, identificar qué puertos están en uso o verificar la conectividad con
+servicios remotos. Estas tareas se apoyan en un conjunto reducido de herramientas que,
+en muchas distribuciones, no se encuentran instaladas por defecto.</p>
+<details class="example" open="open">
+<summary>Inspección de red y puertos</summary>
+<p>Instalación de las herramientas necesarias:</p>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-10-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1"></a>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>net-tools<span class="w"> </span>telnet
+</span></code></pre></div></td></tr></table></div>
+<p>Una vez instaladas, es posible listar todos los puertos TCP activos en el sistema:</p>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-11-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1"></a>netstat<span class="w"> </span>-n<span class="w"> </span>--all<span class="w"> </span>--tcp
+</span></code></pre></div></td></tr></table></div>
+<p>Para localizar el proceso que está utilizando un puerto específico, como el 9000:</p>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-12-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1"></a>sudo<span class="w"> </span>lsof<span class="w"> </span>-i<span class="w"> </span>-P<span class="w"> </span>-n<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span><span class="m">9000</span>
+</span></code></pre></div></td></tr></table></div>
+<p>Por último, para comprobar la conectividad con un servicio concreto mediante Telnet
+se indican la dirección y el puerto de destino:</p>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-13-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1"></a>telnet<span class="w"> </span>localhost<span class="w"> </span><span class="m">5433</span>
+</span></code></pre></div></td></tr></table></div>
+</details>
+<div class="admonition note">
+<p class="admonition-title">Alternativa moderna a netstat</p>
+<p>El paquete <code>net-tools</code> se considera obsoleto en las distribuciones actuales. El
+comando <code>ss</code>, incluido en <code>iproute2</code>, ofrece la misma información de forma más
+rápida y detallada. Por ejemplo, <code>ss -tulnp</code> lista los puertos TCP y UDP en escucha
+junto con el proceso asociado a cada uno.</p>
+</div>
+<p>Con el sistema operativo cubierto, el módulo de herramientas de desarrollo continúa con
+<a href="../../../02_dev_tools/01_git/section_1_fundamentals/">Git</a> para el control de versiones,
+y con <a href="../../../02_dev_tools/02_scripting/section_1_bash/">Bash</a> y
+<a href="../../../02_dev_tools/02_scripting/section_2_makefile/">Make</a> para automatizar las
+tareas que aquí se han ejecutado de forma manual.</p>
+
+
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-circle-arrow-up" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m16 12-4-4-4 4M12 16V8"/></svg>
+  Volver al principio
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Pie" >
+        
+          
+          <a href="../../.." class="md-footer__link md-footer__link--prev" aria-label="Anterior: Inicio">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-arrow-left" viewBox="0 0 24 24"><path d="m12 19-7-7 7-7M19 12H5"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Anterior
+              </span>
+              <div class="md-ellipsis">
+                Inicio
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../../../02_dev_tools/01_git/section_1_fundamentals/" class="md-footer__link md-footer__link--next" aria-label="Siguiente: Fundamentos y comandos">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Siguiente
+              </span>
+              <div class="md-ellipsis">
+                Fundamentos y comandos
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-arrow-right" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2026 Daniel Bazo Correa
+    </div>
+  
+  
+    Made with
+    <a href="https://zensical.org/" target="_blank" rel="noopener">
+      Zensical
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://www.linkedin.com/in/daniel-bazo-correa/" target="_blank" rel="noopener" title="www.linkedin.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.3.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2026 Fonticons, Inc.--><path fill="currentColor" d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3M135.4 416H69V202.2h66.5V416zM102.2 96a38.5 38.5 0 1 1 0 77 38.5 38.5 0 1 1 0-77m282.1 320h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9z"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog" role="status" aria-atomic="true">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      
+      
+        
+        
+      <script id="__config" type="application/json">{"annotate":null,"base":"../../..","features":["announce.dismiss","content.code.annotate","content.code.copy","content.code.select","content.footnote.tooltips","content.tabs.link","content.tooltips","navigation.footer","navigation.indexes","navigation.instant","navigation.instant.prefetch","navigation.sections","navigation.tabs","navigation.top","navigation.tracking","search.highlight"],"redirect":null,"search":"../../../assets/javascripts/workers/search.c47bb847.min.js","tags":null,"translations":{"clipboard.copied":"Copiado al portapapeles","clipboard.copy":"Copiar al portapapeles","clipboard.error":"Could not copy to clipboard","search.result.more.one":"1 más en esta página","search.result.more.other":"# más en esta página","search.result.none":"No se encontraron documentos","search.result.one":"1 documento encontrado","search.result.other":"# documentos encontrados","search.result.placeholder":"Teclee para comenzar búsqueda","search.result.term.missing":"Falta","select.version":"Seleccionar versión"},"version":{"default":"latest","provider":"mike"}}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.a2388154.min.js"></script>
+      
+        <script src="../../../assets/javascripts/mathjax.js"></script>
+      
+        <script src="https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>

@@ -1,0 +1,3369 @@
+
+<!doctype html>
+<html lang="es" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Modelo cliente-servidor, protocolo HTTP, HTML, CSS, el DOM, accesibilidad y diseño responsive con Bootstrap.">
+      
+      
+        <meta name="author" content="Daniel Bazo Correa">
+      
+      
+        <link rel="canonical" href="https://gitdbc.github.io/ml-engineering-wiki/v0.1.0/03_programming/04_web/section_1_fundamentals/">
+      
+      
+      
+        <link rel="prev" href="../../03_cuda/section_3_cuda_python/">
+      
+      
+        <link rel="next" href="../../../08_career/cv_guide/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../assets/img/branding/logo.ico">
+      <meta name="generator" content="zensical-0.0.71">
+    
+    
+      
+        <title>Fundamentos - Daniel Bazo Correa</title>
+      
+    
+    
+      
+        
+      
+      <link rel="stylesheet" href="../../../assets/stylesheets/modern/main.e442bf79.min.css">
+      
+        
+          
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/modern/palette.b60ce83d.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,300i,400,400i,500,500i,700,700i%7CJetBrains+Mono:400,400i,700,700i&amp;display=fallback">
+        <style>:root{--md-text-font:"Inter";--md-code-font:"JetBrains Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_scope.pathname.endsWith("/")||(__md_scope=new URL(__md_scope.pathname+"/",location)),__md_hash=e=>[...e].reduce(((e,t)=>(e<<5)-e+t.charCodeAt(0)),0),__md_get=(e,t=localStorage,_=__md_scope)=>JSON.parse(t.getItem(_.pathname+"."+e)),__md_set=(e,t,_=localStorage,a=__md_scope)=>{try{_.setItem(a.pathname+"."+e,JSON.stringify(t))}catch(e){}},document.documentElement.setAttribute("data-platform",navigator.platform)</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="orange">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer" aria-hidden="true"></label>
+    <div data-md-component="skip">
+      <a href="#__skip" class="md-skip">
+        Saltar a contenido
+      </a>
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <div data-md-color-scheme="default" data-md-component="outdated" hidden>
+        
+      </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabecera">
+    <a href="https://www.linkedin.com/in/daniel-bazo-correa/" title="Daniel Bazo Correa" class="md-header__button md-logo" aria-label="Daniel Bazo Correa" data-md-component="logo">
+      
+  <img src="../../../assets/img/branding/white_logo.svg" alt="Daniel Bazo Correa">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer" aria-label="Navegación">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-menu" viewBox="0 0 24 24"><path d="M4 5h16M4 12h16M4 19h16"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Daniel Bazo Correa
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Fundamentos
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="orange"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="orange"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-moon" viewBox="0 0 24 24"><path d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search" aria-label="Buscar">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-search" viewBox="0 0 24 24"><path d="m21 21-4.34-4.34"/><circle cx="11" cy="11" r="8"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog" aria-label="Buscar">
+  <button type="button" class="md-search__button">
+    Buscar
+  </button>
+</div>
+      
+    
+    <div class="md-header__source">
+      
+        <a href="https://github.com/GITDBC/ml-engineering-wiki" title="Ir al repositorio" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.3.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2026 Fonticons, Inc.--><path fill="currentColor" d="M216.5 362.5c-66-8-112.5-55.5-112.5-117 0-25 9-52 24-70-6.5-16.5-5.5-51.5 2-66 20-2.5 47 8 63 22.5 19-6 39-9 63.5-9s44.5 3 62.5 8.5c15.5-14 43-24.5 63-22 7 13.5 8 48.5 1.5 65.5 16 19 24.5 44.5 24.5 70.5 0 61.5-46.5 108-113.5 116.5 17 11 28.5 35 28.5 62.5v52c0 15 12.5 23.5 27.5 17.5C441 459.5 512 369 512 257 512 115.5 397 0 255.5 0S0 115.5 0 257c0 111 70.5 203 165.5 237.5 13.5 5 26.5-4 26.5-17.5v-40c-7 3-16 5-24 5-33 0-52.5-18-66.5-51.5-5.5-13.5-11.5-21.5-23-23-6-.5-8-3-8-6 0-6 10-10.5 20-10.5 14.5 0 27 9 40 27.5 10 14.5 20.5 21 33 21s20.5-4.5 32-16c8.5-8.5 15-16 21-21"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GITDBC/ml-engineering-wiki
+  </div>
+</a>
+      
+    </div>
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Pestañas" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../.." class="md-tabs__link">
+        
+  
+  Inicio
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+      
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+  
+  
+  
+  
+    
+      
+      
+        
+      
+    
+    
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../01_operative_systems/01_linux/section_1_fundamentals/" class="md-tabs__link">
+          
+  
+  Sistemas y herramientas
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+      
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+  
+  
+  
+    
+  
+  
+    
+      
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../01_python/section_1_environments/" class="md-tabs__link">
+          
+  
+  Programación
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+      
+      
+        
+      
+    
+    
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../08_career/cv_guide/" class="md-tabs__link">
+          
+  
+  Carrera profesional
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navegación" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="https://www.linkedin.com/in/daniel-bazo-correa/" title="Daniel Bazo Correa" class="md-nav__button md-logo" aria-label="Daniel Bazo Correa" data-md-component="logo">
+      
+  <img src="../../../assets/img/branding/white_logo.svg" alt="Daniel Bazo Correa">
+
+    </a>
+    Daniel Bazo Correa
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/GITDBC/ml-engineering-wiki" title="Ir al repositorio" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.3.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2026 Fonticons, Inc.--><path fill="currentColor" d="M216.5 362.5c-66-8-112.5-55.5-112.5-117 0-25 9-52 24-70-6.5-16.5-5.5-51.5 2-66 20-2.5 47 8 63 22.5 19-6 39-9 63.5-9s44.5 3 62.5 8.5c15.5-14 43-24.5 63-22 7 13.5 8 48.5 1.5 65.5 16 19 24.5 44.5 24.5 70.5 0 61.5-46.5 108-113.5 116.5 17 11 28.5 35 28.5 62.5v52c0 15 12.5 23.5 27.5 17.5C441 459.5 512 369 512 257 512 115.5 397 0 255.5 0S0 115.5 0 257c0 111 70.5 203 165.5 237.5 13.5 5 26.5-4 26.5-17.5v-40c-7 3-16 5-24 5-33 0-52.5-18-66.5-51.5-5.5-13.5-11.5-21.5-23-23-6-.5-8-3-8-6 0-6 10-10.5 20-10.5 14.5 0 27 9 40 27.5 10 14.5 20.5 21 33 21s20.5-4.5 32-16c8.5-8.5 15-16 21-21"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GITDBC/ml-engineering-wiki
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-house" viewBox="0 0 24 24"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+  
+  <span class="md-ellipsis">
+    
+  
+  Inicio
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Sistemas y herramientas
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        
+          <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+            <label class="md-nav__title" for="__nav_2">
+              <span class="md-nav__icon md-icon"></span>
+              
+  
+  Sistemas y herramientas
+
+            </label>
+            <ul class="md-nav__list" data-md-scrollfix>
+              
+                
+                  
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_1" id="__nav_2_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Linux
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        
+          <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_1_label" aria-expanded="false">
+            <label class="md-nav__title" for="__nav_2_1">
+              <span class="md-nav__icon md-icon"></span>
+              
+  
+  Linux
+
+            </label>
+            <ul class="md-nav__list" data-md-scrollfix>
+              
+                
+                  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../01_operative_systems/01_linux/section_1_fundamentals/" class="md-nav__link">
+        
+  
+  
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-book-open" viewBox="0 0 24 24"><path d="M12 5v16M20.001 19A2 2 0 0 0 22 17V5a2 2 0 0 0-1.999-2L16 3.002A5 5 0 0 0 12 5a5 5 0 0 0-4-2H4a2 2 0 0 0-2 2v12a2 2 0 0 0 1.999 2H8a5 5 0 0 1 4 2 5 5 0 0 1 4-2z"/></svg>
+  
+  <span class="md-ellipsis">
+    
+  
+  Fundamentos
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+                
+              
+            </ul>
+          </nav>
+        
+      
+    </li>
+  
+
+                
+              
+                
+                  
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_2" id="__nav_2_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Git
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        
+          <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="false">
+            <label class="md-nav__title" for="__nav_2_2">
+              <span class="md-nav__icon md-icon"></span>
+              
+  
+  Git
+
+            </label>
+            <ul class="md-nav__list" data-md-scrollfix>
+              
+                
+                  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../02_dev_tools/01_git/section_1_fundamentals/" class="md-nav__link">
+        
+  
+  
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-book-open" viewBox="0 0 24 24"><path d="M12 5v16M20.001 19A2 2 0 0 0 22 17V5a2 2 0 0 0-1.999-2L16 3.002A5 5 0 0 0 12 5a5 5 0 0 0-4-2H4a2 2 0 0 0-2 2v12a2 2 0 0 0 1.999 2H8a5 5 0 0 1 4 2 5 5 0 0 1 4-2z"/></svg>
+  
+  <span class="md-ellipsis">
+    
+  
+  Fundamentos y comandos
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+                
+              
+                
+                  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../02_dev_tools/01_git/section_2_practical_cases/" class="md-nav__link">
+        
+  
+  
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-git-pull-request" viewBox="0 0 24 24"><circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M13 6h3a2 2 0 0 1 2 2v7M6 9v12"/></svg>
+  
+  <span class="md-ellipsis">
+    
+  
+  Hooks y casos prácticos
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+                
+              
+            </ul>
+          </nav>
+        
+      
+    </li>
+  
+
+                
+              
+                
+                  
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_3" id="__nav_2_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Scripting
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        
+          <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_3_label" aria-expanded="false">
+            <label class="md-nav__title" for="__nav_2_3">
+              <span class="md-nav__icon md-icon"></span>
+              
+  
+  Scripting
+
+            </label>
+            <ul class="md-nav__list" data-md-scrollfix>
+              
+                
+                  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../02_dev_tools/02_scripting/section_1_bash/" class="md-nav__link">
+        
+  
+  
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-square-terminal" viewBox="0 0 24 24"><path d="m7 11 2-2-2-2M11 13h4"/><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/></svg>
+  
+  <span class="md-ellipsis">
+    
+  
+  Bash
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+                
+              
+                
+                  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../02_dev_tools/02_scripting/section_2_makefile/" class="md-nav__link">
+        
+  
+  
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-hammer" viewBox="0 0 24 24"><path d="m15 12-9.373 9.373a1 1 0 0 1-3.001-3L12 9M18 15l4-4"/><path d="m21.5 11.5-1.914-1.914A2 2 0 0 1 19 8.172v-.344a2 2 0 0 0-.586-1.414l-1.657-1.657A6 6 0 0 0 12.516 3H9l1.243 1.243A6 6 0 0 1 12 8.485V10l2 2h1.172a2 2 0 0 1 1.414.586L18.5 14.5"/></svg>
+  
+  <span class="md-ellipsis">
+    
+  
+  Makefile
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+                
+              
+            </ul>
+          </nav>
+        
+      
+    </li>
+  
+
+                
+              
+            </ul>
+          </nav>
+        
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Programación
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        
+          <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+            <label class="md-nav__title" for="__nav_3">
+              <span class="md-nav__icon md-icon"></span>
+              
+  
+  Programación
+
+            </label>
+            <ul class="md-nav__list" data-md-scrollfix>
+              
+                
+                  
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_1" id="__nav_3_1_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Python
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        
+          <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_1_label" aria-expanded="false">
+            <label class="md-nav__title" for="__nav_3_1">
+              <span class="md-nav__icon md-icon"></span>
+              
+  
+  Python
+
+            </label>
+            <ul class="md-nav__list" data-md-scrollfix>
+              
+                
+                  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../01_python/section_1_environments/" class="md-nav__link">
+        
+  
+  
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-package" viewBox="0 0 24 24"><path d="M11 21.73a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73zM12 22V12"/><path d="M3.29 7 12 12l8.71-5M7.5 4.27l9 5.15"/></svg>
+  
+  <span class="md-ellipsis">
+    
+  
+  Entornos virtuales
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+                
+              
+                
+                  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../01_python/section_2_fundamentals/" class="md-nav__link">
+        
+  
+  
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-book-open" viewBox="0 0 24 24"><path d="M12 5v16M20.001 19A2 2 0 0 0 22 17V5a2 2 0 0 0-1.999-2L16 3.002A5 5 0 0 0 12 5a5 5 0 0 0-4-2H4a2 2 0 0 0-2 2v12a2 2 0 0 0 1.999 2H8a5 5 0 0 1 4 2 5 5 0 0 1 4-2z"/></svg>
+  
+  <span class="md-ellipsis">
+    
+  
+  Fundamentos
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+                
+              
+                
+                  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../01_python/section_3_libraries/" class="md-nav__link">
+        
+  
+  
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-library" viewBox="0 0 24 24"><path d="m16 6 4 14M12 6v14M8 8v12M4 4v16"/></svg>
+  
+  <span class="md-ellipsis">
+    
+  
+  Librerías
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+                
+              
+            </ul>
+          </nav>
+        
+      
+    </li>
+  
+
+                
+              
+                
+                  
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Rust
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        
+          <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="false">
+            <label class="md-nav__title" for="__nav_3_2">
+              <span class="md-nav__icon md-icon"></span>
+              
+  
+  Rust
+
+            </label>
+            <ul class="md-nav__list" data-md-scrollfix>
+              
+                
+                  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../02_rust/section_1_fundamentals/" class="md-nav__link">
+        
+  
+  
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-book-open" viewBox="0 0 24 24"><path d="M12 5v16M20.001 19A2 2 0 0 0 22 17V5a2 2 0 0 0-1.999-2L16 3.002A5 5 0 0 0 12 5a5 5 0 0 0-4-2H4a2 2 0 0 0-2 2v12a2 2 0 0 0 1.999 2H8a5 5 0 0 1 4 2 5 5 0 0 1 4-2z"/></svg>
+  
+  <span class="md-ellipsis">
+    
+  
+  Fundamentos
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+                
+              
+                
+                  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../02_rust/section_2_libraries/" class="md-nav__link">
+        
+  
+  
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-library" viewBox="0 0 24 24"><path d="m16 6 4 14M12 6v14M8 8v12M4 4v16"/></svg>
+  
+  <span class="md-ellipsis">
+    
+  
+  Librerías
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+                
+              
+            </ul>
+          </nav>
+        
+      
+    </li>
+  
+
+                
+              
+                
+                  
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_3" id="__nav_3_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  CUDA
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        
+          <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="false">
+            <label class="md-nav__title" for="__nav_3_3">
+              <span class="md-nav__icon md-icon"></span>
+              
+  
+  CUDA
+
+            </label>
+            <ul class="md-nav__list" data-md-scrollfix>
+              
+                
+                  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../03_cuda/section_1_fundamentals/" class="md-nav__link">
+        
+  
+  
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-book-open" viewBox="0 0 24 24"><path d="M12 5v16M20.001 19A2 2 0 0 0 22 17V5a2 2 0 0 0-1.999-2L16 3.002A5 5 0 0 0 12 5a5 5 0 0 0-4-2H4a2 2 0 0 0-2 2v12a2 2 0 0 0 1.999 2H8a5 5 0 0 1 4 2 5 5 0 0 1 4-2z"/></svg>
+  
+  <span class="md-ellipsis">
+    
+  
+  Fundamentos
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+                
+              
+                
+                  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../03_cuda/section_2_cuda_c/" class="md-nav__link">
+        
+  
+  
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-file-code" viewBox="0 0 24 24"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z"/><path d="M14 2v5a1 1 0 0 0 1 1h5M10 12.5 8 15l2 2.5M14 12.5l2 2.5-2 2.5"/></svg>
+  
+  <span class="md-ellipsis">
+    
+  
+  CUDA en C
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+                
+              
+                
+                  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../03_cuda/section_3_cuda_python/" class="md-nav__link">
+        
+  
+  
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-microchip" viewBox="0 0 24 24"><path d="M10 12h4M10 17h4M10 7h4M18 12h2M18 18h2M18 6h2M4 12h2M4 18h2M4 6h2"/><rect width="12" height="20" x="6" y="2" rx="2"/></svg>
+  
+  <span class="md-ellipsis">
+    
+  
+  CUDA en Python
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+                
+              
+            </ul>
+          </nav>
+        
+      
+    </li>
+  
+
+                
+              
+                
+                  
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3_4" id="__nav_3_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Desarrollo web
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        
+          <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_4_label" aria-expanded="true">
+            <label class="md-nav__title" for="__nav_3_4">
+              <span class="md-nav__icon md-icon"></span>
+              
+  
+  Desarrollo web
+
+            </label>
+            <ul class="md-nav__list" data-md-scrollfix>
+              
+                
+                  
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-book-open" viewBox="0 0 24 24"><path d="M12 5v16M20.001 19A2 2 0 0 0 22 17V5a2 2 0 0 0-1.999-2L16 3.002A5 5 0 0 0 12 5a5 5 0 0 0-4-2H4a2 2 0 0 0-2 2v12a2 2 0 0 0 1.999 2H8a5 5 0 0 1 4 2 5 5 0 0 1 4-2z"/></svg>
+  
+  <span class="md-ellipsis">
+    
+  
+  Fundamentos
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="././" class="md-nav__link md-nav__link--active">
+        
+  
+  
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-book-open" viewBox="0 0 24 24"><path d="M12 5v16M20.001 19A2 2 0 0 0 22 17V5a2 2 0 0 0-1.999-2L16 3.002A5 5 0 0 0 12 5a5 5 0 0 0-4-2H4a2 2 0 0 0-2 2v12a2 2 0 0 0 1.999 2H8a5 5 0 0 1 4 2 5 5 0 0 1 4-2z"/></svg>
+  
+  <span class="md-ellipsis">
+    
+  
+  Fundamentos
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#bibliografia" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Bibliografía
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#introduccion" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Introducción
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#modelo-cliente-servidor" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Modelo cliente-servidor
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tipos-de-recursos-y-contenido" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Tipos de recursos y contenido
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#hosting" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        <em>Hosting</em>
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bibliotecas-frameworks-y-apis" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Bibliotecas, <em>frameworks</em> y APIs
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#html" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        HTML
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="HTML">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#estructura-de-un-documento" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Estructura de un documento
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#etiquetas-basicas" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Etiquetas básicas
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#navegacion-listas-e-imagenes" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Navegación, listas e imágenes
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#formularios" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Formularios
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#el-dom" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        El DOM
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#accesibilidad" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Accesibilidad
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#css" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        CSS
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="CSS">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#selectores" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Selectores
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#modelo-de-caja" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Modelo de caja
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#elementos-de-bloque-y-de-linea" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Elementos de bloque y de línea
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#diseno-responsive" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Diseño <em>responsive</em>
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Diseño responsive">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#bootstrap" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Bootstrap
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+                
+              
+            </ul>
+          </nav>
+        
+      
+    </li>
+  
+
+                
+              
+            </ul>
+          </nav>
+        
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Carrera profesional
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        
+          <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+            <label class="md-nav__title" for="__nav_4">
+              <span class="md-nav__icon md-icon"></span>
+              
+  
+  Carrera profesional
+
+            </label>
+            <ul class="md-nav__list" data-md-scrollfix>
+              
+                
+                  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../08_career/cv_guide/" class="md-nav__link">
+        
+  
+  
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-briefcase" viewBox="0 0 24 24"><path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/><rect width="20" height="14" x="2" y="6" rx="2"/></svg>
+  
+  <span class="md-ellipsis">
+    
+  
+  Estrategias de empleo
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+                
+              
+            </ul>
+          </nav>
+        
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  
+                    
+                    
+                    
+                    
+                      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+                      <div class="md-sidebar-button__wrapper">
+                        <label class="md-sidebar-button" for="__toc"></label>
+                      </div>
+                    
+                  
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#bibliografia" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Bibliografía
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#introduccion" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Introducción
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#modelo-cliente-servidor" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Modelo cliente-servidor
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tipos-de-recursos-y-contenido" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Tipos de recursos y contenido
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#hosting" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        <em>Hosting</em>
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bibliotecas-frameworks-y-apis" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Bibliotecas, <em>frameworks</em> y APIs
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#html" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        HTML
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="HTML">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#estructura-de-un-documento" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Estructura de un documento
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#etiquetas-basicas" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Etiquetas básicas
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#navegacion-listas-e-imagenes" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Navegación, listas e imágenes
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#formularios" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Formularios
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#el-dom" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        El DOM
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#accesibilidad" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Accesibilidad
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#css" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        CSS
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="CSS">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#selectores" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Selectores
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#modelo-de-caja" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Modelo de caja
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#elementos-de-bloque-y-de-linea" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Elementos de bloque y de línea
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#diseno-responsive" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Diseño <em>responsive</em>
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Diseño responsive">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#bootstrap" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Bootstrap
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                <a id="__skip" tabindex="-1"></a>
+                
+                  
+
+  
+  
+
+
+  <h1>Fundamentos</h1>
+
+<p>Este capítulo presenta los fundamentos del desarrollo web, comenzando por el modelo
+cliente-servidor y el protocolo que rige la comunicación entre ambas partes. A partir de
+esa base se abordan las dos tecnologías que dan forma a las páginas web, es decir, HTML
+para la estructura del contenido y CSS para su presentación visual, junto con el papel
+que JavaScript desempeña en la interacción con el usuario. El recorrido pasa por las
+modalidades de alojamiento disponibles y por la distinción entre bibliotecas,
+<em>frameworks</em> y APIs, continúa con la representación interna del documento en el
+navegador, conocida como DOM, y concluye con las técnicas de diseño adaptativo y su
+implementación mediante el <em>framework</em> Bootstrap.</p>
+<h2 id="bibliografia">Bibliografía<a class="headerlink" href="#bibliografia" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Mozilla. (s.f.). <em>MDN Web Docs</em>. <a href="https://developer.mozilla.org/es/">https://developer.mozilla.org/es/</a></li>
+<li>Meta. (s.f.). <em>Introduction to Front-End Development</em> [Curso]. Coursera.
+  <a href="https://www.coursera.org/learn/introduction-to-front-end-development">https://www.coursera.org/learn/introduction-to-front-end-development</a></li>
+</ul>
+<h2 id="introduccion">Introducción<a class="headerlink" href="#introduccion" title="Permanent link">&para;</a></h2>
+<p>El desarrollo web se articula en torno a tres tecnologías fundamentales que operan de
+forma conjunta y complementaria dentro del navegador.</p>
+<p><strong>HTML</strong> (<em>HyperText Markup Language</em>) define la estructura y disposición de los
+elementos de la página, tales como títulos, botones, formularios o párrafos. El término
+<em>hypertext</em> hace referencia a texto que contiene enlaces a otros textos, lo que
+constituye la base de la navegación web. HTML se especifica actualmente como un estándar
+en evolución continua (<em>living standard</em>) mantenido por el WHATWG (<em>Web Hypertext
+Application Technology Working Group</em>) en colaboración con el <strong>W3C</strong> (<em>World Wide Web
+Consortium</em>), organismo que coordina buena parte de las tecnologías y recomendaciones de
+la web.</p>
+<p><strong>CSS</strong> (<em>Cascading Style Sheets</em>) se encarga del estilo visual de esos elementos y
+controla colores, tipografías, márgenes y disposición espacial. Su nombre alude al
+mecanismo de cascada, según el cual las reglas de estilo se combinan y resuelven en
+función de su origen y de su especificidad.</p>
+<p><strong>JavaScript</strong> gestiona la interacción con el usuario y abarca desde el procesamiento de
+entradas hasta la comunicación con interfaces de programación externas o la
+actualización dinámica del contenido sin necesidad de recargar la página.</p>
+<p>A estas tres tecnologías se las denomina colectivamente <strong><em>front end</em></strong>, es decir, la
+parte de la aplicación que el usuario ve y con la que interactúa directamente. En
+contraposición, el <strong><em>back end</em></strong> se ocupa de la lógica del servidor, la gestión de
+bases de datos, la autenticación y la exposición de APIs.</p>
+<h2 id="modelo-cliente-servidor">Modelo cliente-servidor<a class="headerlink" href="#modelo-cliente-servidor" title="Permanent link">&para;</a></h2>
+<p>La web se sustenta en el modelo <strong>cliente-servidor</strong>. En este esquema, múltiples
+clientes, entre ellos ordenadores y dispositivos móviles, se comunican a través de
+Internet con un servidor centralizado, habitualmente alojado en un centro de datos. El
+flujo de comunicación sigue un patrón definido: el cliente realiza una petición
+(<em>request</em>) al servidor. Este la procesa y devuelve una respuesta (<em>response</em>) que el
+cliente recibe y presenta al usuario.</p>
+<p>Este intercambio se rige por el protocolo <strong>HTTP</strong> (<em>HyperText Transfer Protocol</em>), que
+define cómo se estructuran y transmiten los mensajes entre ambas partes. Para
+comunicaciones seguras se utiliza <strong>HTTPS</strong>, que transporta los mismos mensajes de HTTP
+sobre una capa de cifrado, de modo que un tercero que intercepte el tráfico no pueda
+interpretarlo ni alterarlo.</p>
+<p>Una petición HTTP se compone de una línea inicial que identifica el método y el recurso
+solicitado, de un conjunto de cabeceras (<em>headers</em>) que aportan información adicional y,
+de forma opcional, de un cuerpo con los datos que se envían al servidor. Los métodos de
+consulta habitualmente carecen de cuerpo, mientras que los de escritura lo utilizan para
+transportar la información.</p>
+<details class="example" open="open">
+<summary>Petición HTTP</summary>
+<p>La petición solicita el recurso raíz del servidor indicado en la cabecera <code>Host</code>.</p>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1">1</a></span>
+<span class="normal"><a href="#__codelineno-0-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1"></a>GET<span class="w"> </span>/<span class="w"> </span>HTTP/1.1
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2"></a>Host:<span class="w"> </span>ejemplo.com
+</span></code></pre></div></td></tr></table></div>
+<p>En esta petición, <code>GET</code> es el método utilizado, <code>/</code> es la ruta del recurso
+solicitado, <code>HTTP/1.1</code> indica la versión del protocolo y <code>Host</code> es una cabecera que
+especifica el servidor de destino. Al tratarse de una consulta, la petición no
+incluye cuerpo.</p>
+</details>
+<p>El método indica la naturaleza de la operación que se desea realizar sobre el recurso.
+Los métodos más habituales son los siguientes:</p>
+<table>
+<thead>
+<tr>
+<th>Método</th>
+<th>Descripción</th>
+<th>Ejemplo de uso</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>GET</code></td>
+<td>Obtiene la representación de un recurso sin modificarlo.</td>
+<td>Cargar una página web.</td>
+</tr>
+<tr>
+<td><code>POST</code></td>
+<td>Envía datos al servidor para que los procese según su criterio.</td>
+<td>Enviar un formulario.</td>
+</tr>
+<tr>
+<td><code>PUT</code></td>
+<td>Reemplaza por completo la representación del recurso indicado.</td>
+<td>Sustituir un perfil.</td>
+</tr>
+<tr>
+<td><code>PATCH</code></td>
+<td>Aplica una modificación parcial sobre un recurso existente.</td>
+<td>Cambiar solo el correo.</td>
+</tr>
+<tr>
+<td><code>DELETE</code></td>
+<td>Elimina el recurso indicado.</td>
+<td>Borrar una publicación.</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="admonition-title">Métodos seguros e idempotentes</p>
+<p>Un método es <strong>seguro</strong> cuando no altera el estado del servidor, condición que
+cumple <code>GET</code>. Un método es <strong>idempotente</strong> cuando repetir la misma petición produce
+el mismo estado final que ejecutarla una sola vez, propiedad que cumplen <code>GET</code>,
+<code>PUT</code> y <code>DELETE</code>.</p>
+<p><code>POST</code> y <code>PATCH</code> no son idempotentes, de modo que reintentar una petición fallida
+puede provocar efectos duplicados. Esta distinción importa al diseñar clientes que
+reintentan de forma automática y al decidir qué respuestas pueden almacenarse para
+reutilizarlas.</p>
+<p>Conviene además no confundir <code>PUT</code> con <code>PATCH</code>. <code>PUT</code> sustituye la representación
+completa, por lo que los campos que se omiten se pierden, y puede crear el recurso
+si no existía. <code>PATCH</code> describe únicamente los cambios que deben aplicarse.</p>
+</div>
+<p>Las respuestas del servidor incluyen un <strong>código de estado</strong> que indica el resultado de
+la petición. Estos códigos se agrupan por rangos según su significado:</p>
+<table>
+<thead>
+<tr>
+<th>Rango</th>
+<th>Categoría</th>
+<th>Ejemplo representativo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1xx</td>
+<td>Respuesta informativa</td>
+<td><code>100 Continue</code></td>
+</tr>
+<tr>
+<td>2xx</td>
+<td>Éxito</td>
+<td><code>200 OK</code></td>
+</tr>
+<tr>
+<td>3xx</td>
+<td>Redirección</td>
+<td><code>301 Moved Permanently</code></td>
+</tr>
+<tr>
+<td>4xx</td>
+<td>Error del cliente</td>
+<td><code>404 Not Found</code></td>
+</tr>
+<tr>
+<td>5xx</td>
+<td>Error del servidor</td>
+<td><code>500 Internal Server Error</code></td>
+</tr>
+</tbody>
+</table>
+<p>Cuando el navegador recibe la respuesta, comienza a analizar el HTML de forma
+incremental, sin esperar a disponer del documento completo. El analizador va
+construyendo el árbol de elementos a medida que reconoce las etiquetas, y en paralelo
+procesa las hojas de estilo para construir el modelo de estilos. Solo cuando ambos están
+disponibles puede pintar el contenido en pantalla, proceso que se conoce como <strong><em>page
+rendering</em></strong>.</p>
+<p>Este comportamiento explica por qué el orden en que se declaran los recursos influye en
+la velocidad percibida. Una hoja de estilos bloquea el pintado hasta que se descarga, y
+un <em>script</em> declarado sin los atributos <code>defer</code> o <code>async</code> detiene el análisis del
+documento mientras se descarga y se ejecuta, de modo que retrasa la aparición de todo el
+contenido que va detrás.</p>
+<h2 id="tipos-de-recursos-y-contenido">Tipos de recursos y contenido<a class="headerlink" href="#tipos-de-recursos-y-contenido" title="Permanent link">&para;</a></h2>
+<p>Dentro del ecosistema web conviene distinguir entre distintos tipos de recursos. Una
+<strong><em>webpage</em></strong> es una única página web. Un <strong><em>website</em></strong> es un conjunto de <em>webpages</em>
+interrelacionadas que comparten un mismo dominio y una misma identidad. Una <strong>aplicación
+web</strong>, como Spotify o Gmail, ofrece una experiencia dinámica e interactiva, con
+contenido que se genera y actualiza en tiempo real en función de las acciones del
+usuario.</p>
+<p>En cuanto al contenido, existe una distinción importante entre páginas <strong>estáticas</strong> y
+<strong>dinámicas</strong>. En las páginas estáticas el contenido permanece invariable y se sirve tal
+cual está almacenado en el servidor, lo que simplifica el despliegue y reduce el coste
+de mantenimiento. En las páginas dinámicas el contenido se genera en el momento de la
+petición y se envía al navegador adaptado al contexto, por ejemplo al usuario
+autenticado o al idioma solicitado.</p>
+<p>Para reducir el número de peticiones y mejorar el rendimiento se recurre a la <strong>caché</strong>,
+un mecanismo que almacena temporalmente recursos ya descargados para evitar solicitarlos
+de nuevo. Esta estrategia disminuye la latencia percibida y la carga sobre el servidor,
+a cambio de introducir la necesidad de invalidar los recursos cuando su contenido
+cambia.</p>
+<h2 id="hosting"><em>Hosting</em><a class="headerlink" href="#hosting" title="Permanent link">&para;</a></h2>
+<p>El <strong><em>hosting</em></strong> es el servicio que permite alojar una aplicación o sitio web en un
+servidor accesible a través de Internet. Existen varias modalidades, cuya elección
+depende del volumen de tráfico previsto, del presupuesto y de los requisitos de control
+sobre la infraestructura.</p>
+<p>El <strong><em>hosting</em> compartido</strong> distribuye los recursos de un mismo servidor físico entre
+múltiples clientes, de modo que varias webs comparten CPU, memoria y almacenamiento. Su
+principal ventaja es el bajo coste, lo que lo hace adecuado para proyectos pequeños o en
+fase de desarrollo con poca demanda de tráfico. Su inconveniente es que el consumo de un
+vecino puede degradar el rendimiento del resto.</p>
+<p>El <strong>servidor virtual privado</strong> (<em>Virtual Private Server</em>, VPS) asigna a cada cliente
+una máquina virtual con recursos garantizados y acceso administrativo completo.
+Constituye el punto intermedio habitual, ya que ofrece control sobre la configuración
+del sistema a un coste muy inferior al de un servidor físico propio.</p>
+<p>El <strong><em>hosting</em> dedicado</strong> reserva los recursos de un servidor físico en exclusiva para
+un único cliente. Ofrece el máximo rendimiento y control, aunque a un coste notablemente
+superior. Es la opción habitual para aplicaciones con alta demanda o requisitos
+estrictos de aislamiento.</p>
+<p>El <strong><em>hosting</em> en la nube</strong> reparte la aplicación entre recursos virtualizados que
+pueden crecer o reducirse según la demanda, y se factura por consumo. Dentro de esta
+categoría merecen mención aparte las plataformas orientadas a contenido estático y a
+funciones sin servidor, como GitHub Pages, Netlify, Vercel o Cloudflare Pages, que
+resultan la opción más sencilla y económica para un sitio sin lógica de servidor.</p>
+<table>
+<thead>
+<tr>
+<th>Característica</th>
+<th>Compartido</th>
+<th>VPS</th>
+<th>Dedicado</th>
+<th>Nube</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Recursos</td>
+<td>Compartidos entre clientes</td>
+<td>Garantizados por contrato</td>
+<td>Exclusivos de un cliente</td>
+<td>Elásticos según demanda</td>
+</tr>
+<tr>
+<td>Coste</td>
+<td>Reducido</td>
+<td>Moderado</td>
+<td>Elevado</td>
+<td>Proporcional al consumo</td>
+</tr>
+<tr>
+<td>Control</td>
+<td>Limitado por el proveedor</td>
+<td>Acceso administrativo</td>
+<td>Configuración completa</td>
+<td>Definido por el proveedor</td>
+</tr>
+<tr>
+<td>Uso típico</td>
+<td>Proyectos pequeños o en pruebas</td>
+<td>Proyectos de tamaño medio</td>
+<td>Aplicaciones de alta demanda</td>
+<td>Cargas con tráfico variable</td>
+</tr>
+</tbody>
+</table>
+<h2 id="bibliotecas-frameworks-y-apis">Bibliotecas, <em>frameworks</em> y APIs<a class="headerlink" href="#bibliotecas-frameworks-y-apis" title="Permanent link">&para;</a></h2>
+<p>En el desarrollo web es importante distinguir entre bibliotecas y <em>frameworks</em>. Una
+<strong>biblioteca</strong> es un conjunto reducido de funcionalidades que resuelve un problema
+específico, como la validación de datos, y es el código propio el que decide cuándo y
+cómo invocarla. Un <strong><em>framework</em></strong> establece una estructura de trabajo más amplia e
+invierte esa relación, ya que es el <em>framework</em> el que llama al código propio en los
+puntos que él define, e impone convenciones que condicionan la organización del
+proyecto. Ejemplos de <em>frameworks</em> orientados a la construcción de sitios y aplicaciones
+web son Astro o Docusaurus. En este mismo ecosistema se sitúa <strong>TypeScript</strong>, que, sin
+ser un <em>framework</em>, extiende JavaScript añadiendo un sistema de tipos estáticos que se
+verifica antes de la ejecución. Las bibliotecas de Node.js se gestionan mediante
+<strong>npm</strong>, su gestor de paquetes oficial.</p>
+<div class="admonition note">
+<p class="admonition-title">El nombre de npm</p>
+<p>Es frecuente leer que npm son las siglas de <em>Node Package Manager</em>. La documentación
+oficial del proyecto indica de forma explícita que el nombre no es un acrónimo y que
+se escribe siempre en minúsculas.</p>
+</div>
+<p>Una <strong>API</strong>, o interfaz de programación de aplicaciones (<em>Application Programming
+Interface</em>), es el contrato que un componente de software expone para que otros lo
+utilicen y describe las operaciones disponibles y el formato de los datos sin revelar
+los detalles de la implementación. En el contexto web resultan especialmente relevantes
+tres categorías. Las <em>Browser APIs</em> extienden las capacidades del navegador, como
+<code>Fetch</code> para realizar peticiones HTTP, <code>Canvas</code> para renderizado gráfico o la <em>History
+API</em> para gestionar el historial de navegación. Las <em>Sensor-based APIs</em> permiten
+interactuar con sensores físicos en dispositivos del internet de las cosas (<em>Internet of
+Things</em>, IoT). Por último, las APIs REST son aquellas que aplican <strong>REST</strong>
+(<em>Representational State Transfer</em>), un estilo arquitectónico basado en identificar los
+recursos mediante identificadores uniformes (<em>Uniform Resource Identifier</em>, URI), operar
+sobre ellos con un conjunto uniforme de métodos y mantener la interacción sin estado en
+el servidor.</p>
+<h2 id="html">HTML<a class="headerlink" href="#html" title="Permanent link">&para;</a></h2>
+<p>HTML estructura el contenido mediante <strong>etiquetas</strong> (<em>tags</em>) y <strong>elementos</strong>. Una
+etiqueta es la marca que se escribe en el documento y que declara un tipo de contenido o
+de comportamiento. Pueden ser de apertura y cierre, como <code>&lt;p&gt;...&lt;/p&gt;</code>, en cuyo caso
+delimitan un contenido, o autocontenidas, como <code>&lt;br /&gt;</code>, cuando no encierran nada. El
+elemento es el conjunto formado por la etiqueta de apertura, su contenido y la de
+cierre, y es lo que el navegador convierte en un nodo de la página.</p>
+<h3 id="estructura-de-un-documento">Estructura de un documento<a class="headerlink" href="#estructura-de-un-documento" title="Permanent link">&para;</a></h3>
+<p>Todo documento HTML sigue una organización común. La declaración <code>&lt;!doctype html&gt;</code> no
+identifica ninguna versión del lenguaje, ya que HTML es un estándar en evolución
+continua. Su función es activar el <strong>modo estándar</strong> del navegador, de modo que este
+aplique las reglas de maquetación actuales. Si se omite, el navegador entra en un modo
+de compatibilidad con documentos antiguos y el resultado visual puede diferir de forma
+notable.</p>
+<p>El elemento raíz <code>&lt;html&gt;</code> contiene dos bloques diferenciados. El primero, <code>&lt;head&gt;</code>,
+alberga metadatos que no se muestran directamente en la página, como el título de la
+pestaña, la codificación de caracteres o los enlaces a hojas de estilo. El segundo,
+<code>&lt;body&gt;</code>, agrupa el contenido visible.</p>
+<details class="example" open="open">
+<summary>Esqueleto de un documento HTML</summary>
+<p>El documento declara su codificación y su idioma, y separa los metadatos del
+contenido visible.</p>
+<div class="language-html highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-1-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-1-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-1-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-1-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-1-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-1-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-1-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-1-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-1-10">10</a></span>
+<span class="normal"><a href="#__codelineno-1-11">11</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1"></a><span class="cp">&lt;!doctype html&gt;</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2"></a><span class="p">&lt;</span><span class="nt">html</span> <span class="na">lang</span><span class="o">=</span><span class="s">&quot;es&quot;</span><span class="p">&gt;</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3"></a>  <span class="p">&lt;</span><span class="nt">head</span><span class="p">&gt;</span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4"></a>    <span class="p">&lt;</span><span class="nt">meta</span> <span class="na">charset</span><span class="o">=</span><span class="s">&quot;utf-8&quot;</span> <span class="p">/&gt;</span>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5"></a>    <span class="p">&lt;</span><span class="nt">title</span><span class="p">&gt;</span>Título de la pestaña<span class="p">&lt;/</span><span class="nt">title</span><span class="p">&gt;</span>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6"></a>  <span class="p">&lt;/</span><span class="nt">head</span><span class="p">&gt;</span>
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7"></a>  <span class="p">&lt;</span><span class="nt">body</span><span class="p">&gt;</span>
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8"></a>    <span class="p">&lt;</span><span class="nt">h1</span><span class="p">&gt;</span>Título principal<span class="p">&lt;/</span><span class="nt">h1</span><span class="p">&gt;</span>
+</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9"></a>    <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>Contenido de la página.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10"></a>  <span class="p">&lt;/</span><span class="nt">body</span><span class="p">&gt;</span>
+</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11"></a><span class="p">&lt;/</span><span class="nt">html</span><span class="p">&gt;</span>
+</span></code></pre></div></td></tr></table></div>
+<p>El atributo <code>lang</code> declara el idioma del documento, lo que resulta relevante tanto
+para los motores de búsqueda como para los lectores de pantalla, que seleccionan la
+voz y las reglas de pronunciación a partir de ese valor.</p>
+</details>
+<h3 id="etiquetas-basicas">Etiquetas básicas<a class="headerlink" href="#etiquetas-basicas" title="Permanent link">&para;</a></h3>
+<p>Las etiquetas de uso más frecuente cubren la organización del texto, la creación de
+listas, la inserción de enlaces e imágenes y la recogida de datos del usuario.</p>
+<table>
+<thead>
+<tr>
+<th>Etiqueta</th>
+<th>Descripción</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>&lt;h1&gt;</code> a <code>&lt;h6&gt;</code></td>
+<td>Definen títulos jerarquizados de mayor a menor relevancia.</td>
+</tr>
+<tr>
+<td><code>&lt;p&gt;</code></td>
+<td>Delimita un párrafo de texto.</td>
+</tr>
+<tr>
+<td><code>&lt;br /&gt;</code></td>
+<td>Introduce un salto de línea.</td>
+</tr>
+<tr>
+<td><code>&lt;strong&gt;</code> y <code>&lt;em&gt;</code></td>
+<td>Indican importancia y énfasis semántico.</td>
+</tr>
+<tr>
+<td><code>&lt;b&gt;</code> e <code>&lt;i&gt;</code></td>
+<td>Aplican negrita e itálica como estilo puramente visual.</td>
+</tr>
+<tr>
+<td><code>&lt;ul&gt;</code>, <code>&lt;ol&gt;</code> y <code>&lt;li&gt;</code></td>
+<td>Construyen listas no ordenadas, ordenadas y sus elementos.</td>
+</tr>
+<tr>
+<td><code>&lt;div&gt;</code></td>
+<td>Agrupa contenido sin aportar significado semántico.</td>
+</tr>
+<tr>
+<td><code>&lt;a&gt;</code></td>
+<td>Crea un enlace hacia otro recurso.</td>
+</tr>
+<tr>
+<td><code>&lt;img /&gt;</code></td>
+<td>Inserta una imagen.</td>
+</tr>
+<tr>
+<td><code>&lt;table&gt;</code></td>
+<td>Estructura información en filas y columnas.</td>
+</tr>
+<tr>
+<td><code>&lt;form&gt;</code> e <code>&lt;input /&gt;</code></td>
+<td>Recogen datos introducidos por el usuario.</td>
+</tr>
+</tbody>
+</table>
+<p>La distinción entre <code>&lt;strong&gt;</code> y <code>&lt;b&gt;</code>, así como entre <code>&lt;em&gt;</code> e <code>&lt;i&gt;</code>, es semántica. Las
+primeras comunican importancia o énfasis al navegador y a las tecnologías de asistencia,
+mientras que las segundas se limitan a modificar la apariencia del texto.</p>
+<p>En el caso de <code>&lt;div&gt;</code>, lo que no aporta es significado. Sí tiene presentación propia, ya
+que la hoja de estilos del navegador le asigna un comportamiento de bloque. Cuando el
+contenido que se agrupa tiene un papel reconocible en la página conviene emplear la
+etiqueta semántica correspondiente, como <code>&lt;header&gt;</code>, <code>&lt;nav&gt;</code>, <code>&lt;main&gt;</code>, <code>&lt;section&gt;</code>,
+<code>&lt;article&gt;</code> o <code>&lt;footer&gt;</code>, que transmiten esa información a los lectores de pantalla y a
+los motores de búsqueda.</p>
+<details class="example" open="open">
+<summary>Etiquetas HTML básicas</summary>
+<p>El fragmento recoge una muestra de cada categoría de etiqueta descrita en la tabla.</p>
+<div class="language-html highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-2-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-2-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-2-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-2-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-2-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-2-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-2-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-2-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-2-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-2-10">10</a></span>
+<span class="normal"><a href="#__codelineno-2-11">11</a></span>
+<span class="normal"><a href="#__codelineno-2-12">12</a></span>
+<span class="normal"><a href="#__codelineno-2-13">13</a></span>
+<span class="normal"><a href="#__codelineno-2-14">14</a></span>
+<span class="normal"><a href="#__codelineno-2-15">15</a></span>
+<span class="normal"><a href="#__codelineno-2-16">16</a></span>
+<span class="normal"><a href="#__codelineno-2-17">17</a></span>
+<span class="normal"><a href="#__codelineno-2-18">18</a></span>
+<span class="normal"><a href="#__codelineno-2-19">19</a></span>
+<span class="normal"><a href="#__codelineno-2-20">20</a></span>
+<span class="normal"><a href="#__codelineno-2-21">21</a></span>
+<span class="normal"><a href="#__codelineno-2-22">22</a></span>
+<span class="normal"><a href="#__codelineno-2-23">23</a></span>
+<span class="normal"><a href="#__codelineno-2-24">24</a></span>
+<span class="normal"><a href="#__codelineno-2-25">25</a></span>
+<span class="normal"><a href="#__codelineno-2-26">26</a></span>
+<span class="normal"><a href="#__codelineno-2-27">27</a></span>
+<span class="normal"><a href="#__codelineno-2-28">28</a></span>
+<span class="normal"><a href="#__codelineno-2-29">29</a></span>
+<span class="normal"><a href="#__codelineno-2-30">30</a></span>
+<span class="normal"><a href="#__codelineno-2-31">31</a></span>
+<span class="normal"><a href="#__codelineno-2-32">32</a></span>
+<span class="normal"><a href="#__codelineno-2-33">33</a></span>
+<span class="normal"><a href="#__codelineno-2-34">34</a></span>
+<span class="normal"><a href="#__codelineno-2-35">35</a></span>
+<span class="normal"><a href="#__codelineno-2-36">36</a></span>
+<span class="normal"><a href="#__codelineno-2-37">37</a></span>
+<span class="normal"><a href="#__codelineno-2-38">38</a></span>
+<span class="normal"><a href="#__codelineno-2-39">39</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1"></a><span class="cm">&lt;!-- Párrafo --&gt;</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2"></a><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>Texto del párrafo.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3"></a>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4"></a><span class="cm">&lt;!-- Salto de línea (no requiere etiqueta de cierre) --&gt;</span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5"></a><span class="p">&lt;</span><span class="nt">br</span> <span class="p">/&gt;</span>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6"></a>
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7"></a><span class="cm">&lt;!-- Énfasis semántico e importancia --&gt;</span>
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8"></a><span class="p">&lt;</span><span class="nt">strong</span><span class="p">&gt;</span>Texto importante<span class="p">&lt;/</span><span class="nt">strong</span><span class="p">&gt;</span>
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9"></a><span class="p">&lt;</span><span class="nt">em</span><span class="p">&gt;</span>Texto enfatizado<span class="p">&lt;/</span><span class="nt">em</span><span class="p">&gt;</span>
+</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10"></a>
+</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11"></a><span class="cm">&lt;!-- Negrita e itálica (estilo visual) --&gt;</span>
+</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12"></a><span class="p">&lt;</span><span class="nt">b</span><span class="p">&gt;</span>Negrita<span class="p">&lt;/</span><span class="nt">b</span><span class="p">&gt;</span>
+</span><span id="__span-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13"></a><span class="p">&lt;</span><span class="nt">i</span><span class="p">&gt;</span>Itálica<span class="p">&lt;/</span><span class="nt">i</span><span class="p">&gt;</span>
+</span><span id="__span-2-14"><a id="__codelineno-2-14" name="__codelineno-2-14"></a>
+</span><span id="__span-2-15"><a id="__codelineno-2-15" name="__codelineno-2-15"></a><span class="cm">&lt;!-- Lista no ordenada --&gt;</span>
+</span><span id="__span-2-16"><a id="__codelineno-2-16" name="__codelineno-2-16"></a><span class="p">&lt;</span><span class="nt">ul</span><span class="p">&gt;</span>
+</span><span id="__span-2-17"><a id="__codelineno-2-17" name="__codelineno-2-17"></a>  <span class="p">&lt;</span><span class="nt">li</span><span class="p">&gt;</span>Elemento 1<span class="p">&lt;/</span><span class="nt">li</span><span class="p">&gt;</span>
+</span><span id="__span-2-18"><a id="__codelineno-2-18" name="__codelineno-2-18"></a>  <span class="p">&lt;</span><span class="nt">li</span><span class="p">&gt;</span>Elemento 2<span class="p">&lt;/</span><span class="nt">li</span><span class="p">&gt;</span>
+</span><span id="__span-2-19"><a id="__codelineno-2-19" name="__codelineno-2-19"></a><span class="p">&lt;/</span><span class="nt">ul</span><span class="p">&gt;</span>
+</span><span id="__span-2-20"><a id="__codelineno-2-20" name="__codelineno-2-20"></a>
+</span><span id="__span-2-21"><a id="__codelineno-2-21" name="__codelineno-2-21"></a><span class="cm">&lt;!-- Lista ordenada --&gt;</span>
+</span><span id="__span-2-22"><a id="__codelineno-2-22" name="__codelineno-2-22"></a><span class="p">&lt;</span><span class="nt">ol</span><span class="p">&gt;</span>
+</span><span id="__span-2-23"><a id="__codelineno-2-23" name="__codelineno-2-23"></a>  <span class="p">&lt;</span><span class="nt">li</span><span class="p">&gt;</span>Elemento 1<span class="p">&lt;/</span><span class="nt">li</span><span class="p">&gt;</span>
+</span><span id="__span-2-24"><a id="__codelineno-2-24" name="__codelineno-2-24"></a>  <span class="p">&lt;</span><span class="nt">li</span><span class="p">&gt;</span>Elemento 2<span class="p">&lt;/</span><span class="nt">li</span><span class="p">&gt;</span>
+</span><span id="__span-2-25"><a id="__codelineno-2-25" name="__codelineno-2-25"></a><span class="p">&lt;/</span><span class="nt">ol</span><span class="p">&gt;</span>
+</span><span id="__span-2-26"><a id="__codelineno-2-26" name="__codelineno-2-26"></a>
+</span><span id="__span-2-27"><a id="__codelineno-2-27" name="__codelineno-2-27"></a><span class="cm">&lt;!-- Agrupación sin significado semántico --&gt;</span>
+</span><span id="__span-2-28"><a id="__codelineno-2-28" name="__codelineno-2-28"></a><span class="p">&lt;</span><span class="nt">div</span><span class="p">&gt;</span>
+</span><span id="__span-2-29"><a id="__codelineno-2-29" name="__codelineno-2-29"></a>  <span class="p">&lt;</span><span class="nt">h1</span><span class="p">&gt;</span>Título<span class="p">&lt;/</span><span class="nt">h1</span><span class="p">&gt;</span>
+</span><span id="__span-2-30"><a id="__codelineno-2-30" name="__codelineno-2-30"></a><span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+</span><span id="__span-2-31"><a id="__codelineno-2-31" name="__codelineno-2-31"></a>
+</span><span id="__span-2-32"><a id="__codelineno-2-32" name="__codelineno-2-32"></a><span class="cm">&lt;!-- Enlace --&gt;</span>
+</span><span id="__span-2-33"><a id="__codelineno-2-33" name="__codelineno-2-33"></a><span class="p">&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">&quot;pagina.html&quot;</span><span class="p">&gt;</span>Texto del enlace<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>
+</span><span id="__span-2-34"><a id="__codelineno-2-34" name="__codelineno-2-34"></a>
+</span><span id="__span-2-35"><a id="__codelineno-2-35" name="__codelineno-2-35"></a><span class="cm">&lt;!-- Imagen --&gt;</span>
+</span><span id="__span-2-36"><a id="__codelineno-2-36" name="__codelineno-2-36"></a><span class="p">&lt;</span><span class="nt">img</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;imagen.png&quot;</span> <span class="na">height</span><span class="o">=</span><span class="s">&quot;300&quot;</span> <span class="na">width</span><span class="o">=</span><span class="s">&quot;300&quot;</span> <span class="na">alt</span><span class="o">=</span><span class="s">&quot;Descripción de la imagen&quot;</span> <span class="p">/&gt;</span>
+</span><span id="__span-2-37"><a id="__codelineno-2-37" name="__codelineno-2-37"></a>
+</span><span id="__span-2-38"><a id="__codelineno-2-38" name="__codelineno-2-38"></a><span class="cm">&lt;!-- Campo de entrada --&gt;</span>
+</span><span id="__span-2-39"><a id="__codelineno-2-39" name="__codelineno-2-39"></a><span class="p">&lt;</span><span class="nt">input</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;text&quot;</span> <span class="na">placeholder</span><span class="o">=</span><span class="s">&quot;Escribe aquí&quot;</span> <span class="p">/&gt;</span>
+</span></code></pre></div></td></tr></table></div>
+</details>
+<h3 id="navegacion-listas-e-imagenes">Navegación, listas e imágenes<a class="headerlink" href="#navegacion-listas-e-imagenes" title="Permanent link">&para;</a></h3>
+<p>El atributo <code>href</code> de la etiqueta <code>&lt;a&gt;</code> admite rutas relativas, lo que permite enlazar
+documentos alojados en el mismo proyecto y construir así la navegación de un sitio web.
+De forma análoga, el atributo <code>src</code> de <code>&lt;img /&gt;</code> indica la ubicación del archivo de
+imagen, mientras que <code>alt</code> proporciona una descripción alternativa imprescindible para
+la accesibilidad.</p>
+<p>El siguiente ejemplo ilustra un sitio web sencillo formado por una página principal que
+combina listas anidadas con enlaces hacia otras dos páginas.</p>
+<details class="example" open="open">
+<summary>Página principal con enlaces y listas</summary>
+<p>La página anida una lista dentro de otra y enlaza dos documentos del mismo proyecto
+mediante rutas relativas.</p>
+<div class="language-html highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-3-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-3-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-3-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-3-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-3-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-3-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-3-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-3-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-3-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-3-10">10</a></span>
+<span class="normal"><a href="#__codelineno-3-11">11</a></span>
+<span class="normal"><a href="#__codelineno-3-12">12</a></span>
+<span class="normal"><a href="#__codelineno-3-13">13</a></span>
+<span class="normal"><a href="#__codelineno-3-14">14</a></span>
+<span class="normal"><a href="#__codelineno-3-15">15</a></span>
+<span class="normal"><a href="#__codelineno-3-16">16</a></span>
+<span class="normal"><a href="#__codelineno-3-17">17</a></span>
+<span class="normal"><a href="#__codelineno-3-18">18</a></span>
+<span class="normal"><a href="#__codelineno-3-19">19</a></span>
+<span class="normal"><a href="#__codelineno-3-20">20</a></span>
+<span class="normal"><a href="#__codelineno-3-21">21</a></span>
+<span class="normal"><a href="#__codelineno-3-22">22</a></span>
+<span class="normal"><a href="#__codelineno-3-23">23</a></span>
+<span class="normal"><a href="#__codelineno-3-24">24</a></span>
+<span class="normal"><a href="#__codelineno-3-25">25</a></span>
+<span class="normal"><a href="#__codelineno-3-26">26</a></span>
+<span class="normal"><a href="#__codelineno-3-27">27</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1"></a><span class="cp">&lt;!doctype html&gt;</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2"></a><span class="p">&lt;</span><span class="nt">html</span> <span class="na">lang</span><span class="o">=</span><span class="s">&quot;es&quot;</span><span class="p">&gt;</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3"></a>  <span class="p">&lt;</span><span class="nt">head</span><span class="p">&gt;</span>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4"></a>    <span class="p">&lt;</span><span class="nt">meta</span> <span class="na">charset</span><span class="o">=</span><span class="s">&quot;utf-8&quot;</span> <span class="p">/&gt;</span>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5"></a>    <span class="p">&lt;</span><span class="nt">title</span><span class="p">&gt;</span>Página principal<span class="p">&lt;/</span><span class="nt">title</span><span class="p">&gt;</span>
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6"></a>  <span class="p">&lt;/</span><span class="nt">head</span><span class="p">&gt;</span>
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7"></a>  <span class="p">&lt;</span><span class="nt">body</span><span class="p">&gt;</span>
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8"></a>    <span class="p">&lt;</span><span class="nt">h1</span><span class="p">&gt;</span>Título en H1<span class="p">&lt;/</span><span class="nt">h1</span><span class="p">&gt;</span>
+</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9"></a>    <span class="p">&lt;</span><span class="nt">h2</span><span class="p">&gt;</span>Subtítulo en H2<span class="p">&lt;/</span><span class="nt">h2</span><span class="p">&gt;</span>
+</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10"></a>    <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>Página de ejemplo para practicar la estructura de un documento HTML.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11"></a>    <span class="p">&lt;</span><span class="nt">ul</span><span class="p">&gt;</span>
+</span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12"></a>      <span class="p">&lt;</span><span class="nt">li</span><span class="p">&gt;</span>Primer elemento de la lista<span class="p">&lt;/</span><span class="nt">li</span><span class="p">&gt;</span>
+</span><span id="__span-3-13"><a id="__codelineno-3-13" name="__codelineno-3-13"></a>      <span class="p">&lt;</span><span class="nt">li</span><span class="p">&gt;</span>Segundo elemento de la lista<span class="p">&lt;/</span><span class="nt">li</span><span class="p">&gt;</span>
+</span><span id="__span-3-14"><a id="__codelineno-3-14" name="__codelineno-3-14"></a>      <span class="p">&lt;</span><span class="nt">li</span><span class="p">&gt;</span>
+</span><span id="__span-3-15"><a id="__codelineno-3-15" name="__codelineno-3-15"></a>        Tercer elemento de la lista
+</span><span id="__span-3-16"><a id="__codelineno-3-16" name="__codelineno-3-16"></a>        <span class="p">&lt;</span><span class="nt">ul</span><span class="p">&gt;</span>
+</span><span id="__span-3-17"><a id="__codelineno-3-17" name="__codelineno-3-17"></a>          <span class="p">&lt;</span><span class="nt">li</span><span class="p">&gt;</span>Elemento anidado<span class="p">&lt;/</span><span class="nt">li</span><span class="p">&gt;</span>
+</span><span id="__span-3-18"><a id="__codelineno-3-18" name="__codelineno-3-18"></a>        <span class="p">&lt;/</span><span class="nt">ul</span><span class="p">&gt;</span>
+</span><span id="__span-3-19"><a id="__codelineno-3-19" name="__codelineno-3-19"></a>      <span class="p">&lt;/</span><span class="nt">li</span><span class="p">&gt;</span>
+</span><span id="__span-3-20"><a id="__codelineno-3-20" name="__codelineno-3-20"></a>    <span class="p">&lt;/</span><span class="nt">ul</span><span class="p">&gt;</span>
+</span><span id="__span-3-21"><a id="__codelineno-3-21" name="__codelineno-3-21"></a>    <span class="p">&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">&quot;./pages/pagina_1.html&quot;</span><span class="p">&gt;</span>Ir a la página con imagen<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>
+</span><span id="__span-3-22"><a id="__codelineno-3-22" name="__codelineno-3-22"></a>    <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>
+</span><span id="__span-3-23"><a id="__codelineno-3-23" name="__codelineno-3-23"></a>      Para consultar un ejemplo de tabla,
+</span><span id="__span-3-24"><a id="__codelineno-3-24" name="__codelineno-3-24"></a>      <span class="p">&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">&quot;./pages/pagina_2.html&quot;</span><span class="p">&gt;</span>acceder a la segunda página<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>.
+</span><span id="__span-3-25"><a id="__codelineno-3-25" name="__codelineno-3-25"></a>    <span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+</span><span id="__span-3-26"><a id="__codelineno-3-26" name="__codelineno-3-26"></a>  <span class="p">&lt;/</span><span class="nt">body</span><span class="p">&gt;</span>
+</span><span id="__span-3-27"><a id="__codelineno-3-27" name="__codelineno-3-27"></a><span class="p">&lt;/</span><span class="nt">html</span><span class="p">&gt;</span>
+</span></code></pre></div></td></tr></table></div>
+</details>
+<p>La primera de las páginas enlazadas muestra el uso conjunto de imágenes, saltos de línea
+y enlaces de retorno hacia el documento de origen.</p>
+<details class="example" open="open">
+<summary>Página con imagen</summary>
+<p>La imagen se acompaña de un texto alternativo descriptivo y de un pie asociado
+mediante <code>&lt;figcaption&gt;</code>, que es el elemento previsto para ello.</p>
+<div class="language-html highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-4-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-4-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-4-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-4-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-4-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-4-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-4-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-4-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-4-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-4-10">10</a></span>
+<span class="normal"><a href="#__codelineno-4-11">11</a></span>
+<span class="normal"><a href="#__codelineno-4-12">12</a></span>
+<span class="normal"><a href="#__codelineno-4-13">13</a></span>
+<span class="normal"><a href="#__codelineno-4-14">14</a></span>
+<span class="normal"><a href="#__codelineno-4-15">15</a></span>
+<span class="normal"><a href="#__codelineno-4-16">16</a></span>
+<span class="normal"><a href="#__codelineno-4-17">17</a></span>
+<span class="normal"><a href="#__codelineno-4-18">18</a></span>
+<span class="normal"><a href="#__codelineno-4-19">19</a></span>
+<span class="normal"><a href="#__codelineno-4-20">20</a></span>
+<span class="normal"><a href="#__codelineno-4-21">21</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1"></a><span class="cp">&lt;!doctype html&gt;</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2"></a><span class="p">&lt;</span><span class="nt">html</span> <span class="na">lang</span><span class="o">=</span><span class="s">&quot;es&quot;</span><span class="p">&gt;</span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3"></a>  <span class="p">&lt;</span><span class="nt">head</span><span class="p">&gt;</span>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4"></a>    <span class="p">&lt;</span><span class="nt">meta</span> <span class="na">charset</span><span class="o">=</span><span class="s">&quot;utf-8&quot;</span> <span class="p">/&gt;</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5"></a>    <span class="p">&lt;</span><span class="nt">title</span><span class="p">&gt;</span>Página 1<span class="p">&lt;/</span><span class="nt">title</span><span class="p">&gt;</span>
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6"></a>  <span class="p">&lt;/</span><span class="nt">head</span><span class="p">&gt;</span>
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7"></a>  <span class="p">&lt;</span><span class="nt">body</span><span class="p">&gt;</span>
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8"></a>    <span class="p">&lt;</span><span class="nt">h1</span><span class="p">&gt;</span>Página con imagen<span class="p">&lt;/</span><span class="nt">h1</span><span class="p">&gt;</span>
+</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9"></a>    <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>Ejemplo de inserción de una imagen dentro de un párrafo.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10"></a>    <span class="p">&lt;</span><span class="nt">figure</span><span class="p">&gt;</span>
+</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11"></a>      <span class="p">&lt;</span><span class="nt">img</span>
+</span><span id="__span-4-12"><a id="__codelineno-4-12" name="__codelineno-4-12"></a>        <span class="na">src</span><span class="o">=</span><span class="s">&quot;../assets/imagen.jpg&quot;</span>
+</span><span id="__span-4-13"><a id="__codelineno-4-13" name="__codelineno-4-13"></a>        <span class="na">height</span><span class="o">=</span><span class="s">&quot;200&quot;</span>
+</span><span id="__span-4-14"><a id="__codelineno-4-14" name="__codelineno-4-14"></a>        <span class="na">width</span><span class="o">=</span><span class="s">&quot;500&quot;</span>
+</span><span id="__span-4-15"><a id="__codelineno-4-15" name="__codelineno-4-15"></a>        <span class="na">alt</span><span class="o">=</span><span class="s">&quot;Muelle de madera que se adentra en un lago al amanecer&quot;</span>
+</span><span id="__span-4-16"><a id="__codelineno-4-16" name="__codelineno-4-16"></a>      <span class="p">/&gt;</span>
+</span><span id="__span-4-17"><a id="__codelineno-4-17" name="__codelineno-4-17"></a>      <span class="p">&lt;</span><span class="nt">figcaption</span><span class="p">&gt;</span>Pie asociado a la imagen mediante figcaption.<span class="p">&lt;/</span><span class="nt">figcaption</span><span class="p">&gt;</span>
+</span><span id="__span-4-18"><a id="__codelineno-4-18" name="__codelineno-4-18"></a>    <span class="p">&lt;/</span><span class="nt">figure</span><span class="p">&gt;</span>
+</span><span id="__span-4-19"><a id="__codelineno-4-19" name="__codelineno-4-19"></a>    <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>Para volver al inicio, <span class="p">&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">&quot;../index.html&quot;</span><span class="p">&gt;</span>acceder a la portada<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+</span><span id="__span-4-20"><a id="__codelineno-4-20" name="__codelineno-4-20"></a>  <span class="p">&lt;/</span><span class="nt">body</span><span class="p">&gt;</span>
+</span><span id="__span-4-21"><a id="__codelineno-4-21" name="__codelineno-4-21"></a><span class="p">&lt;/</span><span class="nt">html</span><span class="p">&gt;</span>
+</span></code></pre></div></td></tr></table></div>
+</details>
+<h3 id="formularios">Formularios<a class="headerlink" href="#formularios" title="Permanent link">&para;</a></h3>
+<p>Los formularios permiten enviar datos al servidor. El elemento <code>&lt;form&gt;</code> define el
+destino de la información mediante el atributo <code>action</code> y el método HTTP empleado
+mediante <code>method</code>. Cada campo se declara con <code>&lt;input /&gt;</code>, cuyo atributo <code>type</code> determina
+la naturaleza del dato y el control que muestra el navegador. El atributo <code>name</code>
+identifica el campo en el envío, y la etiqueta <code>&lt;label&gt;</code> asocia una descripción textual
+a un campo concreto a través de la correspondencia entre <code>for</code> e <code>id</code>, lo que resulta
+esencial para la accesibilidad.</p>
+<details class="example" open="open">
+<summary>Formulario de registro</summary>
+<p>Cada campo se asocia a su etiqueta descriptiva mediante los atributos <code>for</code> e <code>id</code>.</p>
+<div class="language-html highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-5-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-5-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-5-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-5-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-5-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-5-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-5-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-5-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-5-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-5-10">10</a></span>
+<span class="normal"><a href="#__codelineno-5-11">11</a></span>
+<span class="normal"><a href="#__codelineno-5-12">12</a></span>
+<span class="normal"><a href="#__codelineno-5-13">13</a></span>
+<span class="normal"><a href="#__codelineno-5-14">14</a></span>
+<span class="normal"><a href="#__codelineno-5-15">15</a></span>
+<span class="normal"><a href="#__codelineno-5-16">16</a></span>
+<span class="normal"><a href="#__codelineno-5-17">17</a></span>
+<span class="normal"><a href="#__codelineno-5-18">18</a></span>
+<span class="normal"><a href="#__codelineno-5-19">19</a></span>
+<span class="normal"><a href="#__codelineno-5-20">20</a></span>
+<span class="normal"><a href="#__codelineno-5-21">21</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1"></a><span class="cp">&lt;!doctype html&gt;</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2"></a><span class="p">&lt;</span><span class="nt">html</span> <span class="na">lang</span><span class="o">=</span><span class="s">&quot;es&quot;</span><span class="p">&gt;</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3"></a>  <span class="p">&lt;</span><span class="nt">head</span><span class="p">&gt;</span>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4"></a>    <span class="p">&lt;</span><span class="nt">meta</span> <span class="na">charset</span><span class="o">=</span><span class="s">&quot;utf-8&quot;</span> <span class="p">/&gt;</span>
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5"></a>    <span class="p">&lt;</span><span class="nt">title</span><span class="p">&gt;</span>Formulario<span class="p">&lt;/</span><span class="nt">title</span><span class="p">&gt;</span>
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6"></a>  <span class="p">&lt;/</span><span class="nt">head</span><span class="p">&gt;</span>
+</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7"></a>  <span class="p">&lt;</span><span class="nt">body</span><span class="p">&gt;</span>
+</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8"></a>    <span class="p">&lt;</span><span class="nt">h1</span><span class="p">&gt;</span>Registro<span class="p">&lt;/</span><span class="nt">h1</span><span class="p">&gt;</span>
+</span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9"></a>    <span class="p">&lt;</span><span class="nt">form</span> <span class="na">action</span><span class="o">=</span><span class="s">&quot;/registration&quot;</span> <span class="na">method</span><span class="o">=</span><span class="s">&quot;POST&quot;</span><span class="p">&gt;</span>
+</span><span id="__span-5-10"><a id="__codelineno-5-10" name="__codelineno-5-10"></a>      <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>
+</span><span id="__span-5-11"><a id="__codelineno-5-11" name="__codelineno-5-11"></a>        <span class="p">&lt;</span><span class="nt">label</span> <span class="na">for</span><span class="o">=</span><span class="s">&quot;username&quot;</span><span class="p">&gt;</span>Nombre de usuario:<span class="p">&lt;/</span><span class="nt">label</span><span class="p">&gt;</span>
+</span><span id="__span-5-12"><a id="__codelineno-5-12" name="__codelineno-5-12"></a>        <span class="p">&lt;</span><span class="nt">input</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;text&quot;</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;username&quot;</span> <span class="na">name</span><span class="o">=</span><span class="s">&quot;username&quot;</span> <span class="p">/&gt;</span>
+</span><span id="__span-5-13"><a id="__codelineno-5-13" name="__codelineno-5-13"></a>      <span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+</span><span id="__span-5-14"><a id="__codelineno-5-14" name="__codelineno-5-14"></a>      <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>
+</span><span id="__span-5-15"><a id="__codelineno-5-15" name="__codelineno-5-15"></a>        <span class="p">&lt;</span><span class="nt">label</span> <span class="na">for</span><span class="o">=</span><span class="s">&quot;password&quot;</span><span class="p">&gt;</span>Contraseña:<span class="p">&lt;/</span><span class="nt">label</span><span class="p">&gt;</span>
+</span><span id="__span-5-16"><a id="__codelineno-5-16" name="__codelineno-5-16"></a>        <span class="p">&lt;</span><span class="nt">input</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;password&quot;</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;password&quot;</span> <span class="na">name</span><span class="o">=</span><span class="s">&quot;password&quot;</span> <span class="p">/&gt;</span>
+</span><span id="__span-5-17"><a id="__codelineno-5-17" name="__codelineno-5-17"></a>      <span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+</span><span id="__span-5-18"><a id="__codelineno-5-18" name="__codelineno-5-18"></a>      <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;&lt;</span><span class="nt">input</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;submit&quot;</span> <span class="na">value</span><span class="o">=</span><span class="s">&quot;Enviar&quot;</span> <span class="p">/&gt;&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+</span><span id="__span-5-19"><a id="__codelineno-5-19" name="__codelineno-5-19"></a>    <span class="p">&lt;/</span><span class="nt">form</span><span class="p">&gt;</span>
+</span><span id="__span-5-20"><a id="__codelineno-5-20" name="__codelineno-5-20"></a>  <span class="p">&lt;/</span><span class="nt">body</span><span class="p">&gt;</span>
+</span><span id="__span-5-21"><a id="__codelineno-5-21" name="__codelineno-5-21"></a><span class="p">&lt;/</span><span class="nt">html</span><span class="p">&gt;</span>
+</span></code></pre></div></td></tr></table></div>
+<p>El método <code>POST</code> transmite los datos en el cuerpo de la petición, a diferencia de
+<code>GET</code>, que los añadiría a la dirección del recurso (<em>Uniform Resource Locator</em>,
+URL).</p>
+</details>
+<div class="admonition danger">
+<p class="admonition-title">El método no protege la información</p>
+<p>Es un error extendido suponer que <code>POST</code> protege los datos que transporta. Sobre
+HTTP sin cifrar, el cuerpo de la petición viaja tan legible como una cadena de
+consulta y cualquiera que intercepte el tráfico puede leer la contraseña.</p>
+<p>Lo que <code>POST</code> sí evita es que los datos queden registrados en el historial del
+navegador, en los registros del servidor y en la cabecera <code>Referer</code>, y que la
+petición se almacene en caché. La confidencialidad la aporta exclusivamente HTTPS,
+de modo que cualquier formulario que recoja credenciales debe servirse y enviarse
+sobre una</p>
+</div>
+<p>conexión cifrada con TLS (<em>Transport Layer Security</em>), que es la capa sobre la que se
+apoya HTTPS.</p>
+<h3 id="el-dom">El DOM<a class="headerlink" href="#el-dom" title="Permanent link">&para;</a></h3>
+<p>El <strong>DOM</strong> (<em>Document Object Model</em>) es una representación en forma de árbol de todos
+los elementos de una página HTML. Cuando el navegador carga una página, construye esta
+estructura jerárquica a partir del código fuente. La raíz del árbol es el nodo
+<code>document</code>, del que desciende el elemento raíz <code>&lt;html&gt;</code>, y de este <code>&lt;head&gt;</code> y <code>&lt;body&gt;</code>
+con sus respectivos elementos hijos. No todos los nodos proceden de una etiqueta, ya que
+el texto y los comentarios también generan nodos propios.</p>
+<p>El DOM es una estructura viva desde el momento en que se construye. Lo que permanece
+inalterable es el HTML que el servidor envió, mientras que el árbol puede modificarse en
+cualquier momento desde JavaScript añadiendo, eliminando o alterando elementos sin
+recargar la página. Este es precisamente el principio sobre el que se construyen
+<em>frameworks</em> como React.</p>
+<h3 id="accesibilidad">Accesibilidad<a class="headerlink" href="#accesibilidad" title="Permanent link">&para;</a></h3>
+<p>Resulta una buena práctica considerar siempre la <strong>accesibilidad</strong> al desarrollar
+interfaces web, de modo que el contenido pueda ser utilizado por personas con diversidad
+funcional. Para ello se puede consultar la <strong>WAI</strong> (<em>Web Accessibility Initiative</em>) y el
+estándar <strong>ARIA</strong> (<em>Accessible Rich Internet Applications</em>), que proporcionan guías y
+atributos complementarios para describir el propósito y el estado de los elementos de la
+interfaz.</p>
+<div class="admonition tip">
+<p class="admonition-title">Accesibilidad desde el marcado</p>
+<p>El uso correcto de etiquetas semánticas, de descripciones alternativas en las
+imágenes y de asociaciones entre etiquetas y campos de formulario cubre buena parte
+de los requisitos de accesibilidad sin necesidad de atributos adicionales. La
+primera regla de ARIA es, de hecho, no utilizar ARIA cuando existe un elemento
+nativo que ya comunica esa información.</p>
+<p>Dos consecuencias prácticas se derivan de este principio. La primera es que un
+elemento que navega a otra página debe ser un enlace y no un botón, ya que solo el
+enlace aparece en la lista de enlaces del lector de pantalla y admite abrirse en
+otra pestaña. La segunda es que las cabeceras de una tabla deben declarar con
+<code>scope</code> la dirección a la que se aplican, para que el lector anuncie la cabecera
+correcta al recorrer las celdas.</p>
+</div>
+<h2 id="css">CSS<a class="headerlink" href="#css" title="Permanent link">&para;</a></h2>
+<p>CSS define el aspecto visual de los elementos HTML. Su sintaxis básica consiste en un
+<strong>selector</strong>, que identifica los elementos a los que se aplica el estilo, seguido de un
+<strong>bloque de declaración</strong> con pares propiedad-valor.</p>
+<details class="example" open="open">
+<summary>Sintaxis básica de CSS</summary>
+<p>La regla aplica un color a todos los elementos <code>&lt;h1&gt;</code> del documento.</p>
+<div class="language-css highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-6-1">1</a></span>
+<span class="normal"><a href="#__codelineno-6-2">2</a></span>
+<span class="normal"><a href="#__codelineno-6-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1"></a><span class="nt">h1</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2"></a><span class="w">  </span><span class="k">color</span><span class="p">:</span><span class="w"> </span><span class="kc">purple</span><span class="p">;</span>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3"></a><span class="p">}</span>
+</span></code></pre></div></td></tr></table></div>
+</details>
+<p>Los estilos pueden declararse directamente en el documento, aunque lo habitual es
+mantenerlos en un archivo independiente y vincularlo desde el <code>&lt;head&gt;</code>. Esta separación
+entre estructura y presentación facilita la reutilización de estilos en múltiples
+páginas.</p>
+<details class="example" open="open">
+<summary>Vincular hoja de estilos</summary>
+<p>El elemento <code>&lt;link&gt;</code> asocia al documento una hoja de estilos externa.</p>
+<div class="language-html highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-7-1">1</a></span>
+<span class="normal"><a href="#__codelineno-7-2">2</a></span>
+<span class="normal"><a href="#__codelineno-7-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1"></a><span class="p">&lt;</span><span class="nt">head</span><span class="p">&gt;</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2"></a>  <span class="p">&lt;</span><span class="nt">link</span> <span class="na">rel</span><span class="o">=</span><span class="s">&quot;stylesheet&quot;</span> <span class="na">href</span><span class="o">=</span><span class="s">&quot;style.css&quot;</span> <span class="p">/&gt;</span>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3"></a><span class="p">&lt;/</span><span class="nt">head</span><span class="p">&gt;</span>
+</span></code></pre></div></td></tr></table></div>
+</details>
+<h3 id="selectores">Selectores<a class="headerlink" href="#selectores" title="Permanent link">&para;</a></h3>
+<p>CSS ofrece varios tipos de selectores para aplicar estilos con distintos niveles de
+especificidad. El <strong>selector de elemento</strong> aplica estilos a todas las instancias de una
+etiqueta. El <strong>selector de ID</strong>, precedido por <code>#</code>, identifica un elemento único en la
+página. El <strong>selector de clase</strong>, precedido por <code>.</code>, permite reutilizar estilos en
+múltiples elementos y constituye la opción más habitual. Además, existen selectores
+descendentes, que actúan sobre los elementos contenidos en otro, selectores de hijo
+directo, que se limitan al primer nivel de anidamiento, y <strong>pseudoclases</strong>, que aplican
+estilos según el estado del elemento.</p>
+<p>Cuando varias reglas afectan al mismo elemento, gana la de mayor especificidad. El orden
+de menor a mayor es selector de elemento, selector de clase o pseudoclase, y selector de
+ID. Entre reglas de igual especificidad prevalece la declarada más adelante en la hoja.</p>
+<details class="example" open="open">
+<summary>Tipos de selectores CSS</summary>
+<p>Cada regla ilustra una forma distinta de seleccionar los elementos a los que se
+aplica el estilo.</p>
+<div class="language-css highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-8-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-8-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-8-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-8-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-8-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-8-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-8-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-8-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-8-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-8-10">10</a></span>
+<span class="normal"><a href="#__codelineno-8-11">11</a></span>
+<span class="normal"><a href="#__codelineno-8-12">12</a></span>
+<span class="normal"><a href="#__codelineno-8-13">13</a></span>
+<span class="normal"><a href="#__codelineno-8-14">14</a></span>
+<span class="normal"><a href="#__codelineno-8-15">15</a></span>
+<span class="normal"><a href="#__codelineno-8-16">16</a></span>
+<span class="normal"><a href="#__codelineno-8-17">17</a></span>
+<span class="normal"><a href="#__codelineno-8-18">18</a></span>
+<span class="normal"><a href="#__codelineno-8-19">19</a></span>
+<span class="normal"><a href="#__codelineno-8-20">20</a></span>
+<span class="normal"><a href="#__codelineno-8-21">21</a></span>
+<span class="normal"><a href="#__codelineno-8-22">22</a></span>
+<span class="normal"><a href="#__codelineno-8-23">23</a></span>
+<span class="normal"><a href="#__codelineno-8-24">24</a></span>
+<span class="normal"><a href="#__codelineno-8-25">25</a></span>
+<span class="normal"><a href="#__codelineno-8-26">26</a></span>
+<span class="normal"><a href="#__codelineno-8-27">27</a></span>
+<span class="normal"><a href="#__codelineno-8-28">28</a></span>
+<span class="normal"><a href="#__codelineno-8-29">29</a></span>
+<span class="normal"><a href="#__codelineno-8-30">30</a></span>
+<span class="normal"><a href="#__codelineno-8-31">31</a></span>
+<span class="normal"><a href="#__codelineno-8-32">32</a></span>
+<span class="normal"><a href="#__codelineno-8-33">33</a></span>
+<span class="normal"><a href="#__codelineno-8-34">34</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1"></a><span class="c">/* Selector de elemento */</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2"></a><span class="nt">p</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3"></a><span class="w">  </span><span class="k">color</span><span class="p">:</span><span class="w"> </span><span class="kc">blue</span><span class="p">;</span>
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4"></a><span class="p">}</span>
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5"></a>
+</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6"></a><span class="c">/* Selector de ID (único en la página) */</span>
+</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7"></a><span class="p">#</span><span class="nn">mi-id</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-8-8"><a id="__codelineno-8-8" name="__codelineno-8-8"></a><span class="w">  </span><span class="k">color</span><span class="p">:</span><span class="w"> </span><span class="kc">blue</span><span class="p">;</span>
+</span><span id="__span-8-9"><a id="__codelineno-8-9" name="__codelineno-8-9"></a><span class="p">}</span>
+</span><span id="__span-8-10"><a id="__codelineno-8-10" name="__codelineno-8-10"></a>
+</span><span id="__span-8-11"><a id="__codelineno-8-11" name="__codelineno-8-11"></a><span class="c">/* Selector de clase (reutilizable) */</span>
+</span><span id="__span-8-12"><a id="__codelineno-8-12" name="__codelineno-8-12"></a><span class="p">.</span><span class="nc">mi-clase</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-8-13"><a id="__codelineno-8-13" name="__codelineno-8-13"></a><span class="w">  </span><span class="k">color</span><span class="p">:</span><span class="w"> </span><span class="kc">blue</span><span class="p">;</span>
+</span><span id="__span-8-14"><a id="__codelineno-8-14" name="__codelineno-8-14"></a><span class="p">}</span>
+</span><span id="__span-8-15"><a id="__codelineno-8-15" name="__codelineno-8-15"></a>
+</span><span id="__span-8-16"><a id="__codelineno-8-16" name="__codelineno-8-16"></a><span class="c">/* Elemento con clase específica */</span>
+</span><span id="__span-8-17"><a id="__codelineno-8-17" name="__codelineno-8-17"></a><span class="nt">p</span><span class="p">.</span><span class="nc">mi-clase</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-8-18"><a id="__codelineno-8-18" name="__codelineno-8-18"></a><span class="w">  </span><span class="k">color</span><span class="p">:</span><span class="w"> </span><span class="kc">blue</span><span class="p">;</span>
+</span><span id="__span-8-19"><a id="__codelineno-8-19" name="__codelineno-8-19"></a><span class="p">}</span>
+</span><span id="__span-8-20"><a id="__codelineno-8-20" name="__codelineno-8-20"></a>
+</span><span id="__span-8-21"><a id="__codelineno-8-21" name="__codelineno-8-21"></a><span class="c">/* Selector descendente */</span>
+</span><span id="__span-8-22"><a id="__codelineno-8-22" name="__codelineno-8-22"></a><span class="p">#</span><span class="nn">blog</span><span class="w"> </span><span class="nt">p</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-8-23"><a id="__codelineno-8-23" name="__codelineno-8-23"></a><span class="w">  </span><span class="k">color</span><span class="p">:</span><span class="w"> </span><span class="kc">blue</span><span class="p">;</span>
+</span><span id="__span-8-24"><a id="__codelineno-8-24" name="__codelineno-8-24"></a><span class="p">}</span>
+</span><span id="__span-8-25"><a id="__codelineno-8-25" name="__codelineno-8-25"></a>
+</span><span id="__span-8-26"><a id="__codelineno-8-26" name="__codelineno-8-26"></a><span class="c">/* Selector hijo directo */</span>
+</span><span id="__span-8-27"><a id="__codelineno-8-27" name="__codelineno-8-27"></a><span class="nt">h2</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="nt">span</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-8-28"><a id="__codelineno-8-28" name="__codelineno-8-28"></a><span class="w">  </span><span class="k">color</span><span class="p">:</span><span class="w"> </span><span class="kc">blue</span><span class="p">;</span>
+</span><span id="__span-8-29"><a id="__codelineno-8-29" name="__codelineno-8-29"></a><span class="p">}</span>
+</span><span id="__span-8-30"><a id="__codelineno-8-30" name="__codelineno-8-30"></a>
+</span><span id="__span-8-31"><a id="__codelineno-8-31" name="__codelineno-8-31"></a><span class="c">/* Pseudoclase (estado del elemento) */</span>
+</span><span id="__span-8-32"><a id="__codelineno-8-32" name="__codelineno-8-32"></a><span class="nt">a</span><span class="p">:</span><span class="nd">hover</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-8-33"><a id="__codelineno-8-33" name="__codelineno-8-33"></a><span class="w">  </span><span class="k">color</span><span class="p">:</span><span class="w"> </span><span class="kc">blue</span><span class="p">;</span>
+</span><span id="__span-8-34"><a id="__codelineno-8-34" name="__codelineno-8-34"></a><span class="p">}</span>
+</span></code></pre></div></td></tr></table></div>
+<p>La correspondencia en HTML es la siguiente:</p>
+<div class="language-html highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-9-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-9-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-9-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-9-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-9-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-9-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-9-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-9-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-9-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-9-10">10</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1"></a><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>Selector de elemento<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2"></a><span class="p">&lt;</span><span class="nt">p</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;mi-id&quot;</span><span class="p">&gt;</span>Selector de ID<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3"></a><span class="p">&lt;</span><span class="nt">p</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;mi-clase&quot;</span><span class="p">&gt;</span>Selector de clase<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4"></a>
+</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5"></a><span class="p">&lt;</span><span class="nt">div</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;blog&quot;</span><span class="p">&gt;</span>
+</span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6"></a>  <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>Selector descendente<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+</span><span id="__span-9-7"><a id="__codelineno-9-7" name="__codelineno-9-7"></a><span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+</span><span id="__span-9-8"><a id="__codelineno-9-8" name="__codelineno-9-8"></a>
+</span><span id="__span-9-9"><a id="__codelineno-9-9" name="__codelineno-9-9"></a><span class="p">&lt;</span><span class="nt">h2</span><span class="p">&gt;&lt;</span><span class="nt">span</span><span class="p">&gt;</span>Selector hijo directo<span class="p">&lt;/</span><span class="nt">span</span><span class="p">&gt;&lt;/</span><span class="nt">h2</span><span class="p">&gt;</span>
+</span><span id="__span-9-10"><a id="__codelineno-9-10" name="__codelineno-9-10"></a><span class="p">&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">&quot;#&quot;</span><span class="p">&gt;</span>Pseudoclase hover<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>
+</span></code></pre></div></td></tr></table></div>
+</details>
+<p>El siguiente ejemplo completa el sitio iniciado en la sección de HTML con la
+<code>pagina_2.html</code> que la página principal enlazaba, y combina el uso de selectores con una
+hoja de estilos externa que define los bordes de una tabla.</p>
+<details class="example" open="open">
+<summary>Página con tabla</summary>
+<p>La tabla separa la cabecera del cuerpo y declara el ámbito de cada celda de
+cabecera.</p>
+<div class="language-html highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-10-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-10-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-10-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-10-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-10-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-10-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-10-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-10-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-10-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-10-10">10</a></span>
+<span class="normal"><a href="#__codelineno-10-11">11</a></span>
+<span class="normal"><a href="#__codelineno-10-12">12</a></span>
+<span class="normal"><a href="#__codelineno-10-13">13</a></span>
+<span class="normal"><a href="#__codelineno-10-14">14</a></span>
+<span class="normal"><a href="#__codelineno-10-15">15</a></span>
+<span class="normal"><a href="#__codelineno-10-16">16</a></span>
+<span class="normal"><a href="#__codelineno-10-17">17</a></span>
+<span class="normal"><a href="#__codelineno-10-18">18</a></span>
+<span class="normal"><a href="#__codelineno-10-19">19</a></span>
+<span class="normal"><a href="#__codelineno-10-20">20</a></span>
+<span class="normal"><a href="#__codelineno-10-21">21</a></span>
+<span class="normal"><a href="#__codelineno-10-22">22</a></span>
+<span class="normal"><a href="#__codelineno-10-23">23</a></span>
+<span class="normal"><a href="#__codelineno-10-24">24</a></span>
+<span class="normal"><a href="#__codelineno-10-25">25</a></span>
+<span class="normal"><a href="#__codelineno-10-26">26</a></span>
+<span class="normal"><a href="#__codelineno-10-27">27</a></span>
+<span class="normal"><a href="#__codelineno-10-28">28</a></span>
+<span class="normal"><a href="#__codelineno-10-29">29</a></span>
+<span class="normal"><a href="#__codelineno-10-30">30</a></span>
+<span class="normal"><a href="#__codelineno-10-31">31</a></span>
+<span class="normal"><a href="#__codelineno-10-32">32</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1"></a><span class="cp">&lt;!doctype html&gt;</span>
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2"></a><span class="p">&lt;</span><span class="nt">html</span> <span class="na">lang</span><span class="o">=</span><span class="s">&quot;es&quot;</span><span class="p">&gt;</span>
+</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3"></a>  <span class="p">&lt;</span><span class="nt">head</span><span class="p">&gt;</span>
+</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4"></a>    <span class="p">&lt;</span><span class="nt">meta</span> <span class="na">charset</span><span class="o">=</span><span class="s">&quot;utf-8&quot;</span> <span class="p">/&gt;</span>
+</span><span id="__span-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5"></a>    <span class="p">&lt;</span><span class="nt">title</span><span class="p">&gt;</span>Tabla de ejemplo<span class="p">&lt;/</span><span class="nt">title</span><span class="p">&gt;</span>
+</span><span id="__span-10-6"><a id="__codelineno-10-6" name="__codelineno-10-6"></a>    <span class="p">&lt;</span><span class="nt">link</span> <span class="na">rel</span><span class="o">=</span><span class="s">&quot;stylesheet&quot;</span> <span class="na">href</span><span class="o">=</span><span class="s">&quot;../css/stylesheet.css&quot;</span> <span class="p">/&gt;</span>
+</span><span id="__span-10-7"><a id="__codelineno-10-7" name="__codelineno-10-7"></a>  <span class="p">&lt;/</span><span class="nt">head</span><span class="p">&gt;</span>
+</span><span id="__span-10-8"><a id="__codelineno-10-8" name="__codelineno-10-8"></a>  <span class="p">&lt;</span><span class="nt">body</span><span class="p">&gt;</span>
+</span><span id="__span-10-9"><a id="__codelineno-10-9" name="__codelineno-10-9"></a>    <span class="p">&lt;</span><span class="nt">table</span><span class="p">&gt;</span>
+</span><span id="__span-10-10"><a id="__codelineno-10-10" name="__codelineno-10-10"></a>      <span class="p">&lt;</span><span class="nt">caption</span><span class="p">&gt;</span>
+</span><span id="__span-10-11"><a id="__codelineno-10-11" name="__codelineno-10-11"></a>        Precios de ejemplo por producto
+</span><span id="__span-10-12"><a id="__codelineno-10-12" name="__codelineno-10-12"></a>      <span class="p">&lt;/</span><span class="nt">caption</span><span class="p">&gt;</span>
+</span><span id="__span-10-13"><a id="__codelineno-10-13" name="__codelineno-10-13"></a>      <span class="p">&lt;</span><span class="nt">thead</span><span class="p">&gt;</span>
+</span><span id="__span-10-14"><a id="__codelineno-10-14" name="__codelineno-10-14"></a>        <span class="p">&lt;</span><span class="nt">tr</span><span class="p">&gt;</span>
+</span><span id="__span-10-15"><a id="__codelineno-10-15" name="__codelineno-10-15"></a>          <span class="p">&lt;</span><span class="nt">th</span> <span class="na">scope</span><span class="o">=</span><span class="s">&quot;col&quot;</span><span class="p">&gt;</span>Producto<span class="p">&lt;/</span><span class="nt">th</span><span class="p">&gt;</span>
+</span><span id="__span-10-16"><a id="__codelineno-10-16" name="__codelineno-10-16"></a>          <span class="p">&lt;</span><span class="nt">th</span> <span class="na">scope</span><span class="o">=</span><span class="s">&quot;col&quot;</span><span class="p">&gt;</span>Precio<span class="p">&lt;/</span><span class="nt">th</span><span class="p">&gt;</span>
+</span><span id="__span-10-17"><a id="__codelineno-10-17" name="__codelineno-10-17"></a>        <span class="p">&lt;/</span><span class="nt">tr</span><span class="p">&gt;</span>
+</span><span id="__span-10-18"><a id="__codelineno-10-18" name="__codelineno-10-18"></a>      <span class="p">&lt;/</span><span class="nt">thead</span><span class="p">&gt;</span>
+</span><span id="__span-10-19"><a id="__codelineno-10-19" name="__codelineno-10-19"></a>      <span class="p">&lt;</span><span class="nt">tbody</span><span class="p">&gt;</span>
+</span><span id="__span-10-20"><a id="__codelineno-10-20" name="__codelineno-10-20"></a>        <span class="p">&lt;</span><span class="nt">tr</span><span class="p">&gt;</span>
+</span><span id="__span-10-21"><a id="__codelineno-10-21" name="__codelineno-10-21"></a>          <span class="p">&lt;</span><span class="nt">td</span><span class="p">&gt;</span>Teclado<span class="p">&lt;/</span><span class="nt">td</span><span class="p">&gt;</span>
+</span><span id="__span-10-22"><a id="__codelineno-10-22" name="__codelineno-10-22"></a>          <span class="p">&lt;</span><span class="nt">td</span><span class="p">&gt;</span>25 €<span class="p">&lt;/</span><span class="nt">td</span><span class="p">&gt;</span>
+</span><span id="__span-10-23"><a id="__codelineno-10-23" name="__codelineno-10-23"></a>        <span class="p">&lt;/</span><span class="nt">tr</span><span class="p">&gt;</span>
+</span><span id="__span-10-24"><a id="__codelineno-10-24" name="__codelineno-10-24"></a>        <span class="p">&lt;</span><span class="nt">tr</span><span class="p">&gt;</span>
+</span><span id="__span-10-25"><a id="__codelineno-10-25" name="__codelineno-10-25"></a>          <span class="p">&lt;</span><span class="nt">td</span><span class="p">&gt;</span>Ratón<span class="p">&lt;/</span><span class="nt">td</span><span class="p">&gt;</span>
+</span><span id="__span-10-26"><a id="__codelineno-10-26" name="__codelineno-10-26"></a>          <span class="p">&lt;</span><span class="nt">td</span><span class="p">&gt;</span>10 €<span class="p">&lt;/</span><span class="nt">td</span><span class="p">&gt;</span>
+</span><span id="__span-10-27"><a id="__codelineno-10-27" name="__codelineno-10-27"></a>        <span class="p">&lt;/</span><span class="nt">tr</span><span class="p">&gt;</span>
+</span><span id="__span-10-28"><a id="__codelineno-10-28" name="__codelineno-10-28"></a>      <span class="p">&lt;/</span><span class="nt">tbody</span><span class="p">&gt;</span>
+</span><span id="__span-10-29"><a id="__codelineno-10-29" name="__codelineno-10-29"></a>    <span class="p">&lt;/</span><span class="nt">table</span><span class="p">&gt;</span>
+</span><span id="__span-10-30"><a id="__codelineno-10-30" name="__codelineno-10-30"></a>    <span class="p">&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">&quot;../index.html&quot;</span><span class="p">&gt;</span>Volver al inicio<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>
+</span><span id="__span-10-31"><a id="__codelineno-10-31" name="__codelineno-10-31"></a>  <span class="p">&lt;/</span><span class="nt">body</span><span class="p">&gt;</span>
+</span><span id="__span-10-32"><a id="__codelineno-10-32" name="__codelineno-10-32"></a><span class="p">&lt;/</span><span class="nt">html</span><span class="p">&gt;</span>
+</span></code></pre></div></td></tr></table></div>
+<p>La hoja de estilos asociada (<code>stylesheet.css</code>) es la siguiente:</p>
+<div class="language-css highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-11-1">1</a></span>
+<span class="normal"><a href="#__codelineno-11-2">2</a></span>
+<span class="normal"><a href="#__codelineno-11-3">3</a></span>
+<span class="normal"><a href="#__codelineno-11-4">4</a></span>
+<span class="normal"><a href="#__codelineno-11-5">5</a></span>
+<span class="normal"><a href="#__codelineno-11-6">6</a></span>
+<span class="normal"><a href="#__codelineno-11-7">7</a></span>
+<span class="normal"><a href="#__codelineno-11-8">8</a></span>
+<span class="normal"><a href="#__codelineno-11-9">9</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1"></a><span class="c">/* border-collapse solo actúa sobre el elemento table */</span>
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2"></a><span class="nt">table</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3"></a><span class="w">  </span><span class="k">border-collapse</span><span class="p">:</span><span class="w"> </span><span class="kc">collapse</span><span class="p">;</span>
+</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4"></a><span class="p">}</span>
+</span><span id="__span-11-5"><a id="__codelineno-11-5" name="__codelineno-11-5"></a>
+</span><span id="__span-11-6"><a id="__codelineno-11-6" name="__codelineno-11-6"></a><span class="nt">th</span><span class="o">,</span>
+</span><span id="__span-11-7"><a id="__codelineno-11-7" name="__codelineno-11-7"></a><span class="nt">td</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-11-8"><a id="__codelineno-11-8" name="__codelineno-11-8"></a><span class="w">  </span><span class="k">border</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="kt">px</span><span class="w"> </span><span class="kc">solid</span><span class="w"> </span><span class="kc">black</span><span class="p">;</span>
+</span><span id="__span-11-9"><a id="__codelineno-11-9" name="__codelineno-11-9"></a><span class="p">}</span>
+</span></code></pre></div></td></tr></table></div>
+<p>Los elementos <code>&lt;thead&gt;</code> y <code>&lt;tbody&gt;</code> agrupan la cabecera y el cuerpo de la tabla, y
+el atributo <code>scope="col"</code> indica que cada <code>&lt;th&gt;</code> encabeza una columna. El elemento
+<code>&lt;caption&gt;</code> aporta un título accesible que describe el contenido de la tabla.</p>
+</details>
+<h3 id="modelo-de-caja">Modelo de caja<a class="headerlink" href="#modelo-de-caja" title="Permanent link">&para;</a></h3>
+<figure>
+  <img alt="Diagrama de las cuatro capas concéntricas de una caja CSS, del contenido al margen" src="../../../assets/img/docs/web/css-padding.png" />
+<br />
+<figcaption>Modelo de caja de CSS.</figcaption>
+</figure>
+<p>En CSS, cada elemento HTML se representa como una <strong>caja</strong> (<em>box model</em>) compuesta por
+cuatro capas concéntricas. La más interna es el <strong>contenido</strong>, cuyo tamaño se controla
+con las propiedades <code>width</code>, <code>min-width</code>, <code>max-width</code>, <code>height</code>, <code>min-height</code> y
+<code>max-height</code>. Alrededor del contenido se encuentra el <strong><em>padding</em></strong>, o relleno interno,
+que separa el contenido del borde. El <strong><em>border</em></strong> rodea el <em>padding</em> y puede adoptar
+estilos como <code>solid</code>, <code>dashed</code> (discontinuo), <code>dotted</code> (punteado) o <code>double</code> (doble).
+Finalmente, el <strong><em>margin</em></strong> es el espacio exterior que separa la caja de otros elementos
+adyacentes.</p>
+<p>Con el comportamiento por defecto, <code>box-sizing: content-box</code>, las propiedades <code>width</code> y
+<code>height</code> dimensionan únicamente el área de contenido, de modo que el <em>padding</em> y el
+<em>border</em> se suman al espacio que el elemento ocupa en pantalla:</p>
+<div class="arithmatex">\[\text{border-box width} = \text{content width} + \text{padding-left} + \text{padding-right} + \text{border-left} + \text{border-right}\]</div>
+<div class="arithmatex">\[\text{border-box height} = \text{content height} + \text{padding-top} + \text{padding-bottom} + \text{border-top} + \text{border-bottom}\]</div>
+<p>En estas expresiones, <span class="arithmatex">\(\text{content width}\)</span> y <span class="arithmatex">\(\text{content height}\)</span> representan las
+dimensiones del área de contenido, mientras que los términos restantes corresponden al
+relleno y al <em>border</em> declarados en cada uno de los cuatro lados del elemento.</p>
+<div class="admonition tip">
+<p class="admonition-title">La alternativa <code>border-box</code></p>
+<p>Declarar <code>box-sizing: border-box</code> cambia el significado de <code>width</code> y <code>height</code>, que
+pasan a incluir el <em>padding</em> y el <em>border</em>. Un elemento con <code>width: 200px</code>, 20 px de
+relleno y 1 px de borde mide entonces 200 px en total, en lugar de 242 px.</p>
+<p>Este comportamiento resulta mucho más predecible al maquetar, y por ello es habitual
+aplicarlo a todo el documento. Bootstrap, por ejemplo, lo establece de forma global
+en su hoja de estilos base, de modo que al usar Bootstrap este es el modelo vigente.</p>
+</div>
+<h3 id="elementos-de-bloque-y-de-linea">Elementos de bloque y de línea<a class="headerlink" href="#elementos-de-bloque-y-de-linea" title="Permanent link">&para;</a></h3>
+<p>Los elementos HTML se clasifican según el tipo de caja que generan en el flujo del
+documento. Los <strong>elementos de bloque</strong>, como <code>&lt;div&gt;</code>, <code>&lt;form&gt;</code>, <code>&lt;h1&gt;</code> o <code>&lt;p&gt;</code>, ocupan
+por defecto todo el ancho disponible y se apilan verticalmente, uno debajo del anterior.
+Los <strong>elementos de línea</strong>, como <code>&lt;a&gt;</code>, <code>&lt;strong&gt;</code> o <code>&lt;b&gt;</code>, ocupan únicamente el espacio
+de su contenido, se colocan dentro del flujo del texto y no admiten que se les fije una
+anchura o una altura.</p>
+<p>Existe un tercer caso. Los elementos <strong>de línea en bloque</strong> (<em>inline-block</em>) se sitúan
+en el flujo del texto como los de línea, pero sí aceptan dimensiones y márgenes
+verticales. A esta categoría pertenecen los <strong>elementos reemplazados</strong>, como <code>&lt;img /&gt;</code> o
+<code>&lt;input /&gt;</code>, cuyo contenido lo aporta un recurso externo o el propio navegador. Por eso
+una imagen admite los atributos <code>width</code> y <code>height</code>, a diferencia de un <code>&lt;strong&gt;</code>.</p>
+<p>Esta distinción condiciona la disposición de los elementos y explica por qué ciertas
+propiedades de tamaño o de margen no surten efecto sobre algunos de ellos. La propiedad
+<code>display</code> permite cambiar el comportamiento por defecto de cualquier elemento.</p>
+<h2 id="diseno-responsive">Diseño <em>responsive</em><a class="headerlink" href="#diseno-responsive" title="Permanent link">&para;</a></h2>
+<p>El <strong>diseño <em>responsive</em></strong> consiste en adaptar la presentación de una web a distintos
+tamaños de pantalla y resoluciones. Se apoya en tres pilares, que son los <em>flexible
+grids</em> o rejillas flexibles, las <em>fluid images</em> o imágenes fluidas y las <em>media
+queries</em>, consultas que aplican estilos según las características del dispositivo.</p>
+<h3 id="bootstrap">Bootstrap<a class="headerlink" href="#bootstrap" title="Permanent link">&para;</a></h3>
+<p><strong>Bootstrap</strong> es un <em>framework</em> de CSS y JavaScript que facilita la creación de
+interfaces <em>responsive</em> mediante componentes reutilizables y un sistema de rejilla
+predefinido. Su rejilla divide el ancho disponible en 12 columnas y se estructura
+siempre con un contenedor (<code>container</code>), filas (<code>row</code>) y columnas (<code>col</code>).</p>
+<p>Bootstrap sigue el enfoque <strong><em>mobile first</em></strong>, según el cual los estilos base se aplican
+a pantallas pequeñas y los <strong><em>breakpoints</em></strong> permiten sobrescribir el diseño para
+pantallas mayores. Cada <em>breakpoint</em> se identifica mediante un infijo que se incorpora
+al nombre de la clase:</p>
+<table>
+<thead>
+<tr>
+<th>Infijo</th>
+<th>Anchura mínima</th>
+<th>Dispositivo de referencia</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Ninguno</td>
+<td>0 px</td>
+<td>Móviles en vertical</td>
+</tr>
+<tr>
+<td><code>sm</code></td>
+<td>576 px</td>
+<td>Móviles en horizontal</td>
+</tr>
+<tr>
+<td><code>md</code></td>
+<td>768 px</td>
+<td>Tabletas</td>
+</tr>
+<tr>
+<td><code>lg</code></td>
+<td>992 px</td>
+<td>Ordenadores portátiles</td>
+</tr>
+<tr>
+<td><code>xl</code></td>
+<td>1200 px</td>
+<td>Monitores de escritorio</td>
+</tr>
+<tr>
+<td><code>xxl</code></td>
+<td>1400 px</td>
+<td>Monitores de gran formato</td>
+</tr>
+</tbody>
+</table>
+<details class="example" open="open">
+<summary>Sistema de rejilla de Bootstrap</summary>
+<p>La columna ocupa el ancho completo en pantallas pequeñas y la mitad en pantallas
+grandes.</p>
+<div class="language-html highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-12-1">1</a></span>
+<span class="normal"><a href="#__codelineno-12-2">2</a></span>
+<span class="normal"><a href="#__codelineno-12-3">3</a></span>
+<span class="normal"><a href="#__codelineno-12-4">4</a></span>
+<span class="normal"><a href="#__codelineno-12-5">5</a></span>
+<span class="normal"><a href="#__codelineno-12-6">6</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1"></a><span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;container&quot;</span><span class="p">&gt;</span>
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2"></a>  <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;row&quot;</span><span class="p">&gt;</span>
+</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3"></a>    <span class="cm">&lt;!-- Ocupa 12 columnas en móvil y 6 en pantallas grandes --&gt;</span>
+</span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4"></a>    <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;col-12 col-lg-6&quot;</span><span class="p">&gt;</span>Contenido<span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+</span><span id="__span-12-5"><a id="__codelineno-12-5" name="__codelineno-12-5"></a>  <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+</span><span id="__span-12-6"><a id="__codelineno-12-6" name="__codelineno-12-6"></a><span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+</span></code></pre></div></td></tr></table></div>
+</details>
+<p>Las herramientas de desarrollo del navegador permiten simular distintos dispositivos
+para verificar el comportamiento <em>responsive</em> sin necesidad de disponer del hardware
+correspondiente.</p>
+<p>Los dos ejemplos siguientes muestran un par de páginas con navegación entre ellas
+mediante componentes de Bootstrap cargados desde una red de distribución de contenidos
+(<em>Content Delivery Network</em>, CDN).</p>
+<div class="admonition note">
+<p class="admonition-title">El atributo <code>integrity</code></p>
+<p>El atributo <code>integrity</code> no contiene una firma digital, sino un resumen criptográfico
+(SHA-384) del contenido esperado del archivo. El navegador calcula el resumen del
+recurso descargado y lo compara con el declarado, de modo que descarta el archivo si
+no coincide.</p>
+<p>Este mecanismo, denominado <em>Subresource Integrity</em>, detecta alteraciones del recurso
+pero no acredita su origen. Requiere además el atributo <code>crossorigin</code> cuando el
+recurso se obtiene de otro dominio, ya que solo así el navegador dispone del
+contenido completo para verificarlo.</p>
+</div>
+<details class="example" open="open">
+<summary>Página principal con Bootstrap</summary>
+<p>El botón de navegación se implementa como un enlace con apariencia de botón, y el
+<em>script</em> de Bootstrap se declara al final del <code>&lt;body&gt;</code> para no bloquear el análisis
+del documento.</p>
+<div class="language-html highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-13-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-13-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-13-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-13-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-13-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-13-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-13-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-13-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-13-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-13-10">10</a></span>
+<span class="normal"><a href="#__codelineno-13-11">11</a></span>
+<span class="normal"><a href="#__codelineno-13-12">12</a></span>
+<span class="normal"><a href="#__codelineno-13-13">13</a></span>
+<span class="normal"><a href="#__codelineno-13-14">14</a></span>
+<span class="normal"><a href="#__codelineno-13-15">15</a></span>
+<span class="normal"><a href="#__codelineno-13-16">16</a></span>
+<span class="normal"><a href="#__codelineno-13-17">17</a></span>
+<span class="normal"><a href="#__codelineno-13-18">18</a></span>
+<span class="normal"><a href="#__codelineno-13-19">19</a></span>
+<span class="normal"><a href="#__codelineno-13-20">20</a></span>
+<span class="normal"><a href="#__codelineno-13-21">21</a></span>
+<span class="normal"><a href="#__codelineno-13-22">22</a></span>
+<span class="normal"><a href="#__codelineno-13-23">23</a></span>
+<span class="normal"><a href="#__codelineno-13-24">24</a></span>
+<span class="normal"><a href="#__codelineno-13-25">25</a></span>
+<span class="normal"><a href="#__codelineno-13-26">26</a></span>
+<span class="normal"><a href="#__codelineno-13-27">27</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1"></a><span class="cp">&lt;!doctype html&gt;</span>
+</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2"></a><span class="p">&lt;</span><span class="nt">html</span> <span class="na">lang</span><span class="o">=</span><span class="s">&quot;es&quot;</span><span class="p">&gt;</span>
+</span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3"></a>  <span class="p">&lt;</span><span class="nt">head</span><span class="p">&gt;</span>
+</span><span id="__span-13-4"><a id="__codelineno-13-4" name="__codelineno-13-4"></a>    <span class="p">&lt;</span><span class="nt">meta</span> <span class="na">charset</span><span class="o">=</span><span class="s">&quot;utf-8&quot;</span> <span class="p">/&gt;</span>
+</span><span id="__span-13-5"><a id="__codelineno-13-5" name="__codelineno-13-5"></a>    <span class="p">&lt;</span><span class="nt">meta</span> <span class="na">name</span><span class="o">=</span><span class="s">&quot;viewport&quot;</span> <span class="na">content</span><span class="o">=</span><span class="s">&quot;width=device-width, initial-scale=1&quot;</span> <span class="p">/&gt;</span>
+</span><span id="__span-13-6"><a id="__codelineno-13-6" name="__codelineno-13-6"></a>    <span class="p">&lt;</span><span class="nt">title</span><span class="p">&gt;</span>Demostración de Bootstrap<span class="p">&lt;/</span><span class="nt">title</span><span class="p">&gt;</span>
+</span><span id="__span-13-7"><a id="__codelineno-13-7" name="__codelineno-13-7"></a>    <span class="p">&lt;</span><span class="nt">link</span>
+</span><span id="__span-13-8"><a id="__codelineno-13-8" name="__codelineno-13-8"></a>      <span class="na">href</span><span class="o">=</span><span class="s">&quot;https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css&quot;</span>
+</span><span id="__span-13-9"><a id="__codelineno-13-9" name="__codelineno-13-9"></a>      <span class="na">rel</span><span class="o">=</span><span class="s">&quot;stylesheet&quot;</span>
+</span><span id="__span-13-10"><a id="__codelineno-13-10" name="__codelineno-13-10"></a>      <span class="na">integrity</span><span class="o">=</span><span class="s">&quot;sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB&quot;</span>
+</span><span id="__span-13-11"><a id="__codelineno-13-11" name="__codelineno-13-11"></a>      <span class="na">crossorigin</span><span class="o">=</span><span class="s">&quot;anonymous&quot;</span>
+</span><span id="__span-13-12"><a id="__codelineno-13-12" name="__codelineno-13-12"></a>    <span class="p">/&gt;</span>
+</span><span id="__span-13-13"><a id="__codelineno-13-13" name="__codelineno-13-13"></a>  <span class="p">&lt;/</span><span class="nt">head</span><span class="p">&gt;</span>
+</span><span id="__span-13-14"><a id="__codelineno-13-14" name="__codelineno-13-14"></a>  <span class="p">&lt;</span><span class="nt">body</span><span class="p">&gt;</span>
+</span><span id="__span-13-15"><a id="__codelineno-13-15" name="__codelineno-13-15"></a>    <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;container&quot;</span><span class="p">&gt;</span>
+</span><span id="__span-13-16"><a id="__codelineno-13-16" name="__codelineno-13-16"></a>      <span class="p">&lt;</span><span class="nt">h1</span><span class="p">&gt;</span>Página principal<span class="p">&lt;/</span><span class="nt">h1</span><span class="p">&gt;</span>
+</span><span id="__span-13-17"><a id="__codelineno-13-17" name="__codelineno-13-17"></a>      <span class="p">&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">&quot;./pagina_2.html&quot;</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;btn btn-primary&quot;</span><span class="p">&gt;</span>
+</span><span id="__span-13-18"><a id="__codelineno-13-18" name="__codelineno-13-18"></a>        Ir a la página 2
+</span><span id="__span-13-19"><a id="__codelineno-13-19" name="__codelineno-13-19"></a>      <span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>
+</span><span id="__span-13-20"><a id="__codelineno-13-20" name="__codelineno-13-20"></a>    <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+</span><span id="__span-13-21"><a id="__codelineno-13-21" name="__codelineno-13-21"></a>    <span class="p">&lt;</span><span class="nt">script</span>
+</span><span id="__span-13-22"><a id="__codelineno-13-22" name="__codelineno-13-22"></a>      <span class="na">src</span><span class="o">=</span><span class="s">&quot;https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js&quot;</span>
+</span><span id="__span-13-23"><a id="__codelineno-13-23" name="__codelineno-13-23"></a>      <span class="na">integrity</span><span class="o">=</span><span class="s">&quot;sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI&quot;</span>
+</span><span id="__span-13-24"><a id="__codelineno-13-24" name="__codelineno-13-24"></a>      <span class="na">crossorigin</span><span class="o">=</span><span class="s">&quot;anonymous&quot;</span>
+</span><span id="__span-13-25"><a id="__codelineno-13-25" name="__codelineno-13-25"></a>    <span class="p">&gt;&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</span><span id="__span-13-26"><a id="__codelineno-13-26" name="__codelineno-13-26"></a>  <span class="p">&lt;/</span><span class="nt">body</span><span class="p">&gt;</span>
+</span><span id="__span-13-27"><a id="__codelineno-13-27" name="__codelineno-13-27"></a><span class="p">&lt;/</span><span class="nt">html</span><span class="p">&gt;</span>
+</span></code></pre></div></td></tr></table></div>
+<p>La etiqueta <code>&lt;meta name="viewport"&gt;</code> indica al navegador que ajuste la anchura del
+documento a la del dispositivo, requisito imprescindible para que las <em>media
+queries</em> de Bootstrap surtan efecto.</p>
+</details>
+<details class="example" open="open">
+<summary>Segunda página con Bootstrap</summary>
+<p>La segunda página reutiliza sin cambios el <code>&lt;head&gt;</code> y el <em>script</em> del ejemplo
+anterior, de modo que solo se muestra el contenido del contenedor.</p>
+<div class="language-html highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-14-1">1</a></span>
+<span class="normal"><a href="#__codelineno-14-2">2</a></span>
+<span class="normal"><a href="#__codelineno-14-3">3</a></span>
+<span class="normal"><a href="#__codelineno-14-4">4</a></span>
+<span class="normal"><a href="#__codelineno-14-5">5</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1"></a><span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;container&quot;</span><span class="p">&gt;</span>
+</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2"></a>  <span class="p">&lt;</span><span class="nt">h1</span><span class="p">&gt;</span>Página 2<span class="p">&lt;/</span><span class="nt">h1</span><span class="p">&gt;</span>
+</span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3"></a>  <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>Contenido de la segunda página del ejemplo.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+</span><span id="__span-14-4"><a id="__codelineno-14-4" name="__codelineno-14-4"></a>  <span class="p">&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">&quot;index.html&quot;</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;btn btn-primary&quot;</span><span class="p">&gt;</span>Volver al inicio<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>
+</span><span id="__span-14-5"><a id="__codelineno-14-5" name="__codelineno-14-5"></a><span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+</span></code></pre></div></td></tr></table></div>
+</details>
+<p>Con estas piezas queda cubierto el recorrido completo, desde la petición que el
+navegador envía al servidor hasta la hoja de estilos que decide cómo se presenta la
+respuesta en cualquier tamaño de pantalla.</p>
+
+
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-circle-arrow-up" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m16 12-4-4-4 4M12 16V8"/></svg>
+  Volver al principio
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Pie" >
+        
+          
+          <a href="../../03_cuda/section_3_cuda_python/" class="md-footer__link md-footer__link--prev" aria-label="Anterior: CUDA en Python">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-arrow-left" viewBox="0 0 24 24"><path d="m12 19-7-7 7-7M19 12H5"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Anterior
+              </span>
+              <div class="md-ellipsis">
+                CUDA en Python
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../../../08_career/cv_guide/" class="md-footer__link md-footer__link--next" aria-label="Siguiente: Estrategias de empleo">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Siguiente
+              </span>
+              <div class="md-ellipsis">
+                Estrategias de empleo
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-arrow-right" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2026 Daniel Bazo Correa
+    </div>
+  
+  
+    Made with
+    <a href="https://zensical.org/" target="_blank" rel="noopener">
+      Zensical
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://www.linkedin.com/in/daniel-bazo-correa/" target="_blank" rel="noopener" title="www.linkedin.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.3.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2026 Fonticons, Inc.--><path fill="currentColor" d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3M135.4 416H69V202.2h66.5V416zM102.2 96a38.5 38.5 0 1 1 0 77 38.5 38.5 0 1 1 0-77m282.1 320h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9z"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog" role="status" aria-atomic="true">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      
+      
+        
+        
+      <script id="__config" type="application/json">{"annotate":null,"base":"../../..","features":["announce.dismiss","content.code.annotate","content.code.copy","content.code.select","content.footnote.tooltips","content.tabs.link","content.tooltips","navigation.footer","navigation.indexes","navigation.instant","navigation.instant.prefetch","navigation.sections","navigation.tabs","navigation.top","navigation.tracking","search.highlight"],"redirect":null,"search":"../../../assets/javascripts/workers/search.c47bb847.min.js","tags":null,"translations":{"clipboard.copied":"Copiado al portapapeles","clipboard.copy":"Copiar al portapapeles","clipboard.error":"Could not copy to clipboard","search.result.more.one":"1 más en esta página","search.result.more.other":"# más en esta página","search.result.none":"No se encontraron documentos","search.result.one":"1 documento encontrado","search.result.other":"# documentos encontrados","search.result.placeholder":"Teclee para comenzar búsqueda","search.result.term.missing":"Falta","select.version":"Seleccionar versión"},"version":{"default":"latest","provider":"mike"}}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.a2388154.min.js"></script>
+      
+        <script src="../../../assets/javascripts/mathjax.js"></script>
+      
+        <script src="https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>

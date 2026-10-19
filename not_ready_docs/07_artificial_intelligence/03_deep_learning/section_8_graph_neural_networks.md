@@ -1,4 +1,5 @@
 ---
+icon: lucide/waypoints
 authors: Daniel Bazo Correa
 description: Fundamentos de las Redes Neuronales de Grafos.
 title: Redes Neuronales de Grafos

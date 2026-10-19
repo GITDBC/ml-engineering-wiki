@@ -1,4 +1,5 @@
 ---
+icon: lucide/book-open
 authors: Daniel Bazo Correa
 description:
     Arquitectura de la GPU y conceptos fundamentales de la plataforma CUDA de NVIDIA,

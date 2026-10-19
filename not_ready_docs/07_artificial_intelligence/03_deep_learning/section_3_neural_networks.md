@@ -1,4 +1,5 @@
 ---
+icon: lucide/network
 authors: Daniel Bazo Correa
 description: Neurona artificial, redes neuronales y diferenciación automática.
 title: Redes neuronales

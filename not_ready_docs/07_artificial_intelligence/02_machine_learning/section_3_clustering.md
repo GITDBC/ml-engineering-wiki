@@ -1,4 +1,5 @@
 ---
+icon: lucide/group
 authors: Daniel Bazo Correa
 description: Algoritmos de agrupación y clustering.
 title: Algoritmos de agrupación

@@ -1,4 +1,5 @@
 ---
+icon: lucide/book-open
 authors: Daniel Bazo Correa
 description: Introducción al aprendizaje profundo.
 title: Fundamentos

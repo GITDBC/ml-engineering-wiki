@@ -1,4 +1,5 @@
 ---
+icon: lucide/book-open
 authors: Daniel Bazo Correa
 description:
     Variables, tipos de datos, ownership, borrowing, slices y control de flujo en Rust,

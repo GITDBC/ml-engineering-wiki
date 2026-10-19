@@ -1,4 +1,5 @@
 ---
+icon: lucide/book-open
 authors: Daniel Bazo Correa
 description: Fundamentos del Machine Learning.
 title: Fundamentos

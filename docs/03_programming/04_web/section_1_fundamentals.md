@@ -1,4 +1,5 @@
 ---
+icon: lucide/book-open
 authors: Daniel Bazo Correa
 description:
     Modelo cliente-servidor, protocolo HTTP, HTML, CSS, el DOM, accesibilidad y diseño

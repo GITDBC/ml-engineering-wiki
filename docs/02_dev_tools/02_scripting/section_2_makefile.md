@@ -1,4 +1,5 @@
 ---
+icon: lucide/hammer
 authors: Daniel Bazo Correa
 description:
     Automatización de tareas con Make, incluyendo la sintaxis de reglas, las variables,

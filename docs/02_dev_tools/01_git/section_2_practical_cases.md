@@ -1,4 +1,5 @@
 ---
+icon: lucide/git-pull-request
 authors: Daniel Bazo Correa
 description: Automatización con Git Hooks y soluciones a escenarios frecuentes en Git.
 title: Hooks y casos prácticos

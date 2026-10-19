@@ -1,4 +1,5 @@
 ---
+icon: lucide/library
 authors: Daniel Bazo Correa
 description:
     Bibliotecas del ecosistema de Python especialmente útiles para construir utilidades

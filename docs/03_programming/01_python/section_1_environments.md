@@ -1,4 +1,5 @@
 ---
+icon: lucide/package
 authors: Daniel Bazo Correa
 description:
     Creación y gestión de entornos virtuales y dependencias de Python con venv,

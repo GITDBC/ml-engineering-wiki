@@ -1,4 +1,5 @@
 ---
+icon: lucide/book-open
 authors: Daniel Bazo Correa
 description:
     Conceptos esenciales de Git, configuración del entorno, comandos y estrategias de

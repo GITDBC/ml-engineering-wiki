@@ -1,4 +1,5 @@
 ---
+icon: lucide/square-terminal
 authors: Daniel Bazo Correa
 description:
     Fundamentos de Bash como intérprete de comandos y lenguaje de scripting, con su

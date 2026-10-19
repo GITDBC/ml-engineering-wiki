@@ -1,4 +1,5 @@
 ---
+icon: lucide/cloud-cog
 authors: Daniel Bazo Correa
 description:
     Conceptos fundamentales de Amazon Web Services, desde la infraestructura global

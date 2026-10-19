@@ -1,4 +1,5 @@
 ---
+icon: lucide/workflow
 authors: Daniel Bazo Correa
 description: Kubernetes, componentes, pods, servicios y despliegues.
 title: Orquestación

@@ -1,4 +1,5 @@
 ---
+icon: lucide/house
 title: Introducción
 description: Wiki personal sobre IA, ciencia de datos y programación.
 hide_table_of_contents: true

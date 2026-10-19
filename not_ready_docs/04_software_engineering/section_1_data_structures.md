@@ -1,4 +1,5 @@
 ---
+icon: lucide/binary
 authors: Daniel Bazo Correa
 description:
     Pilas, colas, listas enlazadas, listas doblemente enlazadas y árboles binarios de

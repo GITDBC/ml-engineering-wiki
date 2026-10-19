@@ -62,25 +62,34 @@ jobs:
       - name: Build Documentation
         run: uv run zensical build --clean
 
-      - name: Deploy Documentation
+      - name: Configure Git
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Setup Docs Branch
+        run: |
+          CURRENT_BRANCH=$(git branch --show-current)
+
+          if git ls-remote --heads origin ${{ env.docs-branch }} | grep -q ${{ env.docs-branch }}; then
+            echo "${{ env.docs-branch }} branch exists, fetching..."
+            git fetch origin ${{ env.docs-branch }}:${{ env.docs-branch }}
+          else
+            echo "${{ env.docs-branch }} branch doesn't exist, creating..."
+            git checkout --orphan ${{ env.docs-branch }}
+            git reset --hard
+            git commit --allow-empty -m "Initial ${{ env.docs-branch }} commit"
+            git push origin ${{ env.docs-branch }}
+            git checkout "$CURRENT_BRANCH"
+          fi
+
+      - name: Build and Deploy Docs with Mike
         if: github.ref == 'refs/heads/main'
         run: |
           VERSION=$(uv version --short)
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
           uv run mike deploy --branch ${{ env.docs-branch }} "v${VERSION}" --ignore-remote-status
           uv run mike deploy --branch ${{ env.docs-branch }} "latest" --ignore-remote-status
           uv run mike set-default --branch ${{ env.docs-branch }} latest --ignore-remote-status
-
-      - name: Upload Pages Artifact
-        if: github.ref == 'refs/heads/main'
-        uses: actions/upload-pages-artifact@v5
-        with:
-          path: site
-
-      - name: Deploy to GitHub Pages
-        if: github.ref == 'refs/heads/main'
-        uses: actions/deploy-pages@v5
 
   release:
     name: Release

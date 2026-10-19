@@ -1,4 +1,5 @@
 ---
+icon: lucide/container
 authors: Daniel Bazo Correa
 description:
     Fundamentos de los contenedores con Docker, su arquitectura, comandos principales,

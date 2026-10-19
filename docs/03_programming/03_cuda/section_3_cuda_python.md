@@ -1,4 +1,5 @@
 ---
+icon: lucide/microchip
 authors: Daniel Bazo Correa
 description:
     Aceleración de aplicaciones Python en GPU con Numba y CuPy, desde la compilación JIT

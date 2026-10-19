@@ -1,4 +1,5 @@
 ---
+icon: lucide/sparkles
 authors: Daniel Bazo Correa
 description: Fundamentos de la IA Generativa.
 title: IA Generativa

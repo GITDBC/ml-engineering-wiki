@@ -1,4 +1,5 @@
 ---
+icon: lucide/telescope
 authors: Daniel Bazo Correa
 description:
     Imputación de datos, detección de anomalías, sistemas de recomendación, redes

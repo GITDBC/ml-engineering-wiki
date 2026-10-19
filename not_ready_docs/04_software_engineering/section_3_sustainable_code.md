@@ -1,4 +1,5 @@
 ---
+icon: lucide/leaf
 authors: Daniel Bazo Correa
 description:
     Principios de diseño, código limpio, modularidad, gestión de la complejidad,

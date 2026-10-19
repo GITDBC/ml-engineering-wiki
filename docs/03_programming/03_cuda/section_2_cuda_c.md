@@ -1,4 +1,5 @@
 ---
+icon: lucide/file-code
 authors: Daniel Bazo Correa
 description:
     Programación de kernels CUDA en C, identificación de hilos, gestión de la memoria

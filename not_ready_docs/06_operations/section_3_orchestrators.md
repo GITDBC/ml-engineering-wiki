@@ -97,7 +97,10 @@ flowchart TB
 Un sistema admite dos formas de escalado. El **escalado vertical** aumenta la CPU, la
 GPU o la memoria de un nodo concreto. El **escalado horizontal** incrementa el número de
 nodos, que en conjunto conforman un clúster. Esta segunda modalidad resulta más
-eficiente y es precisamente la que Kubernetes facilita.
+eficiente y es precisamente la que Kubernetes facilita. Para aprovecharla, el servicio
+no debe guardar estado en la réplica: si cada instancia mantiene información que las
+demás no conocen, las peticiones de un mismo usuario deben dirigirse siempre a la misma
+réplica y el escalado deja de ser libre.
 
 Los clústeres se clasifican además según quién gestiona la infraestructura. Los
 clústeres **_on-premise_** son aquellos donde la propia organización monta y administra
@@ -114,7 +117,10 @@ disponibilidad requerido:
 - **Un maestro, un etcd y varios trabajadores**: Separa el almacén de estado del plano
   de control.
 - **Varios maestros y varios trabajadores**: Topología de alta disponibilidad, donde la
-  caída de un nodo maestro no detiene el clúster.
+  caída de un nodo maestro no detiene el clúster. Se recomiendan al menos tres nodos
+  maestros, porque las decisiones de coordinación del plano de control se toman por
+  mayoría y con dos nodos no es posible distinguir la caída de uno de ellos de una
+  partición de la red.
 
 ### Nodos
 
@@ -133,6 +139,12 @@ Un _pod_ es la unidad mínima de ejecución en Kubernetes y puede contener uno o
 contenedores que comparten los mismos recursos y red local. Todos los contenedores
 dentro del mismo _pod_ pueden comunicarse entre sí y comparten el mismo entorno de red.
 Al escalar un _pod_, todos los contenedores dentro de él se escalan conjuntamente.
+
+Un _pod_ es efímero por diseño: no se repara, sino que cuando falla se sustituye por
+otro con identidad distinta, y su dirección IP no sobrevive al reemplazo. Por ello los
+_pods_ no se declaran directamente en producción, sino a través de un objeto que
+mantenga su número, como un _deployment_, y el acceso a ellos se realiza mediante un
+servicio en lugar de por su dirección.
 
 ### Clúster
 
@@ -200,7 +212,11 @@ y `kubectl get sts` (para consultar los _StatefulSets_).
 
 Un manifiesto es un archivo en formato YAML o JSON que especifica cómo desplegar una
 aplicación en un clúster de Kubernetes. Este archivo se conoce como un registro de
-intención, donde se le indica a Kubernetes el estado deseado del clúster.
+intención, donde se le indica a Kubernetes el estado deseado del clúster. El modelo es
+declarativo: el operador no ordena acciones, y los controladores trabajan de forma
+continua para reducir la diferencia entre el estado deseado y el observado. Por eso un
+_pod_ eliminado a mano reaparece al momento, ya que el controlador responsable observa
+que faltan réplicas respecto a las declaradas y crea las que faltan.
 
 Un concepto importante asociado es el de _namespace_, que constituye la división lógica
 del clúster de Kubernetes y permite separar la carga del clúster. Se pueden crear
@@ -279,10 +295,34 @@ En este manifiesto, la sección `resources.requests` define los recursos garanti
 la instancia debe tener disponibles para poder realizar el despliegue, medidos en
 _milicores_ para CPU (donde 1000 _milicores_ equivalen a 1 _core_). La sección
 `resources.limits` establece el límite máximo de recursos que el _pod_ puede consumir.
-Si se excede dicho límite, el _kernel_ de Linux finaliza el proceso y el _pod_ se
-reinicia. La _readiness probe_ indica a Kubernetes que el _pod_ está listo para recibir
-tráfico, mientras que la _liveness probe_ confirma que el _pod_ sigue activo y no debe
-ser eliminado.
+Si se excede el límite de memoria, el _kernel_ de Linux finaliza el proceso y el _pod_
+se reinicia, mientras que el exceso de CPU se limita sin terminar el proceso. Las sondas
+se describen en el apartado siguiente.
+
+### Sondas de vida, disponibilidad y arranque
+
+Un proceso en ejecución no es necesariamente un proceso que funcione. El `kubelet`
+distingue ambas situaciones mediante sondas que consulta de forma periódica, y de cuyo
+resultado dependen decisiones distintas:
+
+- **Sonda de vida** (`livenessProbe`): Determina si el contenedor sigue operativo. Su
+  fallo reiterado provoca el reinicio del contenedor, lo que resuelve los bloqueos
+  internos del proceso que no llegan a terminarlo.
+- **Sonda de disponibilidad** (`readinessProbe`): Determina si el contenedor está en
+  condiciones de atender tráfico. Su fallo retira la réplica del reparto de carga del
+  servicio sin reiniciarla, lo que protege al usuario durante un arranque lento o una
+  sobrecarga transitoria.
+- **Sonda de arranque** (`startupProbe`): Determina si el proceso ha completado su
+  inicialización. Mientras no tenga éxito, las otras dos quedan suspendidas, lo que
+  evita que un arranque largo se interprete como un fallo y desencadene un ciclo de
+  reinicios. Es especialmente útil en los servicios de inferencia que cargan un modelo
+  de gran tamaño al iniciarse.
+
+!!! warning "No usar la misma comprobación para las sondas de vida y de disponibilidad"
+
+    Emplear la misma comprobación para ambas convierte una sobrecarga momentánea en un
+    reinicio, y el reinicio agrava la sobrecarga sobre las réplicas restantes hasta
+    propagar el fallo a todo el servicio.
 
 ### Despliegue y gestión de réplicas
 
@@ -312,6 +352,75 @@ que el estado deseado se mantenga, monitorizándolos de forma continua:
               ports:
                 - containerPort: 80
     ```
+
+### Actualización progresiva y reversión
+
+La sustitución de una versión por otra se realiza mediante una **actualización
+progresiva** (_rolling update_), que es la estrategia por defecto de un _deployment_. El
+controlador crea réplicas de la versión nueva y retira las de la anterior de forma
+gradual, manteniendo en todo momento capacidad suficiente para atender el tráfico. Dos
+parámetros gobiernan el proceso: `maxUnavailable`, que acota cuántas réplicas pueden
+faltar respecto a las declaradas, y `maxSurge`, que acota cuántas pueden existir por
+encima de ellas.
+
+La _readiness probe_ es la pieza que hace segura la actualización. Sin ella, el
+controlador considera disponible una réplica en cuanto su contenedor arranca y retira
+las antiguas antes de que las nuevas atiendan tráfico, lo que interrumpe el servicio.
+Con ella, una versión defectuosa nunca alcanza el estado de disponibilidad, la
+actualización se detiene con las réplicas antiguas en servicio y la reversión restaura
+la revisión anterior a partir del historial que el _deployment_ conserva.
+
+```bash linenums="1"
+kubectl apply -f deployment.yaml
+kubectl rollout status deployment nginx-deployment
+kubectl rollout undo deployment nginx-deployment
+```
+
+La primera orden declara la nueva versión, la segunda informa del avance de la
+actualización y la tercera revierte el _deployment_ a su revisión anterior.
+
+### Escalado horizontal automático
+
+El **escalado horizontal automático** (`HorizontalPodAutoscaler`) ajusta el número de
+réplicas de un _deployment_ en función de métricas observadas, habitualmente la
+utilización de CPU o de memoria respecto a lo solicitado en `resources.requests`. El
+controlador compara de forma periódica la métrica con el objetivo declarado y modifica
+el número de réplicas dentro de los límites establecidos.
+
+???+ example "Manifiesto de un `HorizontalPodAutoscaler`"
+
+    ```yaml linenums="1"
+    apiVersion: autoscaling/v2
+    kind: HorizontalPodAutoscaler
+    metadata:
+      name: mi-servicio
+    spec:
+      scaleTargetRef:
+        apiVersion: apps/v1
+        kind: Deployment
+        name: mi-servicio
+      minReplicas: 2
+      maxReplicas: 12
+      metrics:
+        - type: Resource
+          resource:
+            name: cpu
+            target:
+              type: Utilization
+              averageUtilization: 70
+    ```
+
+    Con un objetivo del 70 % de utilización media y una solicitud de `100m` por réplica,
+    un consumo agregado sostenido de 840 milicores conduce a 12 réplicas, ya que
+    840 / (100 × 0,7) = 12, y uno de 140 milicores, al mínimo de 2. El valor de
+    `minReplicas` no baja de 2 porque una réplica única deja el servicio sin
+    disponibilidad durante cualquier reemplazo, y `maxReplicas` acota los recursos que el
+    servicio puede reclamar al clúster.
+
+Dos condiciones determinan su utilidad: que el _deployment_ declare
+`resources.requests`, porque la utilización se calcula como fracción de lo solicitado, y
+que el servicio tolere que sus réplicas aparezcan y desaparezcan. Además, el clúster
+necesita un servidor de métricas desplegado que proporcione el consumo de los _pods_.
 
 ### _DaemonSet_
 
@@ -391,12 +500,52 @@ que proporciona una IP estable para el servidor, facilitando su acceso desde Int
           targetPort: 80
     ```
 
+**ExternalName** no enruta tráfico hacia _pods_, sino que redirige el nombre del
+servicio a un nombre de dominio externo al clúster.
+
 #### _Ingress_
 
 _Ingress_ administra el acceso externo a los servicios del clúster, típicamente HTTP.
 Proporciona balanceo de carga y terminación SSL, y permite el acceso al servicio
 mediante _paths_. Suele requerirse un controlador Ingress-Nginx que se instala por
-separado.
+separado: el objeto por sí solo no encamina nada, y necesita un controlador que lo
+interprete. Concentra en un único punto de entrada lo que de otro modo exigiría un
+balanceador de carga por servicio.
+
+???+ example "Manifiesto de un _Ingress_ con dos rutas"
+
+    ```yaml linenums="1"
+    apiVersion: networking.k8s.io/v1
+    kind: Ingress
+    metadata:
+      name: mi-ingress
+    spec:
+      ingressClassName: nginx
+      rules:
+        - host: ejemplo.interno
+          http:
+            paths:
+              - path: /
+                pathType: Prefix
+                backend:
+                  service:
+                    name: mi-servicio
+                    port:
+                      number: 80
+              - path: /api
+                pathType: Prefix
+                backend:
+                  service:
+                    name: mi-api
+                    port:
+                      number: 8080
+    ```
+
+    El campo `ingressClassName` identifica al controlador que debe atender la regla, algo
+    necesario cuando el clúster tiene más de uno desplegado. El campo `pathType` es
+    obligatorio en la versión vigente de la API, `networking.k8s.io/v1`; las versiones
+    preliminares `extensions/v1beta1` y `networking.k8s.io/v1beta1` están retiradas desde
+    Kubernetes 1.22 y el servidor rechaza los manifiestos que las declaren.
 
 !!! warning
 
@@ -442,9 +591,11 @@ kubectl expose pod nombre_del_pod --type=LoadBalancer --port=8080 --target-port=
 ### _Networking_ y almacenamiento
 
 Cada _pod_ en Kubernetes tiene su propia dirección IP, y para comunicar _pods_ en
-diferentes nodos se utiliza el _Cloud Cluster Networking Interface_. En cuanto al
-almacenamiento, **etcd** es un almacén de datos clave-valor distribuido utilizado para
-guardar datos de configuración, estado y metadatos del clúster.
+diferentes nodos se utiliza el _Container Network Interface_ (CNI). Los complementos CNI
+suelen implementar esa comunicación mediante una red superpuesta (_overlay_), que
+encapsula el tráfico de los _pods_ en paquetes que viajan por la red física entre nodos.
+En cuanto al almacenamiento, **etcd** es un almacén de datos clave-valor distribuido
+utilizado para guardar datos de configuración, estado y metadatos del clúster.
 
 ### Patrones de resiliencia
 

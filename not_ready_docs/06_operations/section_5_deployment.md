@@ -59,6 +59,74 @@ Las operaciones fundamentales de una API REST siguen el patrón CRUD:
 | Actualizar | `PUT`       | Modifica un recurso   |
 | Eliminar   | `DELETE`    | Elimina un recurso    |
 
+### Formatos de serialización y protocolos de API
+
+Una API transmite bytes sin ninguna estructura propia, por lo que debe definir cómo
+convierte los objetos de la aplicación en una secuencia de bytes y cómo los reconstruye
+en el extremo receptor. Esa conversión, la **serialización**, admite dos familias de
+formato. Los formatos **de texto**, como JSON o XML, son legibles, facilitan la
+depuración y la interoperabilidad entre lenguajes, pero producen mensajes más
+voluminosos y exigen un análisis sintáctico más costoso. Los formatos **binarios**, como
+_Protocol Buffers_, representan cada campo con su codificación mínima y reducen tanto el
+tamaño transmitido como el coste de proceso, a cambio de que el mensaje no pueda
+inspeccionarse a simple vista y de que ambos extremos deban compartir de antemano la
+descripción de cada campo. Esta diferencia es relevante cuando las peticiones
+transportan datos voluminosos, como tensores o _embeddings_.
+
+REST y gRPC son las dos opciones habituales para exponer un modelo, y cada una sitúa en
+un punto distinto el equilibrio entre sencillez y rendimiento:
+
+| Aspecto                 | REST                                    | gRPC                                                          |
+| :---------------------- | :-------------------------------------- | :------------------------------------------------------------ |
+| Transporte              | HTTP, habitualmente con JSON.           | HTTP/2 con _Protocol Buffers_ en formato binario.             |
+| Contrato                | Documentación de la API, sin obligar.   | Descripción de interfaz que genera código cliente y servidor. |
+| Flujo de datos          | Petición y respuesta única.             | Flujos bidireccionales sobre una misma conexión.              |
+| Facilidad de inspección | Alta, formato legible sin herramientas. | Baja, requiere el contrato para decodificar los mensajes.     |
+
+Una API REST puede invocarse con cualquier herramienta capaz de hablar HTTP, desde un
+navegador hasta una línea de comandos, por lo que resulta adecuada para integrarse con
+sistemas diversos. gRPC se orienta a un volumen alto de llamadas internas entre
+servicios o a la transmisión continua de datos, y renuncia a esa facilidad de uso a
+cambio de rendimiento y de un tipado estricto.
+
+### Concurrencia en el servidor
+
+Un servidor de inferencia atiende peticiones de muchos clientes a la vez, y la unidad
+del sistema operativo que asigna a cada conexión determina tanto la sencillez del
+programa como el número de conexiones que sostiene antes de degradarse:
+
+| Modelo               | Recurso consumido por conexión  | Primer factor de degradación              |
+| :------------------- | :------------------------------ | :---------------------------------------- |
+| Proceso por conexión | Espacio de proceso completo.    | Tiempo de creación y conmutación.         |
+| Hilo por conexión    | Pila de ejecución del hilo.     | Memoria acumulada y conmutación de hilos. |
+| Bucle de eventos     | Estructuras de la propia tarea. | Una tarea que no cede el control.         |
+
+El modelo de **proceso por conexión** ofrece un aislamiento total, porque un fallo en un
+proceso no puede corromper el estado de otro, pero crear procesos es costoso en tiempo y
+en memoria. El de **hilo por conexión** es más ligero y permite compartir estado, aunque
+exige sincronizarlo, y su coste de gestión crece con el número de hilos. En la
+implementación estándar de Python, además, el bloqueo global del intérprete (_GIL_)
+impide que dos hilos ejecuten código de Python de forma simultánea, por lo que este
+modelo solo aporta ganancia cuando el tiempo se consume esperando red y no calculando.
+
+El **bucle de eventos** atiende todas las conexiones dentro de un único hilo. Cada
+conexión es una tarea cooperativa que cede el control en cada punto de espera, y el
+bucle reparte la atención entre las tareas activas. El módulo `asyncio` de la biblioteca
+estándar de Python lo expresa mediante **corrutinas**, funciones declaradas con
+`async def` que se suspenden en un `await` mientras esperan una operación de entrada o
+salida, de modo que cada conexión se programa como si fuera secuencial. Es el modelo que
+sostiene más conexiones simultáneas con menos memoria, y encaja con las APIs asíncronas
+descritas antes. Su contrapartida es que una tarea que no cede el control, por ejemplo
+una inferencia intensiva en cálculo ejecutada directamente dentro de una corrutina,
+bloquea a todas las demás, y que aprovechar varios núcleos exige levantar varios bucles
+de eventos, cada uno en su propio proceso.
+
+Ningún modelo es superior en abstracto. Pocas conexiones de larga duración y cómputo
+intensivo por conexión encajan con procesos o hilos, mientras que muchas conexiones
+mayoritariamente inactivas encajan mejor con un bucle de eventos. Los servidores de
+producción combinan ambos ejes, con varios procesos en paralelo, uno por núcleo
+disponible, y un bucle de eventos dentro de cada uno.
+
 ## Estrategias de despliegue
 
 Publicar una versión nueva de un modelo no consiste en sustituir el artefacto anterior

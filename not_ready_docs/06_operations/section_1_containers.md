@@ -115,6 +115,19 @@ Las capas de solo lectura contienen los archivos del sistema y las dependencias,
 mientras que la capa de escritura se sitúa en la parte superior, lo que minimiza el uso
 de almacenamiento y facilita el desarrollo iterativo.
 
+Los dos primeros mecanismos resuelven problemas complementarios y ninguno basta por sí
+solo: los _namespaces_ determinan **qué ve** el proceso y los _cgroups_ **cuánto
+consume**. Un contenedor con su propia pila de red pero sin límite de memoria puede
+agotar la del _host_, y un contenedor con la memoria limitada pero sin aislamiento del
+sistema de archivos puede leer los datos de sus vecinos. Declarar los límites tampoco es
+opcional: sin ellos, el rendimiento de cada servicio depende del comportamiento de los
+demás contenedores del _host_ y el orquestador carece de la información necesaria para
+decidir dónde cabe cada instancia. Un límite de CPU, como `--cpus`, no reserva un núcleo
+en exclusiva, sino que acota el tiempo de CPU que el contenedor consume en cada periodo
+de planificación. Igualar `--memory-swap` a `--memory` desactiva el intercambio a disco,
+de modo que un consumo excesivo termina el proceso en lugar de degradar su latencia de
+forma silenciosa.
+
 ### Máquinas virtuales e hipervisores
 
 Las máquinas virtuales representan una tecnología de virtualización más tradicional que
@@ -130,6 +143,30 @@ un aislamiento más fuerte que el de los contenedores. Esta garantía tiene como
 contrapartida un mayor consumo de CPU, memoria y almacenamiento, además de tiempos de
 inicio más prolongados.
 
+### Tipos de virtualización y acceso al hardware
+
+Según cómo se relaciona el sistema invitado con el hipervisor se distinguen tres
+enfoques. En la **virtualización completa**, el sistema operativo invitado no se
+modifica y no es consciente de estar virtualizado, porque el hipervisor le presenta una
+réplica completa del hardware que espera encontrar. En la **paravirtualización**, el
+invitado incluye controladores diseñados para cooperar con el hipervisor, como los de
+los dispositivos `virtio`, lo que evita parte de la traducción a cambio de exigir ese
+soporte en el invitado. La **virtualización ligera** corresponde a los contenedores, que
+no emplean hipervisor ni sistema operativo invitado.
+
+La virtualización completa moderna se apoya en extensiones del procesador como Intel
+VT-x y AMD-V, que hacen que las instrucciones privilegiadas del invitado provoquen una
+transición controlada por _hardware_ hacia el hipervisor, en lugar de interceptarlas y
+traducirlas por _software_. Las extensiones Intel VT-d y AMD-Vi añaden una unidad de
+gestión de memoria de entrada y salida (IOMMU) que permite la **asignación directa**
+(_passthrough_) de un dispositivo físico a una máquina virtual. Es el mecanismo con el
+que una máquina virtual accede a una GPU con un rendimiento próximo al del _hardware_
+dedicado, a costa de que el dispositivo deje de estar disponible para otras máquinas
+virtuales y de complicar su migración en caliente a otro servidor. La virtualización de
+entrada y salida de raíz única (SR-IOV) matiza ese compromiso: un dispositivo
+compatible, típicamente una tarjeta de red, se presenta como varias funciones virtuales
+que pueden asignarse cada una a una máquina virtual distinta.
+
 ### Criterios de elección
 
 Los contenedores resultan idóneos para el desarrollo y las pruebas, las arquitecturas de
@@ -137,6 +174,13 @@ microservicios y el despliegue continuo, por ejemplo en las herramientas de CI/C
 ofrecen plataformas como GitLab o GitHub. Las máquinas virtuales se adaptan mejor a
 aplicaciones monolíticas que requieren un aislamiento completo del sistema operativo, a
 entornos que combinan varios sistemas operativos y a cargas de trabajo heredadas.
+
+El aislamiento de un contenedor es menos estricto que el de una máquina virtual, porque
+una vulnerabilidad del _kernel_ compartido afecta potencialmente a todos los
+contenedores del _host_. Por ello ambas tecnologías suelen combinarse, ejecutando los
+contenedores dentro de máquinas virtuales: el hipervisor aporta la frontera de
+aislamiento fuerte entre entornos y el motor de contenedores, la densidad y la velocidad
+de despliegue.
 
 En la nube, proveedores como Amazon Web Services (AWS), Google Cloud Platform (GCP) y
 Microsoft Azure ofrecen servicios de ambos tipos. Entre los servicios de contenedores se
@@ -197,6 +241,46 @@ documentación de cada imagen en el propio registro.
 
     El _tag_ `7.2` selecciona una versión concreta de Redis, de modo que la imagen
     empleada es siempre la misma con independencia del momento en que se descargue.
+
+Un _tag_ nombra una versión dentro de un repositorio, pero no la fija: puede reasignarse
+a un contenido distinto en cualquier momento. Para referirse a un contenido inmutable se
+emplea el **resumen criptográfico** (_digest_) de la imagen, con la forma
+`repositorio@sha256:...`, que identifica un contenido exacto y no admite reasignación.
+Los despliegues que exigen reproducibilidad estricta referencian el _digest_.
+
+### Capas y copia en escritura
+
+Una imagen no es un archivo monolítico, sino una pila de **capas** de solo lectura, cada
+una de las cuales registra las diferencias respecto a la inferior. El _Union Filesystem_
+superpone las capas y las presenta como un único sistema de archivos coherente. Cuando
+una capa superior contiene un archivo que ya existía en una inferior, prevalece la
+versión de la superior, y cuando borra un archivo heredado se registra una marca que lo
+oculta sin eliminarlo de la capa donde reside.
+
+Al crear un contenedor, Docker añade sobre la pila una **capa de escritura** propia de
+esa instancia. Toda modificación se aplica en ella mediante copia en escritura (_copy on
+write_): el archivo original se copia desde la capa de solo lectura y solo entonces se
+modifica. Las capas de la imagen permanecen intactas, de modo que varios contenedores
+creados desde la misma imagen comparten físicamente su contenido y cada uno acumula
+únicamente sus propios cambios.
+
+```mermaid
+flowchart TB
+    L1["Capa 1: imagen base del sistema"] --> L2["Capa 2: intérprete y gestor de paquetes"]
+    L2 --> L3["Capa 3: dependencias de la aplicación"]
+    L3 --> L4["Capa 4: código de la aplicación"]
+    L4 --> RW1["Capa de escritura del contenedor A"]
+    L4 --> RW2["Capa de escritura del contenedor B"]
+```
+
+Este modelo tiene dos consecuencias prácticas. La primera es que la capa de escritura
+desaparece con el contenedor, por lo que cualquier dato que deba sobrevivir necesita un
+volumen, como se describe más adelante. La segunda es que la **caché de construcción**
+reutiliza una capa que no ha cambiado, pero una capa modificada invalida todas las que
+se apoyan sobre ella. De ahí que convenga ordenar las instrucciones del `Dockerfile` de
+menos a más volátiles: copiar primero el archivo de dependencias, instalarlas y copiar
+el código después permite reutilizar la capa de dependencias en la mayoría de las
+reconstrucciones.
 
 ## Comandos principales
 
@@ -414,6 +498,12 @@ capa nueva dentro del sistema de archivos resultante.
     Las instrucciones se ejecutan en orden durante la construcción, salvo `CMD`, que
     define el proceso que se lanza al iniciar el contenedor.
 
+!!! note "`EXPOSE` no publica puertos"
+
+    La instrucción `EXPOSE` solo documenta el puerto en el que escucha el proceso. El
+    puerto queda accesible desde otros contenedores de la misma red, pero no desde el
+    _host_ ni desde el exterior mientras no se publique con `-p` al crear el contenedor.
+
 La construcción de la imagen a partir del archivo anterior se realiza con
 `docker build`, indicando la etiqueta deseada y la ruta del contexto de construcción:
 
@@ -441,6 +531,16 @@ ejecutable con parámetros configurables.
     `docker run nombre_imagen 10` sustituye ese argumento y espera diez segundos. El
     comando base `sleep`, fijado en `ENTRYPOINT`, permanece invariable.
 
+!!! warning "Forma de lista frente a forma de cadena"
+
+    Dentro del contenedor, el proceso principal recibe el identificador `1` gracias al
+    espacio de nombres `pid`, y es el que recibe las señales del sistema. La forma de
+    lista, `ENTRYPOINT ["python", "servidor.py"]`, ejecuta el binario directamente. La
+    forma de cadena, `ENTRYPOINT python servidor.py`, lo ejecuta a través de un
+    intérprete de órdenes que pasa a ser el proceso `1` y no propaga las señales, de modo
+    que `docker stop` no llega a la aplicación y el contenedor termina por tiempo de
+    espera. Por ello se recomienda la forma de lista.
+
 ## Redes
 
 Para que varios contenedores se comuniquen entre sí es necesario que compartan una red
@@ -455,11 +555,17 @@ docker create -p 27017:27017 --name mongodb --network nombre_red mongo
 
 Docker ofrece varios modos de red que determinan el grado de aislamiento del contenedor:
 
-| Tipo     | Descripción                                                                                                                                                           |
-| -------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `bridge` | Red por defecto. Docker asigna direcciones IP internas a cada contenedor, que se comunican entre sí y quedan accesibles desde el _host_ mediante el mapeo de puertos. |
-| `host`   | El contenedor utiliza directamente la red del _host_, sin aislamiento de red.                                                                                         |
-| `none`   | El contenedor carece de conectividad de red y queda completamente aislado.                                                                                            |
+| Tipo      | Descripción                                                                                                                                                           |
+| --------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `bridge`  | Red por defecto. Docker asigna direcciones IP internas a cada contenedor, que se comunican entre sí y quedan accesibles desde el _host_ mediante el mapeo de puertos. |
+| `host`    | El contenedor utiliza directamente la red del _host_, sin aislamiento de red.                                                                                         |
+| `none`    | El contenedor carece de conectividad de red y queda completamente aislado.                                                                                            |
+| `overlay` | Extiende una misma red virtual sobre varios _hosts_, encapsulando el tráfico entre ellos. Es el modo que hace posible la orquestación en clúster.                     |
+
+El modo `overlay` permite que un servicio distribuido en varios _hosts_ mantenga sus
+instancias comunicadas con independencia de dónde se ejecuten. Su coste es el _overhead_
+del encapsulado, que añade cabeceras a cada trama y reduce la unidad máxima de
+transferencia (MTU) efectiva respecto a la red física.
 
 Además de los modos anteriores, es posible crear **redes personalizadas** que
 especifican el rango de direcciones IP y otros parámetros. Estas redes definidas por el
@@ -529,8 +635,6 @@ compuesta por varios servicios se levanta con una única orden.
 ???+ example "Aplicación con dos servicios"
 
     ```yaml linenums="1"
-    version: "3.9"
-
     services:
       mi-app:
         build: .
@@ -565,6 +669,40 @@ La sintaxis del archivo ha evolucionado a lo largo del tiempo, por lo que result
 consultar el
 [historial de versiones de Docker Compose](https://docs.docker.com/compose/intro/history/)
 antes de reutilizar configuraciones antiguas.
+
+!!! note "El campo `version` está en desuso"
+
+    El campo `version` que encabezaba los archivos de Compose antiguos está en desuso y
+    el motor lo ignora emitiendo una advertencia. El formato actual comienza
+    directamente por `services`, y el nombre de archivo preferente es `compose.yaml`.
+
+### Orden de arranque y comprobaciones de salud
+
+La clave `depends_on` solo ordena el arranque: Compose inicia la base de datos antes que
+la aplicación, pero no espera a que la base de datos esté en condiciones de atender
+conexiones, de modo que la aplicación puede fallar en los primeros segundos. Para
+esperar a que el servicio esté realmente disponible se combina `healthcheck`, que define
+una comprobación periódica de salud, con la condición `service_healthy`:
+
+```yaml title="Espera a que la base de datos esté disponible"
+services:
+    mi-app:
+        build: .
+        depends_on:
+            mongodb:
+                condition: service_healthy
+
+    mongodb:
+        image: mongo
+        healthcheck:
+            test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+            interval: 5s
+            timeout: 3s
+            retries: 5
+```
+
+Con esta configuración, Compose no arranca `mi-app` hasta que la comprobación de
+`mongodb` tiene éxito.
 
 ### Política de reinicio y argumentos de construcción
 
@@ -627,7 +765,6 @@ producción son el `Dockerfile` empleado y el montaje del directorio de trabajo 
 volumen:
 
 ```yaml title="Configuración de desarrollo en docker-compose-dev.yml"
-version: "3.9"
 services:
     mi_app:
         build:
@@ -699,8 +836,6 @@ depender de rutas concretas de la máquina anfitriona.
 ???+ example "Volumen nombrado en Docker Compose"
 
     ```yaml linenums="1"
-    version: "3.9"
-
     services:
       mi-app:
         build: .
@@ -727,6 +862,14 @@ depender de rutas concretas de la máquina anfitriona.
     directorio `/data/db` del contenedor. Los datos de la base de datos se conservan
     aunque el contenedor se detenga o se elimine, y Docker gestiona de forma automática
     la creación y la ubicación del volumen.
+
+!!! warning "Volúmenes compartidos entre contenedores"
+
+    Dos contenedores que montan el mismo volumen escriben sobre el mismo sistema de
+    archivos sin ninguna coordinación entre ellos. Si ambos escriben sobre los mismos
+    datos, la integridad depende por completo del mecanismo de bloqueo de la aplicación,
+    y un motor de base de datos que no espera acceso concurrente a su directorio de datos
+    corrompe el almacén en esa situación.
 
 Los archivos que Docker administra se almacenan en `/var/lib/docker`, incluidos los
 volúmenes disponibles en la máquina. En ese mismo directorio se conserva la **caché de
@@ -878,7 +1021,10 @@ Las variables de entorno definidas con `ENV` en un `Dockerfile` quedan almacenad
 las capas de la imagen y resultan visibles mediante `docker inspect`. Para información
 sensible como contraseñas o claves de acceso, Docker ofrece el mecanismo de _build
 secrets_ a través de `--mount=type=secret`, que expone el secreto únicamente durante la
-instrucción que lo necesita, sin que persista en la imagen final.
+instrucción que lo necesita, sin que persista en la imagen final. Borrar un archivo con
+credenciales en una capa posterior no lo elimina del historial de la imagen, porque la
+capa anterior que lo contiene sigue existiendo y cualquiera que disponga de la imagen
+puede recuperarlo inspeccionando las capas.
 
 ???+ example "Imagen con usuario sin privilegios y _build secrets_"
 

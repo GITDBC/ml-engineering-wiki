@@ -1,4 +1,5 @@
 ---
+icon: lucide/target
 authors: Daniel Bazo Correa
 description: Evaluación de modelos de clasificación.
 title: Evaluación de modelos

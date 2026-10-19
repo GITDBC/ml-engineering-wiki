@@ -1,4 +1,5 @@
 ---
+icon: lucide/minimize-2
 authors: Daniel Bazo Correa
 description: Técnicas de reducción de dimensionalidad.
 title: Reducción de dimensionalidad

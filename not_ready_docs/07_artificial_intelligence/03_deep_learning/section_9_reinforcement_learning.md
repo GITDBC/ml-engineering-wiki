@@ -1,4 +1,5 @@
 ---
+icon: lucide/gamepad-2
 authors: Daniel Bazo Correa
 description: Fundamentos del Aprendizaje por Refuerzo.
 title: Aprendizaje por Refuerzo

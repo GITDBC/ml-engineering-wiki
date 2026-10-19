@@ -1,4 +1,5 @@
 ---
+icon: lucide/arrow-down-up
 authors: Daniel Bazo Correa
 description:
     Notación Big O para el análisis de complejidad, métodos clásicos de ordenación y

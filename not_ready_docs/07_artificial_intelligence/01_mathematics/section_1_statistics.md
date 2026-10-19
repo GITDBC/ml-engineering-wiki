@@ -1,4 +1,5 @@
 ---
+icon: lucide/chart-bar
 authors: Daniel Bazo Correa
 description: Selección de datos, validación cruzada y fundamentos de estadística.
 title: Estadística

@@ -1,4 +1,5 @@
 ---
+icon: lucide/refresh-cw
 authors: Daniel Bazo Correa
 description:
     Prácticas de integración y despliegue continuos, con la definición de pipelines en

@@ -1,4 +1,5 @@
 ---
+icon: lucide/scan-eye
 authors: Daniel Bazo Correa
 description: Redes neuronales convolucionales y procesamiento de imágenes.
 title: Redes convolucionales

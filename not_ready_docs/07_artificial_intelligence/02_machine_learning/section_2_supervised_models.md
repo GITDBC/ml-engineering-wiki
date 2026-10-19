@@ -1,4 +1,5 @@
 ---
+icon: lucide/tags
 authors: Daniel Bazo Correa
 description: Modelos de aprendizaje supervisado.
 title: Modelos supervisados

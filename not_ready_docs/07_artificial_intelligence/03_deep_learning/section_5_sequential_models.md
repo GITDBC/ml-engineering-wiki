@@ -1,4 +1,5 @@
 ---
+icon: lucide/audio-waveform
 authors: Daniel Bazo Correa
 description: Modelos secuenciales para datos temporales y secuencias.
 title: Modelos secuenciales

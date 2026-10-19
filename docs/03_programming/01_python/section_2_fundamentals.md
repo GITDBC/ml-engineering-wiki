@@ -1,4 +1,5 @@
 ---
+icon: lucide/book-open
 authors: Daniel Bazo Correa
 description:
     Sintaxis, tipos de datos, estructuras de control, funciones, clases y biblioteca

@@ -1,4 +1,5 @@
 ---
+icon: lucide/library
 authors: Daniel Bazo Correa
 description:
     Crates del ecosistema de Rust especialmente útiles para construir herramientas de

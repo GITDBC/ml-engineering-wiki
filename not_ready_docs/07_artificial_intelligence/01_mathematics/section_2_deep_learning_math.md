@@ -1,4 +1,5 @@
 ---
+icon: lucide/sigma
 authors: Daniel Bazo Correa
 description:
     Fundamentos matemáticos del aprendizaje profundo, desde los tensores y el álgebra

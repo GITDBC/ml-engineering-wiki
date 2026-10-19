@@ -1,4 +1,5 @@
 ---
+icon: lucide/bot
 authors: Daniel Bazo Correa
 description: Fundamentos y arquitecturas de agentes basados en LLMs.
 title: Agentes

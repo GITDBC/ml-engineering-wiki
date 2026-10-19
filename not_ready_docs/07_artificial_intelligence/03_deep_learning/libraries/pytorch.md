@@ -1,4 +1,5 @@
 ---
+icon: lucide/library
 authors: Daniel Bazo Correa
 description: Utilidades y bucle de entrenamiento en PyTorch.
 title: PyTorch

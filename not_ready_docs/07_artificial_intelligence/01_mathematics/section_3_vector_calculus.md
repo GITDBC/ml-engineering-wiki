@@ -1,4 +1,5 @@
 ---
+icon: lucide/square-function
 authors: Daniel Bazo Correa
 description:
     Cálculo vectorial aplicado al aprendizaje automático, desde derivadas parciales y

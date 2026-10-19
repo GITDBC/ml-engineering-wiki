@@ -1,4 +1,5 @@
 ---
+icon: lucide/book-open
 authors: Daniel Bazo Correa
 description:
     Conceptos esenciales de GNU/Linux, la terminal, los comandos básicos, la

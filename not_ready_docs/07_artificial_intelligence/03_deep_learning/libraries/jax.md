@@ -1,4 +1,5 @@
 ---
+icon: lucide/library
 authors: Daniel Bazo Correa
 description: Vectorización, paralelización y reproducibilidad con JAX.
 title: JAX

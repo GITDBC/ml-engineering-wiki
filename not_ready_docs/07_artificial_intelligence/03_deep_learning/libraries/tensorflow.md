@@ -1,4 +1,5 @@
 ---
+icon: lucide/library
 authors: Daniel Bazo Correa
 description: Guía práctica de TensorFlow para visión, NLP y audio.
 title: TensorFlow

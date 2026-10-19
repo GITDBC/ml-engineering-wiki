@@ -1,4 +1,5 @@
 ---
+icon: lucide/database
 authors: Daniel Bazo Correa
 description: Gestiona y manipula bases de datos de manera eficiente utilizando SQL.
 title: SQL

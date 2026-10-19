@@ -1,4 +1,5 @@
 ---
+icon: lucide/chart-line
 authors: Daniel Bazo Correa
 description: Regresión lineal y logística en el contexto del aprendizaje profundo.
 title: Regresión lineal y logística

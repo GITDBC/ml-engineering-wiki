@@ -1,4 +1,5 @@
 ---
+icon: lucide/rocket
 authors: Daniel Bazo Correa
 description:
     APIs de inferencia, estrategias de despliegue de modelos, ONNX Runtime y

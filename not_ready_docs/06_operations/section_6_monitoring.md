@@ -1,4 +1,5 @@
 ---
+icon: lucide/activity
 authors: Daniel Bazo Correa
 description:
     Monitorización de aplicaciones y modelos en producción, detección de deriva de datos

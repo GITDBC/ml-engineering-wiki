@@ -1,4 +1,5 @@
 ---
+icon: lucide/shuffle
 authors: Daniel Bazo Correa
 description: Otros paradigmas de aprendizaje y flujo de trabajo.
 title: Otros paradigmas

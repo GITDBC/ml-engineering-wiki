@@ -1,4 +1,5 @@
 ---
+icon: lucide/flask-conical
 authors: Daniel Bazo Correa
 description:
     Versionado de datos, definición de pipelines y seguimiento de experimentos con DVC y

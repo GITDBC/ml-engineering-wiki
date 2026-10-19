@@ -1,4 +1,5 @@
 ---
+icon: lucide/briefcase
 authors: Daniel Bazo Correa
 description:
     Guía para la búsqueda de empleo en tecnología, cubriendo el currículum, la carta de

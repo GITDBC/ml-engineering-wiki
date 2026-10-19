@@ -1,4 +1,5 @@
 ---
+icon: lucide/book-open
 authors: Daniel Bazo Correa
 description: Cloud computing y diseño de sistemas distribuidos.
 title: Fundamentos

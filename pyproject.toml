@@ -28,5 +28,5 @@ mike = { git = "https://github.com/squidfunk/mike.git" }
 
 [dependency-groups]
 pipeline = [
-    "pre-commit==4.5.1"
+    "pre-commit==4.7.0"
 ]

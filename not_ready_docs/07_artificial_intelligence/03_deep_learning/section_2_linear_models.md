@@ -88,6 +88,16 @@ función de activación diferenciable. Esta función introduce no linealidad al 
 permite restringir el rango de valores de salida, lo que dota al modelo de la capacidad
 de aproximar relaciones complejas y no lineales entre los datos de entrada y salida.
 
+## Bibliografía
+
+- Kale, S., Sekhari, A. y Sridharan, K. (2021). _SGD: The Role of Implicit
+  Regularization, Batch-size and Multiple-epochs_. arXiv.
+  <https://arxiv.org/abs/2107.05074>
+- Lei, D. et al. (2018). _Implicit Regularization of SGD in Natural Language
+  Processing_. arXiv. <https://arxiv.org/abs/1811.00659>
+- Masters, D. y Luschi, C. (2018). _Revisiting Small Batch Training for Deep Neural
+  Networks_. arXiv. <https://arxiv.org/abs/1804.07612>
+
 ## Clasificación mediante regresión logística
 
 En lugar de desarrollar manualmente una aplicación con reglas explícitas para
@@ -416,6 +426,8 @@ durante la fase de inferencia, utilizando el contexto `with torch.no_grad():` o 
 `with torch.inference_mode():`, que resulta aún más eficiente. Esto reduce
 significativamente el consumo de memoria y mejora el rendimiento computacional.
 
+### Descenso del gradiente estocástico y tamaño del lote
+
 Para mejorar la eficiencia, en lugar de calcular los gradientes utilizando el conjunto
 completo de datos, se emplea el **descenso de gradiente estocástico (SGD)**, que utiliza
 pequeños subconjuntos (_mini-batches_). Esta aproximación introduce aleatoriedad,
@@ -425,6 +437,63 @@ los gradientes sobre un subconjunto reducido del conjunto de datos puede interpr
 como una aproximación de Monte Carlo de la función de coste global, lo que resulta
 suficientemente representativo para actualizar los parámetros de la red de manera
 efectiva.
+
+El número de muestras que se procesan conjuntamente en cada iteración antes de
+actualizar los pesos recibe el nombre de **tamaño del lote (_batch size_)**. Este valor
+determina tres regímenes. Cuando el lote coincide con el conjunto de datos completo, el
+algoritmo calcula el gradiente exacto, pero a un coste elevado. Cuando el lote contiene
+una única muestra, se obtiene el SGD en sentido estricto, con una actualización por cada
+ejemplo. Entre ambos extremos se sitúan los _mini-batches_, con tamaños habituales de
+entre 2 y 256 muestras, que constituyen el compromiso recomendado en la práctica. El
+tamaño del lote es un hiperparámetro, por lo que se ajusta manualmente junto con la tasa
+de aprendizaje y la regularización. En PyTorch se configura mediante el argumento
+`batch_size` de `DataLoader`.
+
+Cada lote produce una estimación del gradiente de la función de pérdida sobre todo el
+conjunto de datos. Si $B$ denota el conjunto de índices de las muestras del lote, $|B|$
+su tamaño y $\ell$ la pérdida de una única muestra, la estimación se calcula como:
+
+$$
+\nabla_\theta \mathcal{L}_B(\theta) = \frac{1}{|B|} \sum_{i \in B} \nabla_\theta \, \ell\left(f(\mathbf{x}^{(i)}; \theta), y^{(i)}\right).
+$$
+
+Al promediar sobre más muestras, la varianza de la estimación disminuye. Un lote grande
+aproxima mejor el gradiente verdadero, de modo que la optimización converge de forma más
+estable y dirigida hacia el mínimo. Un lote pequeño produce, en cambio, una estimación
+más ruidosa. La siguiente tabla resume las consecuencias de cada elección:
+
+| Aspecto                   | Lote grande                     | Lote pequeño                                    |
+| ------------------------- | ------------------------------- | ----------------------------------------------- |
+| Estimación del gradiente  | Más precisa.                    | Más ruidosa y aproximada.                       |
+| Convergencia              | Más estable.                    | Oscilante y menos directa.                      |
+| Mínimos locales           | Mayor riesgo de estancamiento.  | Escapa mejor de ellos.                          |
+| Efecto regularizador      | Menor.                          | Mayor.                                          |
+| Memoria y actualizaciones | Más memoria y buen paralelismo. | Menos memoria y actualizaciones más frecuentes. |
+
+Ambos extremos conllevan riesgos. Un lote demasiado grande diluye la señal de los casos
+particulares dentro del gradiente promedio, lo que puede dejar al modelo estancado, y
+además sobrecarga la memoria. Un lote demasiado pequeño genera una estimación tan
+ruidosa que, en el caso de una única muestra, la trayectoria puede saltar de forma
+errática y no converger nunca. Los lotes pequeños son más dinámicos, atascan menos al
+modelo y tienden a converger hacia mínimos con mejor generalización.
+
+Este comportamiento admite una interpretación intuitiva. Con un lote pequeño, la
+estimación del gradiente es más tosca y el optimizador avanza con cierta "ceguera" que
+le impide percibir bien los mínimos locales y reduce la probabilidad de que quede
+atrapado en ellos. Con un lote grande, la mayor precisión resulta útil cuando la función
+de pérdida se comporta de forma razonablemente suave. Además, el ruido del gradiente
+actúa como un **regularizador implícito**, porque dificulta que el modelo se ajuste en
+exceso a los datos de entrenamiento. Este efecto complementa los métodos explícitos que
+se describen en la sección de métodos de regularización.
+
+Los estudios empíricos respaldan esta tendencia. Masters y Luschi (2018) observan que
+los lotes pequeños ofrecen mejor generalización y menor consumo de memoria, con un rango
+óptimo aproximado de 2 a 32 muestras. Kale, Sekhari y Sridharan (2021) analizan el papel
+del tamaño del lote y de la regularización implícita en SGD, y Lei et al. (2018)
+muestran que SGD con lotes pequeños converge a mínimos con mejor generalización en
+tareas de procesamiento del lenguaje natural.
+
+### Optimizadores basados en el gradiente
 
 El descenso de gradiente básico puede resultar ineficiente en ciertos escenarios, por lo
 que se han desarrollado variantes que mejoran su rendimiento. Una de ellas es el

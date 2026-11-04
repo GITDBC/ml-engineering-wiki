@@ -92,7 +92,8 @@ nav = [
             "07_artificial_intelligence/03_deep_learning/libraries/tensorflow.md"
         ]},
         {"Desarrollo con IA" = [
-            "07_artificial_intelligence/04_ai_development/section_1_fundamentals.md"
+            "07_artificial_intelligence/04_ai_development/section_1_fundamentals.md",
+            "07_artificial_intelligence/04_ai_development/section_2_local_llms.md"
         ]}
     ]},
     {"Carrera profesional" = [

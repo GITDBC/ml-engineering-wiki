@@ -74,6 +74,11 @@ linealmente con el número de capas convolucionales, lo que motiva la noción de
 **localidad**: aunque una sola capa está limitada por el tamaño del _kernel_, una pila
 suficientemente grande de capas convolucionales resulta en un campo receptivo global.
 
+<figure markdown="span">
+  ![Jerarquía de características en una CNN](../../assets/img/docs/deep_learning/dl-cnn-feature-hierarchy.svg)
+  <figcaption>Jerarquía de características que aprenden las capas de una red convolucional: bordes en las primeras capas, esquinas y texturas en las intermedias y partes de objetos en las profundas.</figcaption>
+</figure>
+
 ## Conceptos fundamentales de la convolución
 
 La visión computacional constituye uno de los campos más dinámicos de la inteligencia
@@ -186,6 +191,11 @@ La arquitectura típica de una red convolucional se divide en dos partes: el
 **_backbone_** (esqueleto del modelo), que utiliza capas convolucionales para extraer
 características de los datos de entrada, y la **cabeza** (_head_), que emplea las capas
 finales para realizar la tarea específica (clasificación, regresión, etc.).
+
+<figure markdown="span">
+  ![Estructura de una red convolucional](../../assets/img/docs/deep_learning/dl-cnn-architecture.svg)
+  <figcaption>Estructura de una red convolucional: el _backbone_ alterna convoluciones con ReLU y capas de _pooling_ para extraer características, y la cabeza de clasificación produce las puntuaciones de cada clase.</figcaption>
+</figure>
 
 ## Tipos de operaciones convolucionales
 

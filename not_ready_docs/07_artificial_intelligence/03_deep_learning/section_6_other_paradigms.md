@@ -100,6 +100,11 @@ aprendizaje contrastivo, _pseudo-labelling_ (entrenar un modelo supervisado con 
 etiquetados, predecir datos no etiquetados y reentrenar con las pseudoetiquetas
 generadas) y aprendizaje de puntos clave de objetos.
 
+<figure markdown="span">
+  ![Aprendizaje semisupervisado y autosupervisado](../../assets/img/docs/deep_learning/dl-paradigms-semi-self-supervised.svg)
+  <figcaption>A la izquierda, propagación de unas pocas etiquetas a los vecinos más similares mediante pseudoetiquetas. A la derecha, aprendizaje autosupervisado contrastivo, donde las vistas de una misma imagen se acercan en el espacio de _embeddings_ y las de imágenes distintas se alejan.</figcaption>
+</figure>
+
 ## Autoencoders
 
 Los **Autoencoders** son redes neuronales diseñadas para aprender representaciones
@@ -133,6 +138,11 @@ regularización para mejorar su capacidad de generalización:
 $$
 J_f(x) = \sum_{i,j} \left( \frac{\partial h_j(x)}{\partial x_i} \right)^2.
 $$
+
+<figure markdown="span">
+  ![Usos de los autoencoders](../../assets/img/docs/deep_learning/dl-paradigms-autoencoder-uses.svg)
+  <figcaption>Usos habituales de los autoencoders: explorar y agrupar el espacio latente, preentrenar un encoder que se reutiliza con pocas etiquetas y detectar anomalías mediante el error de reconstrucción.</figcaption>
+</figure>
 
 ### Autoencoders variacionales
 

@@ -83,6 +83,11 @@ recorriendo la secuencia desde el último instante $T_x$ hasta el inicial $T_0$.
 desplegado temporal es precisamente el origen de las dificultades de optimización que se
 describen a continuación.
 
+<figure markdown="span">
+  ![Red neuronal recurrente desplegada en el tiempo](../../assets/img/docs/deep_learning/dl-sequential-rnn-unrolled.svg)
+  <figcaption>Red neuronal recurrente: la celda plegada comparte sus pesos y, al desplegarla en el tiempo, el estado oculto transporta la información de un paso al siguiente. Durante el entrenamiento, el gradiente retrocede por todos los pasos y tiende a reducirse.</figcaption>
+</figure>
+
 No obstante, las RNN se enfrentan a problemas significativos de desvanecimiento y
 explosión de gradientes. Para superar estas limitaciones, se desarrollaron variantes más
 sofisticadas:
@@ -94,6 +99,11 @@ sofisticadas:
   utiliza en cada paso.
 - **GRU (_Gated Recurrent Unit_):** Constituyen una variante simplificada de las LSTM,
   con una estructura más ligera y eficiente.
+
+<figure markdown="span">
+  ![Celda LSTM](../../assets/img/docs/deep_learning/dl-sequential-lstm-cell.svg)
+  <figcaption>Celda LSTM: las puertas de olvido, entrada y salida, con activación sigmoide, regulan qué información se conserva en el estado de la celda y cuál se emite como estado oculto.</figcaption>
+</figure>
 
 Una alternativa complementaria actúa sobre la inicialización de los pesos. Inicializar
 la matriz de pesos recurrentes como la matriz identidad, en lugar de emplear los

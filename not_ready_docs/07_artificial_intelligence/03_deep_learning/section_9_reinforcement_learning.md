@@ -34,6 +34,11 @@ ejecuta acciones, mientras que el **entorno** representa todo aquello que el age
 puede controlar directamente. Tras cada acción, el entorno proporciona una
 **recompensa** y un nuevo **estado**, cerrando así el ciclo de interacción.
 
+<figure markdown="span">
+  ![Bucle de interacción en el aprendizaje por refuerzo](../../assets/img/docs/deep_learning/dl-reinforcement-learning-loop.svg)
+  <figcaption>Bucle de interacción entre agente y entorno: el agente observa el estado, ejecuta una acción y recibe una recompensa y el siguiente estado, con el objetivo de maximizar la recompensa acumulada.</figcaption>
+</figure>
+
 El **estado** $S$ describe la situación actual del agente y resume la información
 relevante del entorno. Una hipótesis fundamental es la **propiedad de Markov**, según la
 cual el futuro depende únicamente del estado presente y no de la secuencia completa de

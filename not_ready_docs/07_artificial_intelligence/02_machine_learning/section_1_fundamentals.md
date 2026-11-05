@@ -38,6 +38,11 @@ A diferencia de los enfoques tradicionales de programación, donde las reglas se
 explícitamente, en el aprendizaje automático los algoritmos ajustan sus parámetros
 automáticamente para mejorar su desempeño en función de los datos.
 
+<figure markdown="span">
+  ![Los cinco paradigmas del aprendizaje automático](../../assets/img/docs/machine_learning/ml-fundamentals-learning-paradigms.svg)
+  <figcaption>Los cinco paradigmas del aprendizaje automático según su señal de entrenamiento: datos etiquetados (supervisado), datos sin etiquetar (no supervisado), unas pocas etiquetas (semisupervisado), etiquetas derivadas de los propios datos (autosupervisado) y recompensas (aprendizaje por refuerzo).</figcaption>
+</figure>
+
 ### Técnicas
 
 <figure markdown="span">
@@ -69,8 +74,8 @@ mediante una métrica de error, lo que permite ajustar el modelo en cada iteraci
 datos.
 
 <figure markdown="span">
-  ![Subajuste, ajuste adecuado y sobreajuste](https://miro.medium.com/max/1125/1*_7OPgojau8hkiPUiHoGK_w.png)
-  <figcaption>Ejemplo de subajuste, ajuste adecuado y sobreajuste. <a href="https://miro.medium.com/max/1125/1*_7OPgojau8hkiPUiHoGK_w.png">Referencia</a></figcaption>
+  ![Subajuste, ajuste adecuado y sobreajuste](../../assets/img/docs/machine_learning/ml-fundamentals-overfitting.svg)
+  <figcaption>Ejemplo de subajuste (grado 1), ajuste adecuado (grado 4) y sobreajuste (grado 15) al ajustar polinomios a 30 muestras con ruido de una función coseno. El error de prueba solo es bajo en el ajuste adecuado.</figcaption>
 </figure>
 
 Un modelo puede presentar **sobreajuste** (**_overfitting_**) cuando se ajusta demasiado

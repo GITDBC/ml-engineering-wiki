@@ -41,6 +41,11 @@ capas iniciales del modelo. Dichos gradientes indican cómo deben modificarse lo
 sesgos para reducir el error en las siguientes iteraciones, permitiendo así un
 aprendizaje progresivo y dirigido por el descenso del gradiente.
 
+<figure markdown="span">
+  ![Propagación hacia adelante y retropropagación](../../assets/img/docs/deep_learning/dl-linear-models-forward-backward.svg)
+  <figcaption>Propagación hacia adelante, que transforma las entradas en predicciones y en un valor de pérdida, y retropropagación, que envía los gradientes de la pérdida hacia las capas anteriores.</figcaption>
+</figure>
+
 Un modelo lineal puede expresarse matemáticamente como:
 
 $$
@@ -53,6 +58,11 @@ término independiente, y $\hat{y} \in \mathbb{R}$ es la salida predicha por el 
 Cuando la salida $\hat{y}$ no está restringida a un rango específico, el modelo se
 utiliza en tareas de regresión, donde el objetivo es predecir valores continuos. En este
 contexto, la salida puede tomar cualquier valor real, positivo o negativo.
+
+<figure markdown="span">
+  ![Regresión lineal simple](../../assets/img/docs/deep_learning/dl-linear-models-linear-regression.svg)
+  <figcaption>Partes de una regresión lineal simple y recta ajustada a un conjunto de muestras. El término independiente β₀ equivale al sesgo <em>b</em> y la pendiente β₁ al peso <em>w</em> de la notación de este capítulo.</figcaption>
+</figure>
 
 Sin embargo, cuando la salida está asociada a un conjunto discreto de clases
 $\mathcal{C} = \{1, 2, \dots, M\}$, el modelo aborda un problema de clasificación. En
@@ -175,6 +185,11 @@ donde $\hat{y}$ indica la probabilidad de que la imagen pertenezca a la clase po
 (es decir, que contenga un gato). Si el valor de $\hat{y}$ supera un determinado umbral
 de decisión (por ejemplo, 0.5), la imagen se clasifica como perteneciente a la clase
 "gato"; en caso contrario, se clasifica como "no gato".
+
+<figure markdown="span">
+  ![Función sigmoide, frontera de decisión y umbral](../../assets/img/docs/deep_learning/dl-linear-models-sigmoid.svg)
+  <figcaption>Función sigmoide, frontera de decisión en z = 0 y umbral de clasificación. Un umbral más alto reduce los casos detectados y uno más bajo aumenta los falsos positivos.</figcaption>
+</figure>
 
 ## Función de pérdida y función de coste
 

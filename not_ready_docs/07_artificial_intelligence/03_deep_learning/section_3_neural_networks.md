@@ -42,6 +42,11 @@ dentro de un rango válido. De este modo, la neurona artificial transforma la en
 mediante una combinación de operaciones lineales y no lineales, ajustándose
 progresivamente a los patrones presentes en los datos.
 
+<figure markdown="span">
+  ![Esquema de una neurona artificial](../../assets/img/docs/deep_learning/dl-neural-networks-neuron.svg)
+  <figcaption>Neurona artificial: suma ponderada de las entradas más un sesgo, seguida de una función de activación que produce la salida.</figcaption>
+</figure>
+
 Esta abstracción computacional tiene su origen en la estructura de la **neurona
 biológica**. En el cerebro, una neurona se compone de tres partes principales: las
 **dendritas**, que constituyen las entradas y reciben señales de otras neuronas; el

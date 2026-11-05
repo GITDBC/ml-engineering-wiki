@@ -37,6 +37,11 @@ problemas donde no se dispone de etiquetas y el objetivo es obtener agrupaciones
 datos con similitudes. A continuación, se presentan los principales tipos de algoritmos
 de agrupación.
 
+<figure markdown="span">
+  ![Cuatro familias de algoritmos de agrupación](../../assets/img/docs/machine_learning/ml-clustering-families.svg)
+  <figcaption>Las cuatro familias de algoritmos de agrupación: basados en centroides, en densidad, jerárquicos y en distribuciones.</figcaption>
+</figure>
+
 ## Métodos basados en particiones
 
 ### K-Means
@@ -194,6 +199,11 @@ densidad, separándolos de las regiones de baja densidad. A diferencia de K-Mean
 no requiere especificar el número de clusters de antemano y es capaz de detectar
 clusters de formas arbitrarias, así como identificar puntos de ruido (_outliers_) que no
 pertenecen a ningún cluster.
+
+<figure markdown="span">
+  ![Muestras núcleo, frontera y ruido en DBSCAN](../../assets/img/docs/machine_learning/ml-clustering-dbscan.svg)
+  <figcaption>Clasificación de las muestras en DBSCAN: una muestra es núcleo si tiene cuatro o más muestras dentro del radio ε, frontera si está cerca de una muestra núcleo y ruido en caso contrario. Los clusters se forman al encadenar muestras núcleo vecinas.</figcaption>
+</figure>
 
 ## Métodos basados en modelos
 

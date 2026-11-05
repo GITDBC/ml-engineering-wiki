@@ -171,6 +171,11 @@ combinan mediante un proceso denominado **_bagging_** (_bootstrap aggregating_),
 consiste en promediar las predicciones (para regresión) o realizar una votación
 mayoritaria (para clasificación).
 
+<figure markdown="span">
+  ![Esquema de Random Forest](../../assets/img/docs/machine_learning/ml-supervised-random-forest.svg)
+  <figcaption>Esquema de Random Forest: cada árbol se entrena con su propia muestra _bootstrap_ y un subconjunto aleatorio de características en cada división, y las predicciones de todos los árboles se combinan mediante votación mayoritaria o promedio.</figcaption>
+</figure>
+
 Durante el entrenamiento, algunas muestras no se utilizan en la construcción de un árbol
 determinado. Estas observaciones, conocidas como _out-of-bag samples_, se emplean para
 evaluar el rendimiento del modelo de manera interna, sin necesidad de un conjunto de
@@ -255,10 +260,20 @@ independiente, en XGBoost cada nuevo árbol se construye para corregir los error
 cometidos por los árboles anteriores, lo que permite mejorar progresivamente el
 rendimiento del modelo.
 
+<figure markdown="span">
+  ![Comparación entre bagging y boosting](../../assets/img/docs/machine_learning/ml-supervised-bagging-boosting.svg)
+  <figcaption>Muestreo _bootstrap_ y comparación entre _bagging_, donde los árboles se entrenan en paralelo y sus predicciones se promedian, y _boosting_, donde cada árbol se ajusta a los errores de los anteriores y la predicción final es una suma ponderada.</figcaption>
+</figure>
+
 El algoritmo utiliza por defecto el **Error Cuadrático Medio (MSE)** como función de
 pérdida para problemas de regresión. El proceso de entrenamiento se basa en la
 optimización de una función objetivo que combina la función de pérdida con un término de
 regularización para controlar la complejidad del modelo y prevenir el sobreajuste.
+
+<figure markdown="span">
+  ![Evolución de un ensamblado de gradient boosting](../../assets/img/docs/machine_learning/ml-supervised-gradient-boosting.svg)
+  <figcaption>Evolución de la predicción de un ensamblado de _gradient boosting_ tras 1, 5 y 50 rondas. Cada árbol añadido corrige parte del error residual y acerca la predicción a las muestras.</figcaption>
+</figure>
 
 Para determinar las divisiones óptimas en cada nodo del árbol, XGBoost calcula una
 métrica denominada **similaridad** (_similarity score_), que se define como:

@@ -66,7 +66,7 @@ algoritmo se define como la suma promedio de las distancias euclídeas entre tod
 muestras y sus respectivos centroides:
 
 $$
-J = \frac{1}{M} \sum_{i=1}^{M} \| x_i - \mu_{c_i} \|^2,
+J = \frac{1}{M} \sum_{i=1}^{M} \Vert x_i - \mu_{c_i} \Vert^2,
 $$
 
 donde $M$ es el número total de muestras y $c_i$ es el índice del cluster asignado al
@@ -155,7 +155,8 @@ from sklearn import preprocessing
 algoritmo = KMedoids(
     n_clusters=3,
     metric='euclidean',
-    method='alternate',  # Cambiar por 'pam' para mayor precisión (más lento)
+    # Cambiar 'alternate' por 'pam' para mayor precisión (más lento)
+    method='alternate',
     init='k-medoids++',
     max_iter=300,
     random_state=0
@@ -224,9 +225,9 @@ afinidad** (o grafo de similitud) donde cada punto de los datos es un nodo del g
 las aristas (_edges_) entre nodos indican la similitud entre ellos.
 
 Para expresar el valor de la similitud entre nodos, se puede utilizar la **función
-gaussiana** (o kernel RBF). Cuando la distancia entre dos puntos es pequeña, la
-similitud se aproxima a 1, indicando una gran afinidad; cuando la distancia es grande,
-la similitud se aproxima a 0. El resultado es una **matriz de similitud** $W$ de
+gaussiana** (o _kernel_ RBF). Cuando la distancia entre dos puntos es pequeña, la
+similitud se aproxima a 1, lo que indica una gran afinidad. Cuando la distancia es
+grande, la similitud se aproxima a 0. El resultado es una **matriz de similitud** $W$ de
 dimensión $n \times n$:
 
 $$
@@ -486,3 +487,10 @@ plt.xlabel('Número de clusters')
 plt.ylabel('Puntuación normalizada')
 plt.show()
 ```
+
+## Cierre
+
+Tras construir modelos de distintos tipos, resulta necesario valorar su rendimiento. El
+[siguiente capítulo](section_4_evaluation.md) presenta las métricas y herramientas para
+evaluar modelos de clasificación, como la matriz de confusión, la sensibilidad, la
+especificidad y las curvas ROC.

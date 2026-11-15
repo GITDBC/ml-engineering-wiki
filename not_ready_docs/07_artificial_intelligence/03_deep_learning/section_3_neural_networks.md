@@ -48,16 +48,16 @@ progresivamente a los patrones presentes en los datos.
 </figure>
 
 Esta abstracción computacional tiene su origen en la estructura de la **neurona
-biológica**. En el cerebro, una neurona se compone de tres partes principales: las
-**dendritas**, que constituyen las entradas y reciben señales de otras neuronas; el
-**soma** (cuerpo celular), donde se realiza el procesamiento; y el **axón**, que
-transmite la señal de salida. Una neurona biológica se activa cuando la suma de los
-impulsos recibidos a través de las dendritas alcanza un umbral determinado, generando un
-potencial de acción (_spike_) que se propaga por el axón. Cuando esta señal llega a la
-**sinapsis**, la conexión con la siguiente neurona, el proceso de transmisión pasa de
-ser eléctrico a químico mediante la liberación de **neurotransmisores**. En la neurona
-receptora, estos neurotransmisores generan una nueva señal eléctrica, completando así la
-cadena de comunicación.
+biológica**. En el cerebro, una neurona se compone de tres partes principales. Las
+**dendritas** constituyen las entradas y reciben señales de otras neuronas. El **soma**
+(cuerpo celular) es donde se realiza el procesamiento. El **axón** transmite la señal de
+salida. Una neurona biológica se activa cuando la suma de los impulsos recibidos a
+través de las dendritas alcanza un umbral determinado, generando un potencial de acción
+(_spike_) que se propaga por el axón. Cuando esta señal llega a la **sinapsis**, la
+conexión con la siguiente neurona, el proceso de transmisión pasa de ser eléctrico a
+químico mediante la liberación de **neurotransmisores**. En la neurona receptora, estos
+neurotransmisores generan una nueva señal eléctrica, completando así la cadena de
+comunicación.
 
 La sinapsis posee un **detector de coincidencias** basado en receptores NMDA, que se
 activa cuando confluyen simultáneamente una señal química (llegada de neurotransmisores
@@ -240,11 +240,11 @@ $$
 En las **capas de salida**, la función de activación se selecciona según el rango de
 valores esperado:
 
-- **Clasificación binaria:** Sigmoide.
-- **Clasificación multiclase (mutuamente excluyentes):** _Softmax_.
-- **Clasificación multietiqueta:** Sigmoide, ya que una muestra puede pertenecer
+- **Clasificación binaria**: Sigmoide.
+- **Clasificación multiclase (mutuamente excluyentes)**: _Softmax_.
+- **Clasificación multietiqueta**: Sigmoide, ya que una muestra puede pertenecer
   simultáneamente a varias clases.
-- **Regresión:** Activación lineal, permitiendo que la salida adopte cualquier valor
+- **Regresión**: Activación lineal, permitiendo que la salida adopte cualquier valor
   real.
 
 ### Implementación de una red neuronal
@@ -254,14 +254,16 @@ sintético. Este código ilustra de manera práctica cómo construir, entrenar y
 red neuronal simple utilizando **ReLU** en la capa oculta y **sigmoide** en la capa de
 salida para un problema de clasificación binaria:
 
-```py linenums="1"
+```python linenums="1"
 import numpy as np
 import matplotlib.pyplot as plt
 
 # Crear dataset sintético
 np.random.seed(0)
-m = 200  # número de ejemplos
-X = np.random.randn(2, m)  # 2 características
+# número de ejemplos
+m = 200
+# 2 características
+X = np.random.randn(2, m)
 Y = (X[0, :] * X[1, :] > 0).astype(int).reshape(1, m)
 
 # Funciones auxiliares
@@ -350,6 +352,9 @@ acc = np.mean(Y_pred == Y) * 100
 print(f"Precisión final: {acc:.2f}%")
 ```
 
+Una red análoga se entrena con PyTorch, junto con la división de los datos y la
+detención temprana, en el ejemplo de la sección siguiente.
+
 ### División del conjunto de datos
 
 En el entrenamiento de modelos de aprendizaje automático, la gestión adecuada de los
@@ -396,13 +401,6 @@ que consiste en iterar sobre subconjuntos más pequeños acumulando los gradient
 de realizar la actualización, aunque este enfoque es menos eficiente al no aprovechar
 plenamente la paralelización del hardware.
 
-```py linenums="1"
-from torch.utils.data import DataLoader
-dataloader = DataLoader(dataset, shuffle=True, batch_size=32)
-for xb, yb in dataloader:
-    pass  # Procesamiento del lote
-```
-
 De manera clásica, durante el desarrollo de modelos de aprendizaje automático los
 conjuntos de datos se dividen en tres subconjuntos principales:
 
@@ -424,6 +422,139 @@ evaluación. Cuando los datos son escasos, la **validación cruzada K-fold** con
 una alternativa robusta: el conjunto de datos se divide en $K$ particiones, se entrenan
 $K$ modelos idénticos utilizando $K-1$ particiones para entrenamiento y la restante para
 validación, y la métrica final se obtiene como el promedio de las $K$ evaluaciones.
+
+La **detención temprana** (_early stopping_) interrumpe el entrenamiento cuando la
+pérdida de validación deja de mejorar durante un número de épocas denominado
+**paciencia** (_patience_), y restaura los parámetros de la mejor época. Así se evita
+seguir optimizando cuando el modelo empieza a sobreajustar. Para vigilarlo se registran
+en cada época la pérdida y la exactitud de ambos conjuntos, que después se representan
+como curvas de aprendizaje.
+
+El siguiente ejemplo reúne estas piezas en un bucle completo de PyTorch para la misma
+clasificación binaria sintética de la sección anterior, cuya etiqueta vale 1 cuando $x_1
+x_2 > 0$. `TensorDataset` agrupa entradas y etiquetas, `random_split` las divide en
+entrenamiento y validación con un generador con semilla y `DataLoader` reparte cada
+conjunto en lotes, barajando solo el de entrenamiento. La red devuelve _logits_, por lo
+que `BCEWithLogitsLoss` aplica la sigmoide de forma numéricamente estable. Las llamadas
+a `model.train()` y `model.eval()` fijan el modo de capas como _dropout_ o la
+normalización por lotes, que esta red no tiene, y `torch.no_grad()` evita construir el
+grafo de cálculo al evaluar. La exactitud se calcula comparando las predicciones con las
+etiquetas, ya que un logit positivo equivale a una probabilidad superior a 0.5.
+
+```python linenums="1"
+import copy
+
+import matplotlib.pyplot as plt
+import torch
+from torch import nn
+from torch.utils.data import DataLoader, TensorDataset, random_split
+
+torch.manual_seed(0)
+
+# Datos sintéticos: la etiqueta es 1 cuando x1 y x2 tienen el mismo signo
+X = torch.randn(200, 2)
+Y = (X[:, 0] * X[:, 1] > 0).float().unsqueeze(1)
+dataset = TensorDataset(X, Y)
+
+# División 80/20 reproducible gracias a un generador con semilla
+generator = torch.Generator().manual_seed(0)
+train_set, val_set = random_split(dataset, [160, 40], generator=generator)
+train_loader = DataLoader(train_set, batch_size=32, shuffle=True, generator=generator)
+val_loader = DataLoader(val_set, batch_size=40)
+
+# Red de dos capas que devuelve logits, sin sigmoide en la salida
+model = nn.Sequential(nn.Linear(2, 8), nn.ReLU(), nn.Linear(8, 1))
+criterion = nn.BCEWithLogitsLoss()
+optimizer = torch.optim.Adam(model.parameters(), lr=0.1)
+
+
+def evaluate(
+    model: nn.Module, loader: DataLoader, criterion: nn.Module
+) -> tuple[float, float]:
+    """Calcula la pérdida y la exactitud medias de un modelo sobre un conjunto.
+
+    Args:
+        model: Red que devuelve logits.
+        loader: Lotes del conjunto a evaluar.
+        criterion: Función de pérdida.
+
+    Returns:
+        Tupla con la pérdida media y la exactitud.
+    """
+    model.eval()
+    loss_sum, correct, total = 0.0, 0, 0
+    with torch.no_grad():
+        for xb, yb in loader:
+            logits = model(xb)
+            loss_sum += criterion(logits, yb).item() * len(xb)
+            # Un logit positivo equivale a una probabilidad mayor que 0.5
+            correct += ((logits > 0).float() == yb).sum().item()
+            total += len(xb)
+    return loss_sum / total, correct / total
+
+
+# Historial de métricas y variables de la detención temprana
+history = {"train_loss": [], "val_loss": [], "train_acc": [], "val_acc": []}
+best_val, best_state, wait, patience = float("inf"), None, 0, 10
+
+# Entrenamiento con un máximo de 100 épocas
+for epoch in range(1, 101):
+    model.train()
+    for xb, yb in train_loader:
+        optimizer.zero_grad()
+        loss = criterion(model(xb), yb)
+        loss.backward()
+        optimizer.step()
+
+    # Métricas de ambos conjuntos al final de cada época
+    train_loss, train_acc = evaluate(model, train_loader, criterion)
+    val_loss, val_acc = evaluate(model, val_loader, criterion)
+    for key, value in zip(history, (train_loss, val_loss, train_acc, val_acc)):
+        history[key].append(value)
+    if epoch % 10 == 0:
+        print(f"Época {epoch:3d} | val_loss {val_loss:.4f} | val_acc {val_acc:.3f}")
+
+    # Detención temprana: se guarda el mejor estado y se corta sin mejora
+    if val_loss < best_val:
+        best_val, best_state, wait = val_loss, copy.deepcopy(model.state_dict()), 0
+    else:
+        wait += 1
+        if wait == patience:
+            print(f"Detención temprana en la época {epoch}")
+            break
+
+# Se restauran los parámetros de la mejor época
+model.load_state_dict(best_state)
+val_loss, val_acc = evaluate(model, val_loader, criterion)
+print(f"Mejor modelo | val_loss {val_loss:.4f} | val_acc {val_acc:.3f}")
+
+# Curvas de aprendizaje de entrenamiento y validación
+fig, (ax_loss, ax_acc) = plt.subplots(1, 2, figsize=(9, 3.5))
+for split in ("train", "val"):
+    ax_loss.plot(history[f"{split}_loss"], label=split)
+    ax_acc.plot(history[f"{split}_acc"], label=split)
+ax_loss.set(title="Pérdida", xlabel="Época")
+ax_acc.set(title="Exactitud", xlabel="Época")
+ax_loss.legend()
+plt.tight_layout()
+plt.show()
+```
+
+```plaintext title="Expected output"
+Época  10 | val_loss 0.0850 | val_acc 1.000
+Época  20 | val_loss 0.0802 | val_acc 0.975
+Época  30 | val_loss 0.0477 | val_acc 1.000
+Época  40 | val_loss 0.0350 | val_acc 1.000
+Época  50 | val_loss 0.0370 | val_acc 1.000
+Detención temprana en la época 53
+Mejor modelo | val_loss 0.0200 | val_acc 1.000
+```
+
+Las curvas muestran que la pérdida de entrenamiento y la de validación descienden a la
+par durante las primeras diez épocas y después bajan más despacio hasta valores entre
+0.02 y 0.05, con una exactitud próxima a 1 en ambos conjuntos. La pérdida de validación
+deja de mejorar en la época 43. Tras diez épocas sin mejora, la detención temprana corta
+el entrenamiento en la época 53 y restaura los parámetros de la época 43.
 
 En entornos de producción, las distribuciones de los datos suelen variar con el tiempo,
 fenómeno conocido como **cambio de concepto (_concept drift_)**. Para detectar y
@@ -454,6 +585,11 @@ Un sesgo alto indica la presencia de subajuste, lo que significa que el modelo n
 capturar de manera adecuada la complejidad de la relación existente en los datos. Por
 otro lado, la **varianza** mide la sensibilidad del modelo frente a pequeñas variaciones
 en los datos de entrenamiento. Una varianza alta refleja la existencia de sobreajuste.
+
+Las curvas de pérdida y de exactitud de entrenamiento y validación del ejemplo anterior
+sirven como diagnóstico. Una pérdida de entrenamiento elevada indica sesgo alto, y una
+brecha creciente entre la pérdida de validación y la de entrenamiento indica varianza
+alta.
 
 La reducción del sesgo suele requerir un aumento en la capacidad de representación del
 modelo, mediante arquitecturas más profundas o complejas, el incremento del número de
@@ -521,10 +657,88 @@ del modelo.
 
 Para implementar una estrategia de aprendizaje coherente y sostenible, se recomienda
 emplear plataformas especializadas en la gestión de experimentos, como **MLflow**,
-**Weights & Biases (wandb)** y soluciones similares. Estas herramientas permiten
-registrar y organizar de forma sistemática todos los artefactos generados durante el
-desarrollo del modelo, garantizando la **replicabilidad de los experimentos** y
-facilitando la **comparación justa entre diferentes configuraciones**.
+[**Weights & Biases (wandb)**](../../06_operations/section_4_experiment_management.md) y
+soluciones similares. Estas herramientas permiten registrar y organizar de forma
+sistemática todos los artefactos generados durante el desarrollo del modelo,
+garantizando la **replicabilidad de los experimentos** y facilitando la **comparación
+justa entre diferentes configuraciones**.
+
+Otra práctica de esta estrategia consiste en guardar puntos de control (_checkpoints_)
+durante el entrenamiento. Un punto de control almacena la época y el `state_dict` del
+modelo y del optimizador, ya que este último contiene estado propio, como los momentos
+de Adam. Con ello el entrenamiento se reanuda donde se interrumpió y un resultado puede
+reproducirse. Se guarda el `state_dict` y no el objeto completo, y se carga con
+`weights_only=True`, que impide ejecutar código arbitrario al leer un archivo no
+confiable.
+
+El siguiente ejemplo guarda un punto de control en un directorio temporal, lo carga en
+un modelo y un optimizador nuevos y comprueba que el siguiente paso produce la misma
+pérdida que el entrenamiento sin interrumpir.
+
+```python linenums="1"
+import tempfile
+from pathlib import Path
+
+import torch
+from torch import nn
+
+torch.manual_seed(0)
+
+
+def build() -> tuple[nn.Module, torch.optim.Optimizer]:
+    """Crea la red y el optimizador del ejemplo.
+
+    Returns:
+        Tupla con el modelo y su optimizador Adam.
+    """
+    model = nn.Sequential(nn.Linear(2, 8), nn.ReLU(), nn.Linear(8, 1))
+    return model, torch.optim.Adam(model.parameters(), lr=0.1)
+
+
+def step(
+    model: nn.Module, optimizer: torch.optim.Optimizer, x: torch.Tensor, y: torch.Tensor
+) -> float:
+    """Ejecuta un paso de optimización sobre un lote y devuelve la pérdida."""
+    optimizer.zero_grad()
+    loss = nn.functional.binary_cross_entropy_with_logits(model(x), y)
+    loss.backward()
+    optimizer.step()
+    return loss.item()
+
+
+X = torch.randn(32, 2)
+Y = (X[:, 0] * X[:, 1] > 0).float().unsqueeze(1)
+
+model, optimizer = build()
+for epoch in range(5):
+    step(model, optimizer, X, Y)
+
+with tempfile.TemporaryDirectory() as tmp:
+    # El punto de control guarda la época y el estado del modelo y del optimizador
+    path = Path(tmp) / "checkpoint.pt"
+    state = {
+        "epoch": epoch,
+        "model": model.state_dict(),
+        "optimizer": optimizer.state_dict(),
+    }
+    torch.save(state, path)
+
+    # Un modelo nuevo recupera el estado guardado
+    checkpoint = torch.load(path, weights_only=True, map_location="cpu")
+    restored, restored_optimizer = build()
+    restored.load_state_dict(checkpoint["model"])
+    restored_optimizer.load_state_dict(checkpoint["optimizer"])
+
+print(f"Época guardada: {checkpoint['epoch']}")
+print(f"Pérdida original:  {step(model, optimizer, X, Y):.6f}")
+print(f"Pérdida reanudada: {step(restored, restored_optimizer, X, Y):.6f}")
+```
+
+```plaintext title="Expected output"
+Época guardada: 4
+Pérdida original:  0.452131
+Pérdida reanudada: 0.452131
+```
 
 ### Aprendizaje por transferencia
 
@@ -546,7 +760,8 @@ de la red, mientras que el resto de la arquitectura se congela, preservando así
 representaciones generales previamente aprendidas. En cambio, cuando se dispone de una
 cantidad suficiente de datos, es posible aplicar un ajuste fino o **_fine-tuning_**, que
 consiste en reentrenar toda la red para adaptar gradualmente los parámetros a las
-particularidades del nuevo dominio.
+particularidades del nuevo dominio. Un ejemplo en PyTorch de ambas estrategias se
+encuentra en el capítulo de [redes convolucionales](section_4_cnn.md).
 
 ## Diferenciación automática
 
@@ -589,7 +804,52 @@ función. Aplica las reglas del cálculo diferencial durante la ejecución del p
 propaga derivadas elementales a través de las operaciones que lo componen. El resultado
 es exacto hasta los límites de la precisión de máquina, sin incurrir en errores de
 aproximación ni en crecimiento explosivo de expresiones. En modo directo, el coste es
-proporcional al número de variables; en modo inverso, utilizado en aprendizaje
+proporcional al número de variables. En modo inverso, utilizado en aprendizaje
 automático para implementar _backpropagation_, el coste es comparable al de evaluar la
 propia función. Esta eficiencia explica su papel central en la optimización de modelos
 contemporáneos.
+
+El siguiente ejemplo compara la diferencia centrada con la derivada exacta que devuelve
+`torch.autograd.grad` para $f(x) = e^x \sin x$ en $x = 1$, con precisión `float64`.
+
+```python linenums="1"
+import torch
+
+
+def f(x: torch.Tensor) -> torch.Tensor:
+    """Función escalar de ejemplo: f(x) = exp(x) * sin(x)."""
+    return torch.exp(x) * torch.sin(x)
+
+
+x = torch.tensor(1.0, dtype=torch.float64, requires_grad=True)
+# Derivada exacta mediante diferenciación automática
+(grad,) = torch.autograd.grad(f(x), x)
+print(f"Autograd: {grad.item():.12f}")
+
+with torch.no_grad():
+    for h in (1e-1, 1e-4, 1e-8, 1e-12):
+        # Diferencia centrada con paso h
+        approx = (f(x + h) - f(x - h)) / (2 * h)
+        print(f"h = {h:.0e} | error = {abs(approx - grad).item():.2e}")
+```
+
+```plaintext title="Expected output"
+Autograd: 3.756049227095
+h = 1e-01 | error = 2.74e-03
+h = 1e-04 | error = 2.73e-09
+h = 1e-08 | error = 1.05e-10
+h = 1e-12 | error = 5.73e-05
+```
+
+Con $h = 10^{-1}$ domina el error de aproximación y con $h = 10^{-12}$ el de redondeo,
+de modo que el error mínimo aparece para valores intermedios de $h$. La diferenciación
+automática no tiene que elegir este paso y devuelve la derivada con la precisión de la
+máquina.
+
+## Cierre
+
+Con la base de las redes neuronales y de la diferenciación automática, el
+[siguiente capítulo](section_4_cnn.md) presenta las redes neuronales convolucionales,
+especializadas en datos con estructura espacial como las imágenes. Recorre sus
+componentes, las arquitecturas más relevantes y aplicaciones como la detección de
+objetos y la segmentación.

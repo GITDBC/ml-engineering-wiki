@@ -45,7 +45,7 @@ arquitecturas diferentes, como las redes neuronales recurrentes (RNN) y las rede
 memoria a largo y corto plazo (LSTM, por sus siglas en inglés). Estas arquitecturas
 presentaban limitaciones importantes, especialmente en lo que respecta a la
 paralelización, debido a su naturaleza secuencial. En estas estructuras, la salida en un
-instante de tiempo $$t$$ depende de la entrada y salida en $$t-1$$, lo que dificulta el
+instante de tiempo $t$ depende de la entrada y salida en $t-1$, lo que dificulta el
 procesamiento paralelo de las secuencias.
 
 Además, dichas arquitecturas no escalaban de manera eficiente. Aunque el aumento de
@@ -127,7 +127,7 @@ representativa y detallada, capturando relaciones semánticas complejas.
 
 En el caso del lenguaje, los datos de entrada suelen ser palabras, que se transforman en
 identificadores asociados a vectores numéricos conocidos como **embeddings**. Estos
-embeddings permiten representar palabras de manera continua en un espacio vectorial,
+_embeddings_ permiten representar palabras de manera continua en un espacio vectorial,
 capturando similitudes semánticas. Sin embargo, los enfoques tradicionales presentan
 limitaciones: palabras nuevas o no presentes en el vocabulario original no pueden ser
 representadas directamente, y errores ortográficos o variantes culturales pueden generar
@@ -224,3 +224,11 @@ integración de información diversa y la generación de respuestas coherentes b
 múltiples fuentes de entrada. Existen modelos multimodales desde cero, que procesan
 todos los tipos de datos con un único modelo, o enfoques modulares que encadenan modelos
 especializados.
+
+## Cierre
+
+Hasta aquí los datos han sido imágenes, secuencias o texto. El
+[siguiente capítulo](section_8_graph_neural_networks.md) introduce las redes neuronales
+de grafos, que aplican el aprendizaje profundo a datos relacionales como las redes
+sociales, y expone su representación matemática, sus propiedades estructurales y los
+métodos de predicción sobre grafos.

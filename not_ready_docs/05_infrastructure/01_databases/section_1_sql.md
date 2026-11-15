@@ -355,8 +355,8 @@ Compara si un valor es mayor o igual, o menor o igual al especificado.
 
     Por ejemplo, si se desea seleccionar los trabajos de 'Data Scientist' o 'Machine
     Learning Engineer' con un salario promedio anual entre 50000 y 100000, podríamos
-    combinar los operadores `AND`, `OR` y `BETWEEN` para formar una condición compleja en la
-    cláusula `WHERE`, obteniendo la siguiente consulta:
+    combinar los operadores `AND`, `OR` y `BETWEEN` para formar una condición compleja
+    en la cláusula `WHERE`, obteniendo la siguiente consulta:
 
     ```sql  linenums="1"
     SELECT
@@ -403,8 +403,8 @@ Este comodín representa cero, uno o varios caracteres.
 
 ???+ example "Búsqueda con %"
 
-    Por ejemplo, si se desea buscar todos los trabajos que contengan la palabra 'Analyst'
-    en cualquier parte del título, se podría utilizar la siguiente consulta:
+    Por ejemplo, si se desea buscar todos los trabajos que contengan la palabra
+    'Analyst' en cualquier parte del título, se podría utilizar la siguiente consulta:
 
     ```sql  linenums="1"
     WHERE
@@ -425,8 +425,8 @@ Este comodín representa exactamente un carácter.
       job_title LIKE '__________'
     ```
 
-    En este caso, cada guión bajo `_` representa un carácter, y como hay 10 guiones bajos,
-    se buscarán los títulos de trabajo que tengan exactamente 10 caracteres.
+    En este caso, cada guión bajo `_` representa un carácter, y como hay 10 guiones
+    bajos, se buscarán los títulos de trabajo que tengan exactamente 10 caracteres.
 
 #### Comodines de conjunto y rango
 
@@ -542,8 +542,8 @@ Estas funciones se pueden usar con las cláusulas `GROUP BY` y `HAVING`:
 
 ???+ example "GROUP BY y HAVING"
 
-    Otro ejemplo que muestra cómo se pueden usar estas funciones y cláusulas para obtener
-    información más detallada sobre los trabajos:
+    Otro ejemplo que muestra cómo se pueden usar estas funciones y cláusulas para
+    obtener información más detallada sobre los trabajos:
 
     ```sql  linenums="1"
     SELECT
@@ -608,8 +608,8 @@ valores utilizando la cláusula `IS NOT NULL` en una consulta `WHERE`.
 
 Otra estrategia es reemplazar los valores `NULL` con un valor calculado, como el
 promedio de los valores no nulos que pertenecen a la misma categoría. Por ejemplo, si
-tenemos una tabla de ofertas de trabajo donde algunos registros tienen salarios
-publicados y otros no, podríamos rellenar los valores `NULL` con la media de los
+existe una tabla de ofertas de trabajo donde algunos registros tienen salarios
+publicados y otros no, se pueden rellenar los valores `NULL` con la media de los
 salarios de la misma categoría de trabajo.
 
 ???+ example "Reemplazar NULL con promedio"
@@ -625,12 +625,12 @@ salarios de la misma categoría de trabajo.
     WHERE salario IS NULL;
     ```
 
-    Este código actualizará la columna `salario` de la tabla `empleados`, estableciendo los
-    valores `NULL` al promedio de salario para cada tipo de trabajo. La subconsulta calcula
-    el promedio de salario para cada tipo de trabajo, excluyendo los valores `NULL`. Ten en
-    cuenta que este comando actualizará la tabla `empleados` en su lugar. Si no queremos
-    modificar la tabla original, podrías crear una nueva tabla o vista con los valores
-    `NULL` reemplazados.
+    Este código actualizará la columna `salario` de la tabla `empleados`, estableciendo
+    los valores `NULL` al promedio de salario para cada tipo de trabajo. La subconsulta
+    calcula el promedio de salario para cada tipo de trabajo, excluyendo los valores
+    `NULL`. Cabe tener en cuenta que este comando actualizará la tabla `empleados` en su
+    lugar. Si no se desea modificar la tabla original, se puede crear una nueva tabla o
+    vista con los valores `NULL` reemplazados.
 
 ## _Joins_
 
@@ -669,9 +669,9 @@ Existen cuatro tipos de `JOIN`:
 
 ???+ example "LEFT JOIN entre tablas"
 
-    Si dos tablas contienen un identificador común y queremos combinarlas para obtener los
-    datos asociados a ese identificador, como el nombre de la empresa, podemos hacer lo
-    siguiente:
+    Si dos tablas contienen un identificador común y se desea combinarlas para obtener
+    los datos asociados a ese identificador, como el nombre de la empresa, se puede
+    hacer lo siguiente:
 
     ```sql  linenums="1"
     SELECT
@@ -682,11 +682,11 @@ Existen cuatro tipos de `JOIN`:
     LEFT JOIN company_dim ON job_postings_fact.company_id = company_dim.company_id
     ```
 
-    En este caso, estamos utilizando un `LEFT JOIN` para combinar las tablas
-    `job_postings_fact` y `company_dim` basándonos en la columna `company_id` que es común
-    en ambas tablas. Como resultado, obtendremos una tabla que incluye el `job_id` y el
-    nombre de la empresa (`Empresa`) para cada registro en `job_postings_fact`. Si un
-    `job_id` en `job_postings_fact` no tiene una coincidencia en `company_dim`, el valor de
+    En este caso, se utiliza un `LEFT JOIN` para combinar las tablas `job_postings_fact`
+    y `company_dim` a partir de la columna `company_id`, que es común en ambas tablas.
+    Como resultado, se obtiene una tabla que incluye el `job_id` y el nombre de la
+    empresa (`Empresa`) para cada registro en `job_postings_fact`. Si un `job_id` en
+    `job_postings_fact` no tiene una coincidencia en `company_dim`, el valor de
     `Empresa` será `NULL` para ese registro.
 
 ???+ example "Salario promedio y ofertas por habilidad con JOIN"
@@ -713,10 +713,10 @@ Existen cuatro tipos de `JOIN`:
 
 ### Instalación de PostgreSQL
 
-1. **Instalación de PostgreSQL**: Puedes instalar PostgreSQL desde el repositorio
-   oficial de PostgreSQL o desde los repositorios de tu distribución. En PopOS, que está
-   basado en Ubuntu, puedes usar `apt`. Abre un terminal y ejecuta los siguientes
-   comandos:
+1. **Instalación de PostgreSQL**: Se puede instalar PostgreSQL desde el repositorio
+   oficial de PostgreSQL o desde los repositorios de la distribución. En PopOS, que está
+   basado en Ubuntu, se puede usar `apt`. Para ello, se abre un terminal y se ejecutan
+   los siguientes comandos:
 
     ```bash linenums="1"
     sudo apt update
@@ -726,55 +726,55 @@ Existen cuatro tipos de `JOIN`:
     Esto instalará PostgreSQL y algunas utilidades adicionales.
 
 2. **Interfaz de usuario gráfica (GUI)**: Aunque PostgreSQL no viene con una interfaz
-   gráfica por defecto, puedes instalar pgAdmin, que es una interfaz gráfica popular
-   para PostgreSQL. Puedes instalar pgAdmin desde el repositorio oficial o descargándolo
-   desde su sitio web.
+   gráfica por defecto, se puede instalar pgAdmin, que es una interfaz gráfica popular
+   para PostgreSQL. Se puede instalar desde el repositorio oficial o descargándolo desde
+   su sitio web.
 
-    Alternativamente, puedes usar herramientas de línea de comandos como `psql`, o
+    Alternativamente, se pueden usar herramientas de línea de comandos como `psql`, o
     integrar PostgreSQL con editores de texto como VS Code a través de extensiones.
 
 3. **Configuración del firewall**: PostgreSQL utiliza el puerto 5432 por defecto. Para
-   permitir el tráfico a este puerto, asegúrate de que UFW (Uncomplicated Firewall) esté
-   configurado correctamente:
+   permitir el tráfico a este puerto, hay que asegurarse de que UFW (Uncomplicated
+   Firewall) esté configurado correctamente:
 
     ```bash linenums="1"
     sudo ufw allow 5432/tcp
     sudo ufw status verbose
     ```
 
-    Verifica que el puerto esté habilitado y que el firewall esté funcionando como
-    esperas.
+    Conviene verificar que el puerto esté habilitado y que el firewall funcione como se
+    espera.
 
-4. **Creación de un usuario y una base de datos**: Una vez instalado PostgreSQL, puedes
-   crear un usuario y una base de datos. Primero, cambia al usuario `postgres` y accede
-   a la consola `psql`:
+4. **Creación de un usuario y una base de datos**: Una vez instalado PostgreSQL, se
+   puede crear un usuario y una base de datos. Primero, se cambia al usuario `postgres`
+   y se accede a la consola `psql`:
 
     ```bash linenums="1"
     sudo -i -u postgres
     psql
     ```
 
-    En la consola `psql`, ejecuta los siguientes comandos para crear un usuario y una
-    base de datos:
+    En la consola `psql`, se ejecutan los siguientes comandos para crear un usuario y
+    una base de datos:
 
     ```sql linenums="1"
     CREATE USER nombre_usuario WITH ENCRYPTED PASSWORD 'clave';
     CREATE DATABASE nombre_database OWNER nombre_usuario;
     ```
 
-    Reemplaza `nombre_usuario` y `nombre_database` con los nombres deseados, y `clave`
-    con la contraseña deseada.
+    Se reemplazan `nombre_usuario` y `nombre_database` con los nombres deseados, y
+    `clave` con la contraseña deseada.
 
 5. **Instalación de extensiones en VS Code**: Para trabajar con PostgreSQL en VS Code,
-   instala las siguientes extensiones:
+   se instalan las siguientes extensiones:
     - **SQLTools**: Proporciona soporte para consultas SQL y gestión de bases de datos.
     - **SQLTools PostgreSQL**: Un complemento específico para PostgreSQL.
 
-    Puedes buscar e instalar estas extensiones desde la pestaña de extensiones en VS
+    Estas extensiones se pueden buscar e instalar desde la pestaña de extensiones en VS
     Code.
 
 6. **Permisos del usuario**: El usuario creado no tiene permisos para crear bases de
-   datos por defecto. Para otorgar permisos, ejecuta el siguiente comando en `psql`:
+   datos por defecto. Para otorgar permisos, se ejecuta el siguiente comando en `psql`:
 
     ```sql linenums="1"
     ALTER USER nombre_usuario CREATEDB;
@@ -795,9 +795,9 @@ Además, algunos comandos útiles en `psql` son:
     \du
     ```
 
-Estos comandos te permiten ver las bases de datos y los usuarios disponibles en tu
-instancia de PostgreSQL. Utiliza estos comandos para verificar el estado y la
-configuración de tu base de datos y usuarios.
+Estos comandos permiten ver las bases de datos y los usuarios disponibles en la
+instancia de PostgreSQL. Sirven para verificar el estado y la configuración de la base
+de datos y de los usuarios.
 
 ### Tipos de datos
 
@@ -811,8 +811,8 @@ Este tipo de datos se utiliza para almacenar números enteros.
 
 ???+ example "Columna INT"
 
-    Si tenemos una tabla de `empleados` y queremos almacenar la `edad` de cada empleado,
-    puedes usar el tipo de datos `INT`.
+    Si existe una tabla de `empleados` y se desea almacenar la `edad` de cada empleado,
+    se puede usar el tipo de datos `INT`.
 
     ```sql  linenums="1"
     CREATE TABLE empleados (
@@ -847,8 +847,8 @@ falso (1 o 0).
 
 ???+ example "Columna BOOLEAN"
 
-    Si queremos almacenar si un empleado ha completado una tarea, puedes usar el tipo de
-    datos `BOOLEAN`.
+    Si se desea almacenar si un empleado ha completado una tarea, se puede usar el tipo
+    de datos `BOOLEAN`.
 
     ```sql  linenums="1"
     CREATE TABLE tareas (
@@ -966,8 +966,8 @@ Modifica la estructura de una tabla existente.
     Aquí se añade una nueva columna llamada `email` a la tabla `empleados`. El tipo de
     datos de la nueva columna es `VARCHAR(255)`.
 
-    También podemos eliminar una columna existente de una tabla utilizando la instrucción
-    `ALTER TABLE`.
+    También se puede eliminar una columna existente de una tabla utilizando la
+    instrucción `ALTER TABLE`.
 
     ```sql  linenums="1"
     ALTER TABLE empleados
@@ -982,19 +982,17 @@ Elimina una tabla y sus datos.
 
 ???+ example "Eliminar tabla"
 
-    Si queremos eliminar la tabla `empleados`, puedes hacerlo de la siguiente manera:
+    Si se desea eliminar la tabla `empleados`, se puede hacer de la siguiente manera:
 
     ```sql  linenums="1"
     DROP TABLE empleados;
     ```
 
-    !!!danger "Peligro"
+!!! danger
 
-        Ten en cuenta que esta operación eliminará la tabla y todos los datos que contiene,
-        por lo que debes tener cuidado al utilizarla.
-
-        Es una buena práctica hacer una copia de seguridad de tus datos antes de realizar
-        operaciones que puedan resultar en la pérdida de datos.
+    Esta operación elimina la tabla y todos los datos que contiene, por lo que hay que
+    tener cuidado al utilizarla. Es una buena práctica hacer una copia de seguridad de
+    los datos antes de realizar operaciones que puedan resultar en la pérdida de datos.
 
 ### Actualización de datos
 
@@ -1011,16 +1009,16 @@ ciertas filas o columnas.
     ```
 
     - `nombre_tabla` es el nombre de la tabla que se desea actualizar.
-    - `SET` es la cláusula que se utiliza para especificar las columnas a actualizar y los
-      nuevos valores que se desean asignar a esas columnas. Se pueden actualizar una o varias
-      columnas a la vez.
+    - `SET` es la cláusula que se utiliza para especificar las columnas a actualizar y
+      los nuevos valores que se desean asignar a esas columnas. Se pueden actualizar una
+      o varias columnas a la vez.
     - `WHERE` es la cláusula que se utiliza para especificar las filas que se desean
       actualizar. Si se omite la cláusula `WHERE`, todas las filas de la tabla se
       actualizarán, lo cual puede no ser lo deseado.
 
 ???+ example "Actualizar salarios"
 
-    Si tenemos una tabla llamada `empleados` y se desea aumentar el salario de todos los
+    Si existe una tabla llamada `empleados` y se desea aumentar el salario de todos los
     empleados que tienen un salario inferior a 30000 en un 10%, se podría hacer de la
     siguiente manera:
 
@@ -1128,8 +1126,8 @@ Obtiene partes específicas de una fecha.
     WHERE EXTRACT(MONTH FROM fecha) = 1;
     ```
 
-    En este caso, `EXTRACT(MONTH FROM fecha)` devuelve el mes de la fecha, y la condición
-    `= 1` selecciona solo las fechas que corresponden al mes de enero.
+    En este caso, `EXTRACT(MONTH FROM fecha)` devuelve el mes de la fecha, y la
+    condición `= 1` selecciona solo las fechas que corresponden al mes de enero.
 
 ### Expresiones CASE
 
@@ -1152,8 +1150,8 @@ lenguajes de programación.
     FROM job_posting_fact;
     ```
 
-    En este caso, la expresión `CASE` clasifica los trabajos en 'High', 'Medium' o 'Low' en
-    función del salario promedio anual.
+    En este caso, la expresión `CASE` clasifica los trabajos en 'High', 'Medium' o 'Low'
+    en función del salario promedio anual.
 
 ### Subconsultas y CTEs
 
@@ -1162,8 +1160,8 @@ que permiten realizar consultas más complejas.
 
 ???+ example "Subconsulta"
 
-    Si se desea obtener el salario promedio de los trabajos de 'Data Scientist', se podría
-    utilizar una subconsulta de la siguiente manera:
+    Si se desea obtener el salario promedio de los trabajos de 'Data Scientist', se
+    podría utilizar una subconsulta de la siguiente manera:
 
     ```sql  linenums="1"
     SELECT AVG(salary_year_avg)
@@ -1174,11 +1172,11 @@ que permiten realizar consultas más complejas.
     ) AS subquery;
     ```
 
-    En este caso, la subconsulta selecciona los salarios de los trabajos de 'Data Scientist',
-    y la consulta principal calcula el salario promedio.
+    En este caso, la subconsulta selecciona los salarios de los trabajos de 'Data
+    Scientist', y la consulta principal calcula el salario promedio.
 
-    Un CTE es similar a una subconsulta, pero se define antes de la consulta principal y se
-    puede referenciar varias veces en la consulta.
+    Un CTE es similar a una subconsulta, pero se define antes de la consulta principal y
+    se puede referenciar varias veces en la consulta.
 
 ???+ example "CTE (Common Table Expression)"
 
@@ -1192,8 +1190,9 @@ que permiten realizar consultas más complejas.
     FROM data_scientist_jobs;
     ```
 
-    En este caso, el CTE `data_scientist_jobs` selecciona los trabajos de 'Data Scientist', y
-    luego se utiliza en la consulta principal para calcular el salario promedio.
+    En este caso, el CTE `data_scientist_jobs` selecciona los trabajos de 'Data
+    Scientist', y luego se utiliza en la consulta principal para calcular el salario
+    promedio.
 
 ### UNION
 
@@ -1201,8 +1200,8 @@ La operación `UNION` combina los resultados de varias consultas `SELECT`.
 
 ???+ example "Combinar con UNION"
 
-    Ejemplo para obtener títulos de trabajo únicos de 'Data Scientist' y 'Machine Learning
-    Engineer':
+    Ejemplo para obtener títulos de trabajo únicos de 'Data Scientist' y 'Machine
+    Learning Engineer':
 
     ```sql  linenums="1"
     SELECT job_title

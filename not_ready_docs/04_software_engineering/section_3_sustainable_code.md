@@ -93,8 +93,8 @@ revisión del código.
 
 ???+ example "En Python"
 
-    En Python, la guía de estilo oficial es [PEP 8](https://pep8.org/). Herramientas como
-    [Ruff](https://docs.astral.sh/ruff/) permiten aplicar estas convenciones
+    En Python, la guía de estilo oficial es [PEP 8](https://pep8.org/). Herramientas
+    como [Ruff](https://docs.astral.sh/ruff/) permiten aplicar estas convenciones
     automáticamente. El siguiente fragmento ilustra el orden recomendado de las
     importaciones, que separa la biblioteca estándar de las dependencias externas y del
     código propio, junto con la aplicación de las convenciones de nomenclatura:
@@ -159,13 +159,13 @@ que se conoce como **deuda técnica**.
 ???+ warning "Mentalidad táctica frente a mentalidad estratégica"
 
     Muchas organizaciones fomentan una mentalidad táctica, centrada en hacer que las
-    funcionalidades estén operativas lo más rápido posible. Sin embargo, las complejidades
-    se acumulan con rapidez cuando todo el equipo programa de forma táctica. El código
-    funcional no es suficiente, ya que el objetivo principal debe ser producir un buen
-    diseño que además funcione. Se recomienda invertir entre el 10 % y el 20 % del tiempo
-    total de desarrollo en mejoras de diseño. Este esfuerzo puede incorporarse dentro de
-    los _sprints_ cuando se emplean metodologías ágiles, o bien reservarse como un tiempo
-    explícito dedicado a dicha tarea.
+    funcionalidades estén operativas lo más rápido posible. Sin embargo, las
+    complejidades se acumulan con rapidez cuando todo el equipo programa de forma
+    táctica. El código funcional no es suficiente, ya que el objetivo principal debe ser
+    producir un buen diseño que además funcione. Se recomienda invertir entre el 10 % y
+    el 20 % del tiempo total de desarrollo en mejoras de diseño. Este esfuerzo puede
+    incorporarse dentro de los _sprints_ cuando se emplean metodologías ágiles, o bien
+    reservarse como un tiempo explícito dedicado a dicha tarea.
 
 ### Síntomas de la complejidad
 
@@ -271,8 +271,8 @@ comunes y de funcionalidad significativa detrás de ellas.
     Conviene tener en consideración que una única función no debe abarcarlo todo. Cuando
     existen funcionalidades generalizables a varias operaciones, como la apertura y el
     cierre del archivo compartidos entre la lectura y la escritura, resulta preferible
-    repartir la responsabilidad en métodos reutilizables que se mantengan ocultos tras la
-    interfaz pública.
+    repartir la responsabilidad en métodos reutilizables que se mantengan ocultos tras
+    la interfaz pública.
 
 ### Ocultación de información
 
@@ -321,8 +321,8 @@ cambios.
             return sum(self._items.values())
     ```
 
-    Si en el futuro se sustituye el diccionario por una base de datos, la interfaz pública
-    formada por `agregar` y `total` permanece intacta.
+    Si en el futuro se sustituye el diccionario por una base de datos, la interfaz
+    pública formada por `agregar` y `total` permanece intacta.
 
 ### Fugas de información
 
@@ -421,8 +421,9 @@ ellos.
 ???+ warning "Descomposición temporal"
 
     Un error común es la descomposición temporal, donde la estructura del sistema
-    corresponde al orden temporal de las operaciones. Al diseñar módulos hay que centrarse
-    en el conocimiento necesario para cada tarea, no en el orden en que ocurren las tareas.
+    corresponde al orden temporal de las operaciones. Al diseñar módulos hay que
+    centrarse en el conocimiento necesario para cada tarea, no en el orden en que
+    ocurren las tareas.
 
 ### Generalidad frente a especialización
 
@@ -546,7 +547,7 @@ error en lugar de trasladar su tratamiento a otro punto del sistema.
     print(f"Región: {configuracion.obtener('region', 'eu-west-1')}")
     ```
 
-    ```title="Salida esperada"
+    ```plaintext title="Expected output"
     Entorno: produccion
     Región: eu-west-1
     ```
@@ -554,12 +555,12 @@ error en lugar de trasladar su tratamiento a otro punto del sistema.
 ???+ warning "Antipatrón"
 
     Los programadores agravan el problema definiendo excepciones innecesarias. Las
-    excepciones lanzadas por una clase forman parte de su interfaz, de modo que las clases
-    con muchas excepciones presentan interfaces complejas y resultan más superficiales. A
-    esto se añade que los módulos y funciones de los tipos de datos utilizados, tanto
-    propios como de terceros, ya suelen contemplar internamente las excepciones
-    pertinentes, por lo que replicar ese tratamiento aporta complejidad sin aportar
-    garantías.
+    excepciones lanzadas por una clase forman parte de su interfaz, de modo que las
+    clases con muchas excepciones presentan interfaces complejas y resultan más
+    superficiales. A esto se añade que los módulos y funciones de los tipos de datos
+    utilizados, tanto propios como de terceros, ya suelen contemplar internamente las
+    excepciones pertinentes, por lo que replicar ese tratamiento aporta complejidad sin
+    aportar garantías.
 
 ## Documentación y nombres
 
@@ -590,8 +591,8 @@ Los buenos nombres presentan dos propiedades:
 
 ???+ example "Buenos y malos nombres en Python"
 
-    La primera versión obliga a leer el cuerpo completo para entender qué hace la función,
-    mientras que la segunda transmite su propósito desde la firma:
+    La primera versión obliga a leer el cuerpo completo para entender qué hace la
+    función, mientras que la segunda transmite su propósito desde la firma:
 
     ```python linenums="1"
     # Nombres vagos que no transmiten intención
@@ -636,7 +637,7 @@ Los buenos nombres presentan dos propiedades:
     print(f"Positivas: {filtrar_transacciones_positivas(movimientos)}")
     ```
 
-    ```title="Salida esperada"
+    ```plaintext title="Expected output"
     Positivas: [{'monto': 120.0}]
     ```
 
@@ -717,8 +718,8 @@ proyecto y en el uso de abstracciones que invierten el sentido de las dependenci
         def guardar(self, usuario: Usuario) -> None: ...
     ```
 
-    El caso de uso recibe una implementación de ese contrato, por lo que puede sustituirse
-    sin modificar la lógica de negocio:
+    El caso de uso recibe una implementación de ese contrato, por lo que puede
+    sustituirse sin modificar la lógica de negocio:
 
     ```python linenums="1"
     # aplicacion/casos_de_uso.py
@@ -815,8 +816,8 @@ fundamental se resume en la secuencia _Red-Green-Refactor_:
 
 ???+ example "En Python con pytest"
 
-    Las pruebas se escriben en primer lugar y describen el comportamiento esperado de una
-    función que todavía no está implementada:
+    Las pruebas se escriben en primer lugar y describen el comportamiento esperado de
+    una función que todavía no está implementada:
 
     ```python linenums="1"
     # test_suma.py
@@ -858,7 +859,7 @@ fundamental se resume en la secuencia _Red-Green-Refactor_:
         return a + b
     ```
 
-    ```title="Salida esperada"
+    ```plaintext title="Expected output"
     ===== 2 passed in 0.01s =====
     ```
 
@@ -871,7 +872,7 @@ que facilita que participen en su definición perfiles no técnicos.
 
 ???+ example "Escenario BDD"
 
-    ```gherkin linenums="1"
+    ```plaintext linenums="1"
     Feature: Suma de números
       Scenario: Sumar dos números positivos
         Given el número 2

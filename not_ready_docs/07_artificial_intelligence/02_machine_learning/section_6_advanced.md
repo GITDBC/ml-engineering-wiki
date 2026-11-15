@@ -187,19 +187,19 @@ $$
 
 donde cada componente representa un aspecto específico del proceso de aprendizaje:
 
-- $P(\theta)$ — **Conocimiento previo (distribución prior)**: Representa las creencias
+- **Conocimiento previo (distribución prior)**, $P(\theta)$: Representa las creencias
   iniciales sobre los parámetros del modelo antes de observar los datos. Por ejemplo, si
   se desea predecir la altura de una persona, la prior podría establecer que la mayoría
   de las alturas se encuentran entre 1.50 y 2.00 metros, con una media alrededor de 1.70
   metros.
-- $P(D | \theta)$ — **Compatibilidad con los datos (verosimilitud)**: Mide la
+- **Compatibilidad con los datos (verosimilitud)**, $P(D | \theta)$: Mide la
   probabilidad de los datos observados dado un conjunto específico de parámetros. Evalúa
   qué tan compatibles son las observaciones con las predicciones del modelo.
-- $P(D)$ — **Normalización (evidencia)**: Actúa como factor de normalización que
+- **Normalización (evidencia)**, $P(D)$: Actúa como factor de normalización que
   garantiza que la distribución posterior sume uno, satisfaciendo las propiedades de una
   distribución de probabilidad válida. Representa la probabilidad total de observar los
   datos bajo todos los valores posibles de los parámetros.
-- $P(\theta | D)$ — **Conocimiento actualizado (distribución posterior)**: Es el
+- **Conocimiento actualizado (distribución posterior)**, $P(\theta | D)$: Es el
   resultado final del proceso bayesiano: las creencias actualizadas sobre los parámetros
   después de considerar tanto el conocimiento previo como los datos observados.
 
@@ -239,29 +239,29 @@ La optimización en las BNNs se basa fundamentalmente en maximizar el **Evidence
 Bound (ELBO)**:
 
 $$
-\mathcal{L} = \mathbb{E}_{q(\theta)}[\log P(D | \theta)] - KL(q(\theta) \| P(\theta)).
+\mathcal{L} = \mathbb{E}_{q(\theta)}\lbrack\log P(D | \theta)\rbrack - KL(q(\theta) \Vert P(\theta)).
 $$
 
 Esta función objetivo equilibra dos componentes críticos. El primer componente,
-denominado **término de verosimilitud** $\mathbb{E}_{q(\theta)}[\log P(D | \theta)]$,
-maximiza la probabilidad de los datos observados bajo la distribución aproximada
-$q(\theta)$, asegurando que el modelo mantenga un buen ajuste a los datos de
+denominado **término de verosimilitud** $\mathbb{E}_{q(\theta)}\lbrack\log P(D |
+\theta)\rbrack$, maximiza la probabilidad de los datos observados bajo la distribución
+aproximada $q(\theta)$, asegurando que el modelo mantenga un buen ajuste a los datos de
 entrenamiento. El segundo componente, denominado **término de regularización**
-$KL(q(\theta) \| P(\theta))$, minimiza la divergencia KL entre la distribución posterior
-aproximada y la distribución prior, actuando como fuerza regularizadora que previene el
-sobreajuste.
+$KL(q(\theta) \Vert P(\theta))$, minimiza la divergencia KL entre la distribución
+posterior aproximada y la distribución prior, actuando como fuerza regularizadora que
+previene el sobreajuste.
 
 La divergencia KL se formula de manera diferente según el tipo de distribución. Para
 distribuciones discretas:
 
 $$
-KL(P \| Q) = \sum_{x} P(x) \log \frac{P(x)}{Q(x)}.
+KL(P \Vert Q) = \sum_{x} P(x) \log \frac{P(x)}{Q(x)}.
 $$
 
 Para distribuciones continuas:
 
 $$
-KL(P \| Q) = \int_{-\infty}^{\infty} p(x) \log \frac{p(x)}{q(x)} \, dx.
+KL(P \Vert Q) = \int_{-\infty}^{\infty} p(x) \log \frac{p(x)}{q(x)} \, dx.
 $$
 
 ### Inferencia y cuantificación de la incertidumbre
@@ -362,3 +362,10 @@ exponencial de un valor muy grande. Para mitigar estos problemas, se pueden empl
 técnicas como el **gradient clipping** (limitación del gradiente), la **regularización
 de pesos** y la **normalización por lotes** (_Batch Normalization_) en la capa de
 salida.
+
+## Cierre
+
+Con el aprendizaje automático clásico completo, el
+[siguiente bloque](../03_deep_learning/section_1_fundamentals.md) introduce el
+aprendizaje profundo. Parte del concepto de inteligencia y de las nociones básicas que
+sirven de base a las redes neuronales tratadas después.

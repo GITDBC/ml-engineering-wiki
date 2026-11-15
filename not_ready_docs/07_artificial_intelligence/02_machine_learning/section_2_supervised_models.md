@@ -20,9 +20,18 @@ métodos más utilizados.
 
 !!! tip "Enfoque práctico para la selección de modelos"
 
-    A pesar del auge de los modelos de lenguaje basados en arquitecturas de **aprendizaje profundo (_Deep Learning_)**, su aplicación sigue siendo limitada en ciertos contextos debido a la gran cantidad de datos y capacidad de cómputo que requieren, así como a la necesidad de explicabilidad en sectores específicos. Por ello, los métodos tradicionales siguen desempeñando un papel fundamental, especialmente en el análisis de datos **tabulares**, los cuales representan la mayoría de los datos empresariales.
+    A pesar del auge de los modelos de lenguaje basados en arquitecturas de
+    **aprendizaje profundo (_Deep Learning_)**, su aplicación sigue siendo limitada en
+    ciertos contextos debido a la gran cantidad de datos y capacidad de cómputo que
+    requieren, así como a la necesidad de explicabilidad en sectores específicos. Por
+    ello, los métodos tradicionales siguen desempeñando un papel fundamental,
+    especialmente en el análisis de datos **tabulares**, los cuales representan la
+    mayoría de los datos empresariales.
 
-    Es recomendable iniciar con modelos más sencillos para comprender los resultados y evaluar su utilidad en función de los objetivos del análisis. A partir de esta base, y considerando factores como el tiempo y los recursos disponibles, se puede optar por soluciones más complejas que ofrezcan un mayor retorno de inversión (ROI).
+    Es recomendable iniciar con modelos más sencillos para comprender los resultados y
+    evaluar su utilidad en función de los objetivos del análisis. A partir de esta base,
+    y considerando factores como el tiempo y los recursos disponibles, se puede optar
+    por soluciones más complejas que ofrezcan un mayor retorno de inversión (ROI).
 
 ## Naïve Bayes
 
@@ -107,7 +116,8 @@ $$
 Esta magnitud permite comparar divisiones candidatas y seleccionar la que más mejora la
 pureza. Sirve además como criterio para elegir el umbral en el caso de características
 continuas. Cuando las características son categóricas se recurre a la codificación
-**_one-hot encoding_** para poder aplicar el mismo procedimiento.
+**_one-hot encoding_** (véanse los [datos categóricos](section_1_fundamentals.md)) para
+poder aplicar el mismo procedimiento.
 
 ???+ example "Comparación de divisiones candidatas"
 
@@ -229,7 +239,7 @@ La distancia de la proyección de un punto sobre la dirección del vector de pes
 obtiene normalizando el producto interno por la norma del vector:
 
 $$
-\frac{\mathbf{w} \cdot \mathbf{x}}{\|\mathbf{w}\|}
+\frac{\mathbf{w} \cdot \mathbf{x}}{\Vert\mathbf{w}\Vert}
 $$
 
 El problema de optimización consiste precisamente en maximizar la anchura de ese margen,
@@ -309,3 +319,10 @@ $$
 
 donde $q$ es el cuantil deseado. Esta función de pérdida permite obtener intervalos de
 predicción y estimar la incertidumbre asociada a las predicciones del modelo.
+
+## Cierre
+
+Los modelos supervisados requieren datos etiquetados. El
+[siguiente capítulo](section_3_clustering.md) trata los algoritmos de agrupación, que
+buscan estructura en los datos a partir de la distancia entre puntos, y los criterios
+para elegir el número de grupos.

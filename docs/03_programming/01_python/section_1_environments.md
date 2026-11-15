@@ -472,4 +472,4 @@ se encuentran recogidos en la documentación oficial referenciada en la bibliogr
 
 Con el entorno ya preparado, el capítulo de
 [fundamentos de Python](section_2_fundamentals.md) recorre el lenguaje en sí, y el de
-[librerías](section_3_libraries.md) recopila paquetes de uso frecuente.
+[librerías](section_5_libraries.md) recopila paquetes de uso frecuente.

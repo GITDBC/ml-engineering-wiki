@@ -165,10 +165,10 @@ despliegue sin intervención manual.
 
     Un modelo comete errores por definición, de modo que el diseño del producto debe
     limitar el impacto de una predicción incorrecta. Entre las opciones habituales se
-    encuentran la incorporación de una persona en el bucle de decisión para los escenarios
-    de riesgo elevado, el uso de métricas ponderadas por coste que hagan visibles los
-    errores más caros y la configuración de umbrales conservadores que señalen los casos
-    dudosos en lugar de resolverlos automáticamente.
+    encuentran la incorporación de una persona en el bucle de decisión para los
+    escenarios de riesgo elevado, el uso de métricas ponderadas por coste que hagan
+    visibles los errores más caros y la configuración de umbrales conservadores que
+    señalen los casos dudosos en lugar de resolverlos automáticamente.
 
 ## Compresión y cuantización de modelos
 
@@ -220,9 +220,9 @@ disponible.
 !!! warning
 
     No todo el _hardware_ implementa en su núcleo de cálculo los formatos de precisión
-    reducida. Una conversión a FP16 sobre un dispositivo que no lo soporta puede provocar
-    un error de compilación. El formato BF16 constituye en esos casos una alternativa
-    habitual, al conservar el rango de exponente de FP32.
+    reducida. Una conversión a FP16 sobre un dispositivo que no lo soporta puede
+    provocar un error de compilación. El formato BF16 constituye en esos casos una
+    alternativa habitual, al conservar el rango de exponente de FP32.
 
 Para evaluar el impacto de una conversión conviene medir el error que introduce,
 calculando tanto la diferencia media como la diferencia máxima entre los valores
@@ -345,7 +345,7 @@ tipos de datos utilizados en el modelo.
 
 El estándar ONNX define un conjunto de operadores que permiten mapear las
 funcionalidades de los frameworks de alto nivel con su propia representación. Existe una
-tabla de operadores compatibles con cada librería, como la que relaciona TensorFlow y
+tabla de operadores compatibles con cada biblioteca, como la que relaciona TensorFlow y
 Keras con ONNX, disponible en
 [GitHub](https://github.com/onnx/tensorflow-onnx/blob/main/support_status.md). Además,
 ONNX permite la creación de operadores personalizados para extender su funcionalidad.
@@ -357,11 +357,11 @@ herramienta [**Netron**](https://netron.app/), que forma parte del ecosistema de
 
 El versionado en ONNX se estructura en tres niveles:
 
-- **IR Version (Intermediate Representation Version):** Define el formato del archivo y
+- **IR Version (Intermediate Representation Version)**: Define el formato del archivo y
   la estructura del modelo dentro de ONNX.
-- **Opset Version (Operator Set Version):** Indica el conjunto de operadores compatibles
+- **Opset Version (Operator Set Version)**: Indica el conjunto de operadores compatibles
   con el modelo, asegurando compatibilidad con diferentes versiones del framework.
-- **Operator Version:** Especifica la versión de cada operador individual dentro del
+- **Operator Version**: Especifica la versión de cada operador individual dentro del
   conjunto de operadores, lo que permite gestionar cambios en su funcionalidad sin
   afectar la compatibilidad general del modelo.
 
@@ -395,14 +395,14 @@ de computación, dividiéndolo en subgrafos que pueden ejecutarse en diferentes
 hardware y ejecutar operaciones en paralelo dentro del grafo. Esta optimización se lleva
 a cabo en varios niveles:
 
-1. **Partición del grafo:** Se identifican y dividen las secciones del modelo que pueden
+1. **Partición del grafo**: Se identifican y dividen las secciones del modelo que pueden
    ejecutarse en distintos EP.
-2. **Aplicación de transformaciones generales:** Se realizan modificaciones en el grafo
+2. **Aplicación de transformaciones generales**: Se realizan modificaciones en el grafo
    como inserción de conversiones de tipo (_cast insertion_) o copias de memoria (_mem
    copy insertion_).
-3. **Transformaciones generales independientes del EP:** Se aplican optimizaciones que
+3. **Transformaciones generales independientes del EP**: Se aplican optimizaciones que
    no dependen de un hardware específico.
-4. **Transformaciones específicas del EP:** Se ajusta el modelo para aprovechar al
+4. **Transformaciones específicas del EP**: Se ajusta el modelo para aprovechar al
    máximo las capacidades de hardware especializadas, como TPU, GPU o FPGA.
 
 Los **Execution Providers (EP)** permiten la integración de bibliotecas específicas de
@@ -425,7 +425,7 @@ A continuación, se muestra un fragmento de código que inicializa una sesión d
 inferencia con un modelo ONNX, estableciendo un orden de prioridad en los EPs
 (preferencia por CUDA sobre CPU):
 
-```py linenums="1"
+```python linenums="1"
 import onnxruntime as ort
 
 session = ort.InferenceSession("modelo.onnx", providers=["CUDAExecutionProvider", "CPUExecutionProvider"])
@@ -436,7 +436,7 @@ resultados = session.run(None, inputs)
 También es posible modificar la prioridad de los EPs para utilizar solo el proveedor de
 CPU:
 
-```py linenums="1"
+```python linenums="1"
 session.set_providers(["CPUExecutionProvider"])
 ```
 

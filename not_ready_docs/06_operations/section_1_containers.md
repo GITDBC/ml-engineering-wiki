@@ -205,8 +205,8 @@ forma transparente.
     Un _daemon_ es un programa que se ejecuta en segundo plano, en lugar de hacerlo bajo
     el control directo de un usuario. Se trata de procesos autónomos que se inician
     durante el arranque del sistema y atienden tareas recurrentes como los servicios de
-    red, la impresión o la sincronización. Su gestión mediante `systemctl` se describe en
-    el capítulo de [fundamentos de
+    red, la impresión o la sincronización. Su gestión mediante `systemctl` se describe
+    en el capítulo de [fundamentos de
     Linux](../01_operative_systems/01_linux/section_1_fundamentals.md).
 
 Conviene recordar que los contenedores **comparten el _kernel_ del _host_**. Si el
@@ -355,8 +355,8 @@ utilizan completan el catálogo de comandos habituales:
 
 !!! danger "Las operaciones `prune` no son reversibles"
 
-    Los comandos `prune` eliminan recursos de forma inmediata y definitiva. En el caso de
-    `docker volume prune`, la eliminación afecta a los datos persistentes de los
+    Los comandos `prune` eliminan recursos de forma inmediata y definitiva. En el caso
+    de `docker volume prune`, la eliminación afecta a los datos persistentes de los
     volúmenes que ningún contenedor tiene montados, lo que puede suponer la pérdida de
     bases de datos completas. Conviene revisar antes qué recursos se verán afectados con
     `docker volume ls` o `docker system df` y evitar la opción `--all` en máquinas
@@ -435,7 +435,8 @@ comando `attach` junto con el identificador del contenedor.
 El mapeo de puertos, o _port mapping_, asigna un puerto del _host_ a un puerto del
 contenedor, lo que permite que una aplicación alojada en el contenedor resulte accesible
 desde el _host_ o desde otros contenedores. Sin esta correspondencia, el servicio solo
-escucha en la red interna del contenedor.
+escucha en la red interna del contenedor. El significado de los puertos se explica en el
+capítulo de [redes y TCP/IP](../05_infrastructure/03_networking/section_1_tcpip.md).
 
 ???+ example "Mapeo del puerto de una base de datos"
 
@@ -537,17 +538,19 @@ ejecutable con parámetros configurables.
     espacio de nombres `pid`, y es el que recibe las señales del sistema. La forma de
     lista, `ENTRYPOINT ["python", "servidor.py"]`, ejecuta el binario directamente. La
     forma de cadena, `ENTRYPOINT python servidor.py`, lo ejecuta a través de un
-    intérprete de órdenes que pasa a ser el proceso `1` y no propaga las señales, de modo
-    que `docker stop` no llega a la aplicación y el contenedor termina por tiempo de
-    espera. Por ello se recomienda la forma de lista.
+    intérprete de órdenes que pasa a ser el proceso `1` y no propaga las señales, de
+    modo que `docker stop` no llega a la aplicación y el contenedor termina por tiempo
+    de espera. Por ello se recomienda la forma de lista.
 
 ## Redes
 
 Para que varios contenedores se comuniquen entre sí es necesario que compartan una red
 interna. Docker permite crear redes personalizadas con `docker network create`, y los
 contenedores que pertenecen a la misma red se localizan utilizando su nombre como
-dominio, sin necesidad de conocer su dirección IP. La red a la que se conecta un
-contenedor se indica en el momento de su creación:
+dominio, sin necesidad de conocer su dirección IP. Los fundamentos del direccionamiento
+IP, las subredes y el DNS se recogen en el capítulo de
+[redes y TCP/IP](../05_infrastructure/03_networking/section_1_tcpip.md). La red a la que
+se conecta un contenedor se indica en el momento de su creación:
 
 ```bash linenums="1"
 docker create -p 27017:27017 --name mongodb --network nombre_red mongo
@@ -827,8 +830,8 @@ el origen en el _host_ y el punto de montaje en el contenedor.
 !!! warning "Volúmenes en contenedores existentes"
 
     Un contenedor en marcha no admite la incorporación de nuevos volúmenes. Para añadir
-    uno es necesario **recrear el contenedor** incluyendo la definición del volumen en la
-    orden de creación.
+    uno es necesario **recrear el contenedor** incluyendo la definición del volumen en
+    la orden de creación.
 
 Los volúmenes también pueden declararse en un archivo `docker-compose.yml`, lo que evita
 depender de rutas concretas de la máquina anfitriona.
@@ -868,8 +871,8 @@ depender de rutas concretas de la máquina anfitriona.
     Dos contenedores que montan el mismo volumen escriben sobre el mismo sistema de
     archivos sin ninguna coordinación entre ellos. Si ambos escriben sobre los mismos
     datos, la integridad depende por completo del mecanismo de bloqueo de la aplicación,
-    y un motor de base de datos que no espera acceso concurrente a su directorio de datos
-    corrompe el almacén en esa situación.
+    y un motor de base de datos que no espera acceso concurrente a su directorio de
+    datos corrompe el almacén en esa situación.
 
 Los archivos que Docker administra se almacenan en `/var/lib/docker`, incluidos los
 volúmenes disponibles en la máquina. En ese mismo directorio se conserva la **caché de

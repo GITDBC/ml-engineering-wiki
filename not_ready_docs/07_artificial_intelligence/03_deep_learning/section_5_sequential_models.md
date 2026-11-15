@@ -92,12 +92,12 @@ No obstante, las RNN se enfrentan a problemas significativos de desvanecimiento 
 explosión de gradientes. Para superar estas limitaciones, se desarrollaron variantes más
 sofisticadas:
 
-- **RNN bidireccionales:** Procesan la secuencia tanto hacia adelante como hacia atrás,
+- **RNN bidireccionales**: Procesan la secuencia tanto hacia adelante como hacia atrás,
   integrando simultáneamente información del pasado y del futuro.
-- **LSTM (_Long Short-Term Memory_):** Introducen celdas de memoria acompañadas de
+- **LSTM (_Long Short-Term Memory_)**: Introducen celdas de memoria acompañadas de
   puertas de control que regulan qué información se conserva, cuál se descarta y cuál se
   utiliza en cada paso.
-- **GRU (_Gated Recurrent Unit_):** Constituyen una variante simplificada de las LSTM,
+- **GRU (_Gated Recurrent Unit_)**: Constituyen una variante simplificada de las LSTM,
   con una estructura más ligera y eficiente.
 
 <figure markdown="span">
@@ -131,9 +131,9 @@ post-entrenamiento.
 ## Mecanismo de atención
 
 El mecanismo de atención constituye un componente fundamental en las arquitecturas
-modernas de procesamiento de secuencias. Se implementa a través de tres vectores:
-**Query (Q)**, que representa lo que se está buscando; **Key (K)**, que codifica la
-información disponible que puede ser relevante; y **Value (V)**, que contiene el
+modernas de procesamiento de secuencias. Se implementa a través de tres vectores. El
+vector **Query (Q)** representa lo que se está buscando. El vector **Key (K)** codifica
+la información disponible que puede ser relevante. El vector **Value (V)** contiene el
 contenido asociado para construir la representación final. El funcionamiento consiste en
 comparar la _Query_ con cada _Key_ para calcular pesos de relevancia relativa, que se
 aplican a los _Values_ correspondientes para generar representaciones contextuales.
@@ -383,3 +383,12 @@ ejecución. Compiladores como XLA exigen una forma fija para todos los tensores,
 que se introduce un hiperparámetro denominado **_capacity factor_** que fija la
 capacidad máxima de cada experto. Cuando un experto alcanza su capacidad, los _tokens_
 sobrantes se descartan.
+
+## Cierre
+
+Con las arquitecturas principales ya presentadas, el
+[siguiente capítulo](section_6_other_paradigms.md) explora paradigmas de aprendizaje
+complementarios como el aprendizaje multitarea, el _meta-learning_, el _few-shot
+learning_ y los _autoencoders_, y cierra con un flujo de trabajo para desarrollar
+modelos. Sigue a este porque describe formas de entrenar y reutilizar esas
+arquitecturas.

@@ -91,7 +91,7 @@ nvidia-smi
 
 ## Instalación de Ollama
 
-La instalación en el servidor se realiza con el script oficial, y la segunda orden
+La instalación en el servidor se realiza con el _script_ oficial, y la segunda orden
 verifica que el binario está disponible:
 
 ```bash linenums="1"
@@ -234,7 +234,7 @@ portátil. Ambos equipos pasan a formar parte de una misma red privada y el clie
 alcanzar el servidor desde cualquier ubicación mediante la dirección que Tailscale
 asigna al servidor, que pertenece al rango `100.x.x.x`:
 
-```text
+```plaintext
 http://ip_de_tailscale:11434
 ```
 

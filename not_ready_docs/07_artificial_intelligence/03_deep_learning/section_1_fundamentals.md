@@ -18,14 +18,8 @@ title: Fundamentos
 
 - Persson, A. (s.f.). _Aladdin Persson_ \[Canal\]. YouTube.
   <https://www.youtube.com/c/AladdinPersson>
-- McKinney, A. (s.f.). _Flax Tutorial_. Hugging Face Blog.
-  <https://huggingface.co/blog/afmck/flax-tutorial>
-- TensorFlow. (s.f.). _TensorFlow API Documentation_.
-  <https://www.tensorflow.org/api_docs>
 - DeepLearning.AI. (s.f.). _Deep Learning Specialization_ \[Curso\]. Coursera.
   <https://www.coursera.org/specializations/deep-learning>
-- DeepLearning.AI. (s.f.). _TensorFlow Developer Professional Certificate_ \[Curso\].
-  Coursera. <https://www.coursera.org/professional-certificates/tensorflow-in-practice>
 - Hugging Face. (2025). _Agents Course_. <https://huggingface.co/learn/agents-course>
 - Simone, G. (2024). _Alice's Adventures in a Differentiable Wonderland: A Primer on
   Designing Neural Networks (Volume I)_. Amazon.
@@ -159,13 +153,13 @@ Things_, IoT).
 
 Para abordar estas limitaciones, se desarrollan múltiples estrategias, entre ellas:
 
-- **Arquitecturas especializadas:** Diseños de redes más ligeras y eficientes, adaptadas
+- **Arquitecturas especializadas**: Diseños de redes más ligeras y eficientes, adaptadas
   a las restricciones de hardware.
-- **Optimización a nivel de hardware:** Uso de unidades de procesamiento específicas,
+- **Optimización a nivel de hardware**: Uso de unidades de procesamiento específicas,
   como _Graphics Processing Units_ (GPU), _Tensor Processing Units_ (TPU) o _Neural
   Processing Unit_ (NPU), capaces de acelerar las operaciones matriciales y reducir el
   consumo de energía.
-- **Compilación a lenguajes de bajo nivel:** Traducción del modelo a representaciones
+- **Compilación a lenguajes de bajo nivel**: Traducción del modelo a representaciones
   más próximas al hardware para mejorar el rendimiento.
 
 En conjunto, estas estrategias permiten democratizar el acceso y uso del aprendizaje
@@ -270,7 +264,10 @@ desempeño preestablecida. En la práctica, este procedimiento se implementa med
 algoritmos de optimización, entre los que destaca el **descenso del gradiente**, que
 ajusta los parámetros en la dirección que más reduce la pérdida. Existen además
 variantes adaptativas, que mejoran la eficiencia del proceso y aceleran la convergencia
-en arquitecturas complejas.
+en arquitecturas complejas. Como la inicialización de los parámetros y el orden de los
+lotes son aleatorios, un entrenamiento solo es reproducible si se fijan las semillas de
+los generadores de números aleatorios, como se muestra en
+[estadística](../01_mathematics/section_1_statistics.md).
 
 Una herramienta fundamental que posibilita este proceso es la **diferenciación
 automática**, la cual permite calcular de manera eficiente las derivadas necesarias para
@@ -395,7 +392,19 @@ volúmenes de información, sin necesidad de ingeniería manual de característi
 En cuanto a la representación tensorial de los datos, cada tipo de dato se mapea a un
 rango específico de tensor. Los datos vectoriales se representan como tensores de rango
 2 con forma $(muestras, características)$. Las series temporales o datos secuenciales
-adoptan tensores de rango 3 con forma $(muestras, pasos\_temporales, características)$.
-Las imágenes se codifican como tensores de rango 4 con forma $(muestras, alto, ancho,
-canales)$. Finalmente, los vídeos se representan como tensores de rango 5 con forma
-$(muestras, fotogramas, alto, ancho, canales)$.
+adoptan tensores de rango 3 con forma $(muestras, pasos\_temporales, características)$,
+que en PyTorch se obtiene con el argumento `batch_first=True` de las capas recurrentes,
+ya que por defecto estas esperan $(pasos\_temporales, muestras, características)$. Las
+imágenes se codifican como tensores de rango 4 con forma $(muestras, canales, alto,
+ancho)$, la convención de PyTorch conocida como _NCHW_ (_batch_, _channels_, _height_,
+_width_). Finalmente, los vídeos se representan como tensores de rango 5 con forma
+$(muestras, canales, fotogramas, alto, ancho)$, la disposición que espera la capa
+convolucional tridimensional `Conv3d`.
+
+## Cierre
+
+Con el contexto de la inteligencia y las nociones básicas del aprendizaje profundo, el
+[siguiente capítulo](section_2_linear_models.md) presenta la regresión lineal y
+logística junto con la función de pérdida, el descenso del gradiente y la
+regularización. Estos modelos sencillos sirven de punto de partida porque contienen, a
+pequeña escala, el mecanismo de entrenamiento de cualquier red neuronal.

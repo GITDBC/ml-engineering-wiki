@@ -90,7 +90,7 @@ aprendizaje humano: adquirir ideas y luego extrapolar el conocimiento.
 El aprendizaje autosupervisado está estrechamente relacionado con el aprendizaje
 multimodal. El aprendizaje requiere conocimiento previo y redundancia en las señales.
 Cuando se aprenden asociaciones entre $N$ eventos, es necesario almacenar $N^2$ posibles
-probabilidades; si los eventos son independientes, las probabilidades pueden calcularse
+probabilidades. Si los eventos son independientes, las probabilidades pueden calcularse
 por separado y la probabilidad total es el producto de las probabilidades individuales.
 
 Entre las técnicas de aprendizaje autosupervisado destacan: _inpainting_ (reconstrucción
@@ -204,7 +204,7 @@ representan los datos y elegir cómo medir el éxito. Es fundamental enmarcar
 correctamente el problema, identificando el tipo de tarea (clasificación binaria,
 multiclase, regresión, segmentación, etc.), las soluciones existentes y las
 restricciones del entorno (cifrado, latencia, dispositivo de destino). Un buen conjunto
-de datos es un activo que merece cuidado e inversión; si se dispone de tiempo adicional,
+de datos es un activo que merece cuidado e inversión. Si se dispone de tiempo adicional,
 dedicarlo a recopilar más datos suele ser más efectivo que buscar mejoras incrementales
 en el modelado. La infraestructura de anotación de datos determina la calidad de las
 etiquetas y, por tanto, la calidad del modelo.
@@ -226,3 +226,10 @@ vinculadas a objetivos de negocio), optimizar el modelo para inferencia mediante
 técnicas como la **poda de pesos** (_weight pruning_) y la **cuantización de pesos**
 (_weight quantization_), y supervisar el rendimiento del modelo en producción para
 detectar degradaciones y recopilar datos para futuras iteraciones.
+
+## Cierre
+
+El [siguiente capítulo](section_7_generative_ai.md) introduce la IA generativa, que
+modela la distribución de probabilidad de los datos para generar muestras nuevas, y los
+modelos de lenguaje de gran escala. Sigue a este porque se apoya en las arquitecturas y
+los modos de entrenamiento ya expuestos.

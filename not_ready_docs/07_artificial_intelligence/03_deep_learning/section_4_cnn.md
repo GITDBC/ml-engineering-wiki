@@ -32,9 +32,9 @@ organiza la información entrante. Desde el LGN, las señales se transmiten haci
 corteza visual primaria (V1), localizada en el lóbulo occipital, que se organiza de
 manera retinotópica.
 
-En la corteza visual primaria se distinguen tres tipos principales de células: células
-simples, que responden a bordes con orientación específica; células complejas, que
-detectan bordes o movimientos en rangos más amplios; y células hipercomplejas, que
+En la corteza visual primaria se distinguen tres tipos principales de células. Las
+células simples responden a bordes con orientación específica. Las células complejas
+detectan bordes o movimientos en rangos más amplios. Las células hipercomplejas
 reaccionan ante combinaciones más sofisticadas, como esquinas o terminaciones de líneas.
 El procesamiento continúa en áreas corticales posteriores (V2, V4, IT), donde se
 analizan características más complejas, incluyendo texturas, formas tridimensionales,
@@ -149,7 +149,7 @@ El uso de convoluciones en redes neuronales introduce una serie de elementos ese
 El **relleno (_padding_)** consiste en añadir bordes artificiales alrededor de la imagen
 para evitar la pérdida de información en los márgenes y mantener las dimensiones
 originales de la entrada. El **desplazamiento (_stride_)** define el número de píxeles
-que el filtro avanza en cada paso al recorrer la imagen; un valor mayor reduce las
+que el filtro avanza en cada paso al recorrer la imagen. Un valor mayor reduce las
 dimensiones de la salida y disminuye el número de cálculos necesarios. Cuando el tamaño
 del _stride_ coincide con el del filtro, el proceso es equivalente a dividir la imagen
 en fragmentos independientes (_patches_), concepto que ha dado lugar a arquitecturas
@@ -196,6 +196,75 @@ finales para realizar la tarea específica (clasificación, regresión, etc.).
   ![Estructura de una red convolucional](../../assets/img/docs/deep_learning/dl-cnn-architecture.svg)
   <figcaption>Estructura de una red convolucional: el _backbone_ alterna convoluciones con ReLU y capas de _pooling_ para extraer características, y la cabeza de clasificación produce las puntuaciones de cada clase.</figcaption>
 </figure>
+
+En PyTorch, un tensor de imágenes sigue el orden NCHW: (lote, canales, alto, ancho). Una
+red convolucional pequeña encadena bloques de convolución, activación y _max pooling_ y
+termina con un _Global Average Pooling_ y una capa lineal como cabeza.
+
+???+ example "Formas y parámetros de una CNN pequeña"
+
+    El ejemplo imprime la forma del tensor tras cada capa para un lote sintético de 8
+    imágenes RGB de 32 × 32 píxeles y cuenta los parámetros de la primera convolución.
+
+    ```python linenums="1"
+    import torch
+    from torch import nn
+
+
+    def mostrar_formas(modelo: nn.Sequential, x: torch.Tensor) -> None:
+        """Imprime la forma del tensor tras cada capa de un modelo secuencial.
+
+        Args:
+            modelo: Modelo formado por una secuencia de capas.
+            x: Lote de entrada con forma (lote, canales, alto, ancho).
+        """
+        print(f"{'Entrada':<18}{tuple(x.shape)}")
+        for capa in modelo:
+            x = capa(x)
+            print(f"{type(capa).__name__:<18}{tuple(x.shape)}")
+
+
+    torch.manual_seed(0)
+
+    # Bloques de convolución, activación y agrupamiento seguidos de la cabeza
+    modelo = nn.Sequential(
+        nn.Conv2d(3, 10, kernel_size=3, padding=1),
+        nn.ReLU(),
+        nn.MaxPool2d(2),
+        nn.Conv2d(10, 20, kernel_size=3, padding=1),
+        nn.ReLU(),
+        nn.MaxPool2d(2),
+        nn.AdaptiveAvgPool2d(1),
+        nn.Flatten(),
+        nn.Linear(20, 5),
+    )
+
+    # Lote sintético de 8 imágenes RGB de 32 x 32 píxeles
+    mostrar_formas(modelo, torch.randn(8, 3, 32, 32))
+
+    # Parámetros de la primera capa: 10 filtros de 3 x 3 x 3 más 10 sesgos
+    n_parametros = sum(p.numel() for p in modelo[0].parameters())
+    print(f"Parámetros de la primera capa: {n_parametros}")
+    ```
+
+    ```plaintext title="Expected output"
+    Entrada           (8, 3, 32, 32)
+    Conv2d            (8, 10, 32, 32)
+    ReLU              (8, 10, 32, 32)
+    MaxPool2d         (8, 10, 16, 16)
+    Conv2d            (8, 20, 16, 16)
+    ReLU              (8, 20, 16, 16)
+    MaxPool2d         (8, 20, 8, 8)
+    AdaptiveAvgPool2d (8, 20, 1, 1)
+    Flatten           (8, 20)
+    Linear            (8, 5)
+    Parámetros de la primera capa: 280
+    ```
+
+    El relleno de 1 con filtros de 3 × 3 conserva el tamaño espacial, cada _max pooling_
+    de 2 × 2 lo reduce a la mitad y el _Global Average Pooling_ deja un valor por canal.
+    Los 280 parámetros de la primera capa corresponden a 10 filtros de 3 × 3 × 3 más un
+    sesgo por filtro, es decir, 10 · 27 + 10.
 
 ## Tipos de operaciones convolucionales
 
@@ -246,6 +315,101 @@ Con la expansión de los dispositivos móviles surgieron las **MobileNet**, basa
 **convoluciones separables en profundidad**. La segunda generación, **MobileNetV2**,
 incorporó conexiones residuales junto con capas de expansión mediante filtros 1×1.
 
+Las arquitecturas anteriores se distribuyen con pesos preentrenados y se reutilizan
+mediante el aprendizaje por transferencia descrito en
+[Redes neuronales](section_3_neural_networks.md). En `torchvision`,
+`ResNet18_Weights.DEFAULT` carga esos pesos y `weights.transforms()` devuelve el
+preprocesado con el que se entrenaron, que debe aplicarse a las entradas. Con pocos
+datos se congela la red y se entrena solo una cabeza nueva (extracción de
+características). Con más datos se descongelan además los últimos bloques con una tasa
+de aprendizaje menor (_fine-tuning_).
+
+???+ example "Transferencia con ResNet18"
+
+    El ejemplo usa `weights=None` para no descargar nada, de modo que ilustra el
+    mecanismo y no el resultado. Congela la red, sustituye la cabeza por una de 3 clases
+    y comprueba qué parámetros se actualizan en cada fase con un lote sintético de 4
+    imágenes de 224 × 224.
+
+    ```python linenums="1"
+    import torch
+    from torch import nn, optim
+    from torchvision.models import resnet18
+
+
+    def contar_entrenables(modelo: nn.Module) -> int:
+        """Cuenta los parámetros que el optimizador puede actualizar.
+
+        Args:
+            modelo: Modelo de PyTorch.
+
+        Returns:
+            Número de parámetros con ``requires_grad`` activado.
+        """
+        return sum(p.numel() for p in modelo.parameters() if p.requires_grad)
+
+
+    def paso_entrenamiento(modelo: nn.Module, optimizador: optim.Optimizer) -> bool:
+        """Ejecuta un paso de entrenamiento sobre un lote sintético.
+
+        Args:
+            modelo: Modelo que se entrena.
+            optimizador: Optimizador asociado a los parámetros entrenables.
+
+        Returns:
+            ``True`` si los pesos de ``layer4`` cambiaron tras el paso.
+        """
+        antes = modelo.layer4[0].conv1.weight.detach().clone()
+        # Lote de 4 imágenes RGB de 224 x 224 con sus etiquetas
+        x = torch.randn(4, 3, 224, 224)
+        y = torch.tensor([0, 1, 2, 0])
+        optimizador.zero_grad()
+        nn.functional.cross_entropy(modelo(x), y).backward()
+        optimizador.step()
+        return not torch.equal(antes, modelo.layer4[0].conv1.weight)
+
+
+    torch.manual_seed(0)
+
+    # Red sin pesos preentrenados para no descargar nada
+    modelo = resnet18(weights=None)
+    print(f"Parámetros totales: {sum(p.numel() for p in modelo.parameters())}")
+
+    # Extracción de características: se congela todo y se sustituye la cabeza
+    for p in modelo.parameters():
+        p.requires_grad = False
+    modelo.fc = nn.Linear(512, 3)
+    entrenables = [p for p in modelo.parameters() if p.requires_grad]
+    optimizador = optim.Adam(entrenables, lr=1e-3)
+    print(f"Entrenables con la cabeza nueva: {contar_entrenables(modelo)}")
+    print(f"layer4 cambia: {paso_entrenamiento(modelo, optimizador)}")
+
+    # Ajuste fino: se descongela el último bloque con una tasa de aprendizaje menor
+    for p in modelo.layer4.parameters():
+        p.requires_grad = True
+    optimizador = optim.Adam(
+        [
+            {"params": modelo.layer4.parameters(), "lr": 1e-4},
+            {"params": modelo.fc.parameters(), "lr": 1e-3},
+        ]
+    )
+    print(f"Entrenables tras descongelar layer4: {contar_entrenables(modelo)}")
+    print(f"layer4 cambia: {paso_entrenamiento(modelo, optimizador)}")
+    ```
+
+    ```plaintext title="Expected output"
+    Parámetros totales: 11689512
+    Entrenables con la cabeza nueva: 1539
+    layer4 cambia: False
+    Entrenables tras descongelar layer4: 8395267
+    layer4 cambia: True
+    ```
+
+    Con la red congelada solo se entrenan los 1539 parámetros de la nueva capa `fc` (512
+    · 3 + 3) y `layer4` no cambia. Tras descongelar `layer4` se entrenan 8395267
+    parámetros y sus pesos sí se actualizan. Congelar con `requires_grad` no detiene las
+    estadísticas de `BatchNorm`, que se siguen actualizando en modo `train()`.
+
 ## Sistemas de detección de objetos
 
 En muchas aplicaciones de la visión computacional no basta con clasificar una imagen en
@@ -261,9 +425,79 @@ convolucional a toda la imagen de manera simultánea, permitiendo detecciones en
 real.
 
 El desempeño de los modelos de detección se evalúa mediante métricas como la
-**Intersección sobre Unión (IoU)**, la **Supresión de No Máximos (NMS)** y las **Cajas
-de Anclaje (_anchor boxes_)**. Además de la detección convencional, existen variantes
-como la detección de puntos de referencia y los métodos basados en regiones.
+**Intersección sobre Unión (IoU)**, que cuantifica el solapamiento entre dos cajas como
+el cociente entre el área común y el área de su unión. En el proceso intervienen además
+dos elementos que no son métricas: las **Cajas de Anclaje (_anchor boxes_)**, formas de
+referencia definidas por su anchura y su altura sobre las que cada celda predice sus
+cajas, y la **Supresión de No Máximos (NMS)**, un posprocesado que descarta las cajas
+redundantes de un mismo objeto. Cada caja recibe una puntuación de clase $p_c\cdot c_i$,
+producto de la probabilidad $p_c$ de que exista un objeto y de la probabilidad $c_i$ de
+que sea de la clase $i$. NMS conserva la caja de mayor puntuación y elimina las que se
+solapan con ella por encima de un umbral de IoU. Además de la detección convencional,
+existen variantes como la detección de puntos de referencia y los métodos basados en
+regiones.
+
+???+ example "IoU y supresión de no máximos"
+
+    El ejemplo calcula la IoU de dos cajas con formato $(x_1, y_1, x_2, y_2)$ a mano y
+    con `torchvision.ops.box_iou`, y aplica `torchvision.ops.nms` a tres cajas con sus
+    puntuaciones de clase.
+
+    ```python linenums="1"
+    import torch
+    from torchvision.ops import box_iou, nms
+
+
+    def iou(a: torch.Tensor, b: torch.Tensor) -> float:
+        """Calcula la intersección sobre unión de dos cajas.
+
+        Args:
+            a: Caja (x1, y1, x2, y2).
+            b: Caja (x1, y1, x2, y2).
+
+        Returns:
+            Cociente entre el área común y el área de la unión.
+        """
+        ancho = (torch.min(a[2], b[2]) - torch.max(a[0], b[0])).clamp(min=0)
+        alto = (torch.min(a[3], b[3]) - torch.max(a[1], b[1])).clamp(min=0)
+        interseccion = ancho * alto
+        area_a = (a[2] - a[0]) * (a[3] - a[1])
+        area_b = (b[2] - b[0]) * (b[3] - b[1])
+        return (interseccion / (area_a + area_b - interseccion)).item()
+
+
+    # Cajas con formato (x1, y1, x2, y2)
+    cajas = torch.tensor(
+        [
+            [0.0, 0.0, 10.0, 10.0],
+            [1.0, 1.0, 11.0, 11.0],
+            [20.0, 20.0, 30.0, 30.0],
+        ]
+    )
+    print(f"IoU manual: {iou(cajas[0], cajas[1]):.4f}")
+    print(f"IoU de torchvision: {box_iou(cajas[:1], cajas[1:2]).item():.4f}")
+
+    # Puntuación de clase: probabilidad de objeto por probabilidad de la clase
+    p_c = torch.tensor([0.9, 0.8, 0.7])
+    c_i = torch.tensor([0.95, 0.9, 0.8])
+    puntuaciones = p_c * c_i
+    print(f"Puntuaciones: {puntuaciones}")
+
+    # Se conservan las cajas con mayor puntuación que no se solapan en exceso
+    conservadas = nms(cajas, puntuaciones, iou_threshold=0.5)
+    print(f"Índices conservados: {conservadas}")
+    ```
+
+    ```plaintext title="Expected output"
+    IoU manual: 0.6807
+    IoU de torchvision: 0.6807
+    Puntuaciones: tensor([0.8550, 0.7200, 0.5600])
+    Índices conservados: tensor([0, 2])
+    ```
+
+    Las dos primeras cajas se solapan con una IoU de 0.68, superior al umbral de 0.5,
+    por lo que NMS descarta la segunda, de menor puntuación, y conserva la primera y la
+    tercera.
 
 ## Segmentación semántica y convoluciones transpuestas
 
@@ -410,6 +644,82 @@ contraste local, puede incrementar el ruido al perder información global. El pa
 de _clip limit_ permite limitar esta amplificación del ruido, controlando el contraste
 máximo permitido en cada ventana.
 
+Durante el entrenamiento, la aumentación de datos aplica transformaciones aleatorias
+(recortes, giros, rotaciones y cambios de color) que generan variantes de cada imagen.
+La validación solo lleva un preprocesado determinista (redimensionar, escalar y
+normalizar) para que la métrica sea comparable entre épocas. En `torchvision`,
+`transforms.v2` encadena estas operaciones con `Compose`.
+
+???+ example "Aumentación de datos con `transforms.v2`"
+
+    El ejemplo define un _pipeline_ de entrenamiento y otro de validación y los aplica a
+    una imagen sintética `uint8` con forma (canales, alto, ancho).
+
+    ```python linenums="1"
+    import torch
+    from torchvision.transforms import v2
+
+
+    def describir(nombre: str, imagen: torch.Tensor) -> None:
+        """Imprime forma, tipo y rango de una imagen.
+
+        Args:
+            nombre: Etiqueta del resultado.
+            imagen: Tensor con forma (canales, alto, ancho).
+        """
+        print(
+            f"{nombre}: forma={tuple(imagen.shape)}, tipo={imagen.dtype}, "
+            f"rango=({imagen.min():.2f}, {imagen.max():.2f})"
+        )
+
+
+    torch.manual_seed(0)
+
+    # Aumento aleatorio solo en entrenamiento
+    entrenamiento = v2.Compose(
+        [
+            v2.RandomResizedCrop(32, antialias=True),
+            v2.RandomHorizontalFlip(),
+            v2.RandomRotation(15),
+            v2.ColorJitter(brightness=0.2, contrast=0.2),
+            v2.ToDtype(torch.float32, scale=True),
+            v2.Normalize(mean=[0.5, 0.5, 0.5], std=[0.5, 0.5, 0.5]),
+        ]
+    )
+    # Validación: transformación determinista sin aumento
+    validacion = v2.Compose(
+        [
+            v2.Resize((32, 32), antialias=True),
+            v2.ToDtype(torch.float32, scale=True),
+            v2.Normalize(mean=[0.5, 0.5, 0.5], std=[0.5, 0.5, 0.5]),
+        ]
+    )
+
+    # Imagen sintética uint8 con forma (canales, alto, ancho)
+    imagen = torch.randint(0, 256, (3, 64, 64), dtype=torch.uint8)
+    describir("original", imagen)
+    describir("entrenamiento", entrenamiento(imagen))
+    describir("validación", validacion(imagen))
+    # Dos aplicaciones sobre la misma imagen: aleatoria solo en entrenamiento
+    igual_entrenamiento = torch.equal(entrenamiento(imagen), entrenamiento(imagen))
+    igual_validacion = torch.equal(validacion(imagen), validacion(imagen))
+    print(f"Entrenamiento repetible: {igual_entrenamiento}")
+    print(f"Validación repetible: {igual_validacion}")
+    ```
+
+    ```plaintext title="Expected output"
+    original: forma=(3, 64, 64), tipo=torch.uint8, rango=(0.00, 255.00)
+    entrenamiento: forma=(3, 32, 32), tipo=torch.float32, rango=(-0.91, 0.59)
+    validación: forma=(3, 32, 32), tipo=torch.float32, rango=(-0.62, 0.62)
+    Entrenamiento repetible: False
+    Validación repetible: True
+    ```
+
+    La imagen pasa de `uint8` en [0, 255] a `float32` en [0, 1] y, tras `Normalize` con
+    media y desviación de 0.5, a valores dentro de [-1, 1]. El _pipeline_ de
+    entrenamiento da un resultado distinto en cada llamada y el de validación siempre el
+    mismo.
+
 Estas técnicas de procesamiento pueden combinarse con las capacidades de las redes
 convolucionales para crear sistemas o _pipelines_ que permitan recopilar y curar datos
 de Internet. Por ejemplo, si se dispone de una representación embebida de una categoría
@@ -417,3 +727,11 @@ de imágenes (como gatos), es posible utilizar sistemas de búsqueda por similit
 _embeddings_ para ampliar el conjunto de datos, eliminar duplicados o filtrar imágenes
 no apropiadas, reduciendo así el coste de almacenamiento y refinando la calidad del
 conjunto de datos.
+
+## Cierre
+
+Las redes convolucionales aprovechan la estructura espacial de los datos, pero muchos
+problemas dependen del orden de los elementos. El
+[siguiente capítulo](section_5_sequential_models.md) trata los modelos secuenciales,
+desde las redes recurrentes hasta el mecanismo de atención, los _Transformers_ y
+_Mixture of Experts_.

@@ -3,7 +3,8 @@ icon: lucide/sigma
 authors: Daniel Bazo Correa
 description:
     Fundamentos matemáticos del aprendizaje profundo, desde los tensores y el álgebra
-    lineal hasta la geometría analítica y la descomposición de matrices.
+    lineal hasta la geometría analítica, la descomposición de matrices y las matrices
+    definidas positivas.
 title: Fundamentos matemáticos
 ---
 
@@ -29,7 +30,8 @@ sustenta esas construcciones. Comienza por el tensor, que es la estructura de da
 sobre la que operan las bibliotecas de cálculo, continúa con los vectores y los sistemas
 de ecuaciones lineales, añade la interpretación geométrica que proporcionan las normas y
 los productos internos, y termina con las descomposiciones de matrices que hacen
-posibles técnicas como el análisis de componentes principales.
+posibles técnicas como el análisis de componentes principales, junto con las formas
+cuadráticas que caracterizan las matrices definidas positivas.
 
 ## Bibliografía
 
@@ -64,22 +66,22 @@ entrenamiento. Estas reducciones, sin embargo, dependen de las capacidades del h
 ya que no todas las arquitecturas soportan operaciones de baja precisión con la misma
 eficiencia o estabilidad numérica.
 
-Bibliotecas especializadas como **PyTorch**, **TensorFlow** o **Keras** facilitan estos
-procesos mediante instrucciones de alto nivel. La elección del nivel de precisión
-implica un compromiso entre exactitud y eficiencia. En aplicaciones donde los errores
-mínimos son tolerables, como la clasificación de imágenes comunes, puede optarse por una
-menor precisión para reducir el consumo energético y acelerar el entrenamiento. En
-cambio, en entornos donde la seguridad y la fiabilidad son críticas, se requiere una
-precisión numérica más alta que garantice la estabilidad y exactitud de los resultados.
-Por tanto, existe una relación directa entre la precisión numérica, el error acumulado y
-el coste computacional, de modo que optimizar este equilibrio constituye uno de los
-aspectos clave del diseño de modelos eficientes. El uso de **precisión mixta**, que
-combina tipos de punto flotante de 16 y 32 bits durante el entrenamiento, permite
-acelerar la ejecución y reducir el consumo de memoria manteniendo la estabilidad
-numérica en las operaciones críticas. El tratamiento detallado de los formatos
-numéricos, de la cuantización lineal y del error que introduce se aborda en el capítulo
-de [despliegue](../../06_operations/section_5_deployment.md), donde estas técnicas
-resultan determinantes.
+Bibliotecas especializadas como **PyTorch** facilitan estos procesos mediante
+instrucciones de alto nivel. La elección del nivel de precisión implica un compromiso
+entre exactitud y eficiencia. En aplicaciones donde los errores mínimos son tolerables,
+como la clasificación de imágenes comunes, puede optarse por una menor precisión para
+reducir el consumo energético y acelerar el entrenamiento. En cambio, en entornos donde
+la seguridad y la fiabilidad son críticas, se requiere una precisión numérica más alta
+que garantice la estabilidad y exactitud de los resultados. Por tanto, existe una
+relación directa entre la precisión numérica, el error acumulado y el coste
+computacional, de modo que optimizar este equilibrio constituye uno de los aspectos
+clave del diseño de modelos eficientes. El uso de **precisión mixta**, que combina tipos
+de punto flotante de 16 y 32 bits durante el entrenamiento, permite acelerar la
+ejecución y reducir el consumo de memoria manteniendo la estabilidad numérica en las
+operaciones críticas. El tratamiento detallado de los formatos numéricos, de la
+cuantización lineal y del error que introduce se aborda en el capítulo de
+[despliegue](../../06_operations/section_5_deployment.md), donde estas técnicas resultan
+determinantes.
 
 Desde el punto de vista operativo, los tensores funcionan de manera análoga a los
 **_arrays_** de los lenguajes de programación tradicionales, permitiendo realizar
@@ -103,9 +105,9 @@ dimensiones, pueden clasificarse del siguiente modo:
 
 Un ejemplo ilustrativo lo constituye una imagen en color de 84 × 84 píxeles con tres
 canales (rojo, verde y azul) procesada en lotes durante el entrenamiento. En este caso,
-la representación corresponde a un tensor de rango 4, cuyas dimensiones reflejan: el
-número de ejemplos en el lote, la altura y la anchura de la imagen, y el número de
-canales de color.
+la representación corresponde a un tensor de rango 4, cuyas dimensiones siguen la
+convención de PyTorch: el número de ejemplos en el lote, el número de canales de color,
+la altura y la anchura de la imagen. Su forma es, por tanto, $(N, 3, 84, 84)$.
 
 En el ámbito del aprendizaje profundo, el tensor constituye la unidad de procesamiento
 fundamental dentro de las bibliotecas de cálculo numérico. La mayoría de los modelos se
@@ -121,14 +123,13 @@ PyTorch permite definir, entrenar y desplegar modelos de redes neuronales de man
 eficiente, ofreciendo una interfaz altamente integrada con el lenguaje de programación
 Python, lo que la hace especialmente accesible para investigadores y desarrolladores.
 
-Aunque existen otras alternativas consolidadas, como **TensorFlow**, **JAX** y
-**Keras**, PyTorch destaca por su creciente popularidad y por su estrecha vinculación
-con la Linux Foundation, lo que garantiza un desarrollo sostenido y un soporte
-comunitario cada vez mayor. Además, múltiples proyectos de terceros, como **Ray**,
-utilizado para la creación de sistemas distribuidos de entrenamiento de modelos, también
-forman parte del ecosistema de la Linux Foundation. Este entorno colaborativo impulsa la
-innovación y asegura un soporte activo tanto por parte de empresas tecnológicas
-reconocidas como de la comunidad de código abierto.
+Aunque existen otras alternativas, PyTorch destaca por su creciente popularidad y por su
+estrecha vinculación con la Linux Foundation, lo que garantiza un desarrollo sostenido y
+un soporte comunitario cada vez mayor. Además, múltiples proyectos de terceros, como
+**Ray**, utilizado para la creación de sistemas distribuidos de entrenamiento de
+modelos, también forman parte del ecosistema de la Linux Foundation. Este entorno
+colaborativo impulsa la innovación y asegura un soporte activo tanto por parte de
+empresas tecnológicas reconocidas como de la comunidad de código abierto.
 
 Una de las principales ventajas de PyTorch es su sintaxis intuitiva y expresiva, que
 sigue de forma natural los principios del estilo "**pythónico**", es decir, un diseño
@@ -288,7 +289,7 @@ cuadrada. Una matriz es regular si, y solo si, su determinante es distinto de ce
 La **transpuesta** de una matriz se obtiene escribiendo las columnas en la posición de
 las filas y viceversa. Para $\mathbf{A} \in \mathbb{R}^{m \times n}$, la matriz
 $\mathbf{B} \in \mathbb{R}^{n \times m}$ con $a_{ij} = b_{ji}$ es la transpuesta de
-$\mathbf{A}$ y se escribe $\mathbf{B} = \mathbf{A}^T$:
+$\mathbf{A}$ y se escribe $\mathbf{B} = \mathbf{A}^\top$:
 
 $$
 \mathbf{A} =
@@ -298,7 +299,7 @@ $$
 7 & 8 & 9
 \end{bmatrix}
 \quad\longrightarrow\quad
-\mathbf{A}^T =
+\mathbf{A}^\top =
 \begin{bmatrix}
 1 & 4 & 7 \\
 2 & 5 & 8 \\
@@ -313,20 +314,42 @@ Ambas operaciones cumplen un conjunto de propiedades de uso frecuente:
   $(\mathbf{A}\mathbf{B})^{-1} = \mathbf{B}^{-1}\mathbf{A}^{-1}$. Esta propiedad no se
   cumple para la suma, donde $(\mathbf{A} + \mathbf{B})^{-1} \neq \mathbf{A}^{-1} +
   \mathbf{B}^{-1}$.
-- La transposición es involutiva: $(\mathbf{A}^T)^T = \mathbf{A}$.
-- La transpuesta de un producto también invierte el orden: $(\mathbf{A}\mathbf{B})^T =
-  \mathbf{B}^T\mathbf{A}^T$.
-- La transpuesta de una suma es la suma de transpuestas: $(\mathbf{A} + \mathbf{B})^T =
-  \mathbf{A}^T + \mathbf{B}^T$.
-- Inversa y transpuesta conmutan entre sí: $(\mathbf{A}^{-1})^T = (\mathbf{A}^T)^{-1} =
-  \mathbf{A}^{-T}$.
+- La transposición es involutiva: $(\mathbf{A}^\top)^\top = \mathbf{A}$.
+- La transpuesta de un producto también invierte el orden: $(\mathbf{A}\mathbf{B})^\top
+  = \mathbf{B}^\top\mathbf{A}^\top$.
+- La transpuesta de una suma es la suma de transpuestas: $(\mathbf{A} + \mathbf{B})^\top
+  = \mathbf{A}^\top + \mathbf{B}^\top$.
+- Inversa y transpuesta conmutan entre sí: $(\mathbf{A}^{-1})^\top =
+  (\mathbf{A}^\top)^{-1} = \mathbf{A}^{-T}$.
 
 Una matriz $\mathbf{A} \in \mathbb{R}^{n \times n}$ es **simétrica** si $\mathbf{A} =
-\mathbf{A}^T$. Solo las matrices cuadradas pueden serlo. La suma de matrices simétricas
-es siempre simétrica, mientras que el producto generalmente no lo es. Las matrices
-simétricas aparecen de forma natural en inteligencia artificial como matrices de
-covarianza y matrices de Gram, y su estructura es precisamente lo que hace posibles las
-descomposiciones que se tratan más adelante.
+\mathbf{A}^\top$. Solo las matrices cuadradas pueden serlo. La suma de matrices
+simétricas es siempre simétrica, mientras que el producto generalmente no lo es. Las
+matrices simétricas aparecen de forma natural en inteligencia artificial como matrices
+de covarianza y matrices de Gram, y su estructura es precisamente lo que hace posibles
+las descomposiciones que se tratan más adelante.
+
+### Tipos de matrices
+
+Además de las matrices regulares, la identidad, la transpuesta y las simétricas,
+conviene reconocer varias formas especiales que aparecen en las descomposiciones:
+
+- **Triangular superior**: Todos los elementos por debajo de la diagonal principal son
+  nulos, como en $\begin{pmatrix} 1 & 2 & 3 \\ 0 & 2 & 4 \\ 0 & 0 & 5 \end{pmatrix}$.
+- **Triangular inferior**: Todos los elementos por encima de la diagonal principal son
+  nulos, como en $\begin{pmatrix} 1 & 0 & 0 \\ 2 & 4 & 0 \\ 3 & 5 & 6 \end{pmatrix}$.
+- **Diagonal**: Solo puede haber elementos no nulos en la diagonal, es decir, $a_{ij} =
+  0$ siempre que $i \neq j$.
+- **Idempotente**: Cumple $\mathbf{A}^2 = \mathbf{A}$, y por tanto $\mathbf{A}^k =
+  \mathbf{A}$ para todo entero $k > 0$. El caso habitual es la matriz de proyección
+  ortogonal sobre la recta generada por un vector $\mathbf{v}$, $\mathbf{P} =
+  \mathbf{v}\mathbf{v}^\top / (\mathbf{v}^\top\mathbf{v})$, que se estudia en la sección
+  de proyecciones ortogonales: proyectar un vector que ya está sobre la recta lo deja
+  igual, de modo que proyectar dos veces equivale a proyectar una.
+
+Las matrices triangulares y diagonales son las formas a las que se intenta llevar
+cualquier matriz, ya que sobre ellas las potencias, la inversa o el determinante, que se
+define más adelante, se calculan de forma inmediata.
 
 ## Eliminación gaussiana
 
@@ -387,19 +410,19 @@ Cuando $\mathbf{A}$ tiene columnas linealmente independientes se recurre a la si
 transformación:
 
 $$
-\mathbf{A}\mathbf{x} = \mathbf{b} \iff \mathbf{A}^{T}\mathbf{A}\mathbf{x} =
-\mathbf{A}^{T}\mathbf{b} \iff \mathbf{x} =
-(\mathbf{A}^{T}\mathbf{A})^{-1}\mathbf{A}^{T}\mathbf{b}
+\mathbf{A}\mathbf{x} = \mathbf{b} \iff \mathbf{A}^{\top}\mathbf{A}\mathbf{x} =
+\mathbf{A}^{\top}\mathbf{b} \iff \mathbf{x} =
+(\mathbf{A}^{\top}\mathbf{A})^{-1}\mathbf{A}^{\top}\mathbf{b}
 $$
 
-La expresión $(\mathbf{A}^{T}\mathbf{A})^{-1}\mathbf{A}^{T}$ es la **pseudoinversa de
-Moore-Penrose**, que se corresponde con la solución de mínimos cuadrados. Esta fórmula
-es la solución cerrada de la regresión lineal: dado un conjunto de datos $\mathbf{A}$ y
-unas observaciones $\mathbf{b}$, devuelve directamente los pesos óptimos sin necesidad
-de descenso del gradiente. En la práctica, el elevado coste de calcular el producto de
-matrices y la inversa de $\mathbf{A}^{T}\mathbf{A}$ hace que se prefiera resolver el
-problema mediante descomposiciones como la descomposición en valores singulares, o de
-forma iterativa cuando el número de parámetros es grande.
+La expresión $(\mathbf{A}^{\top}\mathbf{A})^{-1}\mathbf{A}^{\top}$ es la **pseudoinversa
+de Moore-Penrose**, que se corresponde con la solución de mínimos cuadrados. Esta
+fórmula es la solución cerrada de la regresión lineal: dado un conjunto de datos
+$\mathbf{A}$ y unas observaciones $\mathbf{b}$, devuelve directamente los pesos óptimos
+sin necesidad de descenso del gradiente. En la práctica, el elevado coste de calcular el
+producto de matrices y la inversa de $\mathbf{A}^{\top}\mathbf{A}$ hace que se prefiera
+resolver el problema mediante descomposiciones como la descomposición en valores
+singulares, o de forma iterativa cuando el número de parámetros es grande.
 
 ## Espacios vectoriales y subespacios
 
@@ -407,7 +430,7 @@ Los espacios vectoriales son los espacios estructurados donde residen los vector
 **espacio vectorial** es un conjunto $V$ sobre el que están definidas dos operaciones,
 la suma de vectores y el producto por un escalar, de forma que el resultado de ambas
 sigue perteneciendo a $V$. El elemento neutro de la suma es el vector cero $\mathbf{0} =
-\lbrack 0 \; 0 \; \ldots \; 0 \rbrack^{T}$.
+\lbrack 0 \; 0 \; \ldots \; 0 \rbrack^{\top}$.
 
 En la práctica de la inteligencia artificial el espacio vectorial relevante es
 $\mathbb{R}^n$, donde residen los _embeddings_, las activaciones de cada capa y los
@@ -484,7 +507,7 @@ escalonadas reducidas el rango coincide con el número de filas no nulas. Esta m
 presenta propiedades de interés directo en el análisis de datos:
 
 - El rango es invariante frente a la transposición: $\mathrm{rk}(\mathbf{A}) =
-  \mathrm{rk}(\mathbf{A}^{T})$.
+  \mathrm{rk}(\mathbf{A}^{\top})$.
 - Una matriz cuadrada $\mathbf{A} \in \mathbb{R}^{n \times n}$ es regular, es decir
   invertible, si y solo si $\mathrm{rk}(\mathbf{A}) = n$.
 - Dado un vector $\mathbf{b}$ con el mismo número de filas que $\mathbf{A}$, el sistema
@@ -494,6 +517,20 @@ presenta propiedades de interés directo en el análisis de datos:
 - El subespacio formado por las soluciones de $\mathbf{A}\mathbf{x} = \mathbf{0}$ tiene
   dimensión $n - \mathrm{rk}(\mathbf{A})$. Este subespacio recibe el nombre de núcleo o
   _kernel_.
+
+El rango proporciona también el número máximo de vectores linealmente independientes de
+un conjunto. Basta con colocar los vectores como filas de una matriz y reducirla. Para
+los vectores $(1, 2, 4, 3)$, $(-2, -1, 1, 0)$ y $(3, 3, 3, 3)$ de $\mathbb{R}^4$:
+
+$$
+\begin{pmatrix} 1 & 2 & 4 & 3 \\ -2 & -1 & 1 & 0 \\ 3 & 3 & 3 & 3 \end{pmatrix}
+\rightsquigarrow
+\begin{pmatrix} 1 & 0 & -2 & -1 \\ 0 & 1 & 3 & 2 \\ 0 & 0 & 0 & 0 \end{pmatrix}
+$$
+
+La matriz tiene rango 2, de forma que solo dos de los tres vectores son independientes.
+En efecto, el tercero es combinación lineal de los otros dos, pues $(3, 3, 3, 3) = (1,
+2, 4, 3) - (-2, -1, 1, 0)$.
 
 ## Mapeos lineales
 
@@ -724,36 +761,37 @@ longitud de un vector se corresponde intuitivamente con la distancia desde el or
 hasta su extremo. Esta noción se formaliza mediante el concepto de **norma**, definida
 como la magnitud o longitud de un vector. Toda norma satisface tres propiedades:
 
-- Definida positiva: $\|\mathbf{x}\| \geq 0$ y $\|\mathbf{x}\| = 0 \Leftrightarrow
-  \mathbf{x} = \mathbf{0}$, es decir, la distancia no puede ser negativa.
-- Absolutamente homogénea: $\|\lambda \mathbf{x}\| = |\lambda| \|\mathbf{x}\|$, de modo
-  que la distancia crece o decrece con el producto por un escalar tomado en valor
-  absoluto.
-- Desigualdad triangular: $\|\mathbf{x}+\mathbf{y}\| \leq \|\mathbf{x}\| +
-  \|\mathbf{y}\|$. La igualdad se alcanza únicamente cuando los vectores son colineales
-  y del mismo sentido.
+- Definida positiva: $\Vert\mathbf{x}\Vert \geq 0$ y $\Vert\mathbf{x}\Vert = 0
+  \Leftrightarrow \mathbf{x} = \mathbf{0}$, es decir, la distancia no puede ser
+  negativa.
+- Absolutamente homogénea: $\Vert\lambda \mathbf{x}\Vert = |\lambda|
+  \Vert\mathbf{x}\Vert$, de modo que la distancia crece o decrece con el producto por un
+  escalar tomado en valor absoluto.
+- Desigualdad triangular: $\Vert\mathbf{x}+\mathbf{y}\Vert \leq \Vert\mathbf{x}\Vert +
+  \Vert\mathbf{y}\Vert$. La igualdad se alcanza únicamente cuando los vectores son
+  colineales y del mismo sentido.
 
 Existen diferentes tipos de normas, agrupadas bajo la familia de las normas de Hölder:
 
 $$
-\|\mathbf{x}\|_p = \sqrt[p]{\sum_{i=1}^{n} |x_i|^p}
+\Vert\mathbf{x}\Vert_p = \sqrt[p]{\sum_{i=1}^{n} |x_i|^p}
 $$
 
 De esta familia derivan los casos de uso más frecuente. La **norma $L_1$**, también
 llamada norma Manhattan o norma de la suma de módulos, corresponde a $p = 1$ y se
-calcula como $\|\mathbf{x}\|_1 = \sum_{i=1}^{n} |x_i|$. La **norma euclídea** o norma
-$L_2$ corresponde a $p = 2$ y representa la distancia del vector al origen del sistema
-de coordenadas:
+calcula como $\Vert\mathbf{x}\Vert_1 = \sum_{i=1}^{n} |x_i|$. La **norma euclídea** o
+norma $L_2$ corresponde a $p = 2$ y representa la distancia del vector al origen del
+sistema de coordenadas:
 
 $$
-\|\mathbf{x}\|_2 = \sqrt{\sum_{i=1}^{n} |x_i|^2}
+\Vert\mathbf{x}\Vert_2 = \sqrt{\sum_{i=1}^{n} |x_i|^2}
 $$
 
 La **norma del máximo**, caso límite cuando $p$ tiende a infinito, selecciona la
 componente de mayor magnitud:
 
 $$
-\|\mathbf{x}\|_\infty = \max_{i=1,\dots,n} |x_i|
+\Vert\mathbf{x}\Vert_\infty = \max_{i=1,\dots,n} |x_i|
 $$
 
 Las dos primeras normas son las que aparecen en la regularización de modelos. Penalizar
@@ -762,7 +800,9 @@ modelos dispersos y actúa como selección de características. Penalizar con la
 $L_2$ reduce los pesos de forma proporcional sin llevarlos a cero, limitando el
 sobreajuste. La norma $L_2$ es además la que se emplea para normalizar _embeddings_
 antes de comparar direcciones, y la norma del máximo aparece al acotar perturbaciones en
-ejemplos adversarios.
+ejemplos adversarios. Las normas matriciales inducidas por estas normas vectoriales y su
+uso para medir la estabilidad de un cálculo se desarrollan en
+[cálculo numérico](section_5_numerical_computing.md).
 
 ### Producto interno y similitud del coseno
 
@@ -771,18 +811,21 @@ El **producto interno**, escrito $\langle \mathbf{x},\mathbf{y} \rangle$, genera
 y longitudes. El caso habitual en inteligencia artificial es el producto punto estándar:
 
 $$
-\langle \mathbf{x},\mathbf{y} \rangle = \mathbf{x}^T \mathbf{y} = \sum_{i=1}^{n} x_i y_i
+\langle \mathbf{x},\mathbf{y} \rangle = \mathbf{x}^\top \mathbf{y} = \sum_{i=1}^{n} x_i y_i
 $$
 
 De forma más general, dada una matriz $\mathbf{A} \in \mathbb{R}^{n \times n}$ simétrica
-y definida positiva, la expresión $\langle \mathbf{x},\mathbf{y} \rangle = \mathbf{x}^T
-\mathbf{A} \mathbf{y}$ también define un producto interno. Esta forma cuadrática aparece
-en la **distancia de Mahalanobis**, donde $\mathbf{A}$ es la inversa de la matriz de
-covarianza y permite medir distancias teniendo en cuenta la escala y la correlación
-entre características, en lugar de tratar todas las dimensiones por igual. Una propiedad
-que conviene retener es que si $\mathbf{A}$ es definida positiva, entonces $\mathbf{x}^T
-\mathbf{A} \mathbf{x} > 0$ para todo $\mathbf{x} \neq \mathbf{0}$, lo que garantiza que
-ciertas descomposiciones, como la de Cholesky, resulten aplicables.
+y definida positiva, la expresión $\langle \mathbf{x},\mathbf{y} \rangle =
+\mathbf{x}^\top \mathbf{A} \mathbf{y}$ también define un producto interno. Esta forma
+cuadrática aparece en la **distancia de Mahalanobis**, donde $\mathbf{A}$ es la inversa
+de la matriz de covarianza y permite medir distancias teniendo en cuenta la escala y la
+correlación entre características, en lugar de tratar todas las dimensiones por igual.
+Una propiedad que conviene retener es que si $\mathbf{A}$ es definida positiva, entonces
+$\mathbf{x}^\top \mathbf{A} \mathbf{x} > 0$ para todo $\mathbf{x} \neq \mathbf{0}$, lo
+que garantiza que ciertas descomposiciones, como la de Cholesky, resulten aplicables. La
+clasificación completa de las matrices simétricas en definidas, semidefinidas e
+indefinidas requiere los autovalores y se desarrolla en la sección final de formas
+cuadráticas.
 
 El resultado del producto interno es un escalar con una interpretación geométrica
 directa, ya que permite determinar el **ángulo entre dos vectores** y, en consecuencia,
@@ -791,7 +834,7 @@ otro que forma un ángulo $\theta$ con dicho eje, la proyección del segundo sob
 primero conduce a la relación:
 
 $$
-\cos\theta = \frac{\langle \mathbf{x},\mathbf{y} \rangle}{\|\mathbf{x}\| \|\mathbf{y}\|}
+\cos\theta = \frac{\langle \mathbf{x},\mathbf{y} \rangle}{\Vert\mathbf{x}\Vert \Vert\mathbf{y}\Vert}
 = \frac{\sum_{i=1}^{n} x_i y_i}{\sqrt{\sum_{i=1}^{n}|x_i|^2}
 \sqrt{\sum_{i=1}^{n}|y_i|^2}}
 $$
@@ -799,8 +842,8 @@ $$
 Despejando el ángulo mediante el arco coseno se obtiene su valor explícito:
 
 $$
-\theta = \arccos \frac{\langle \mathbf{x},\mathbf{y} \rangle}{\|\mathbf{x}\|
-\|\mathbf{y}\|}
+\theta = \arccos \frac{\langle \mathbf{x},\mathbf{y} \rangle}{\Vert\mathbf{x}\Vert
+\Vert\mathbf{y}\Vert}
 $$
 
 Dado que el coseno está acotado entre $-1$ y $1$, el ángulo resultante nunca excede ese
@@ -834,21 +877,37 @@ esta propiedad resulta muy útil, ya que permite identificar qué característic
 independientes de las demás y, por tanto, decidir qué columnas conviene mantener y
 cuáles pueden descartarse al reducir la dimensionalidad de un conjunto de datos.
 
-Si además ambos vectores son unitarios, de forma que $\|\mathbf{x}\| = 1 =
-\|\mathbf{y}\|$, entonces se denominan **ortonormales**. Una implicación de la
+Si además ambos vectores son unitarios, de forma que $\Vert\mathbf{x}\Vert = 1 =
+\Vert\mathbf{y}\Vert$, entonces se denominan **ortonormales**. Una implicación de la
 definición es que el vector cero resulta ortogonal a cualquier vector del espacio
 vectorial.
 
 A continuación, se presenta un ejemplo de implementación de la similitud del coseno
 utilizando Python con la biblioteca **NumPy**:
 
-```py linenums="1"
+```python linenums="1"
 import numpy as np
 
 def normalizar_matriz(matriz: np.ndarray) -> np.ndarray:
+    """Normaliza cada fila de la matriz para que tenga norma euclídea uno.
+
+    Args:
+        matriz: Matriz cuyas filas son los vectores a normalizar.
+
+    Returns:
+        Matriz con las filas normalizadas.
+    """
     return matriz / np.expand_dims(np.sqrt(np.sum(np.power(matriz, 2), axis=1)), axis=-1)
 
 def cosine_similarity(matriz: np.ndarray) -> np.ndarray:
+    """Calcula la similitud del coseno entre todas las filas normalizadas.
+
+    Args:
+        matriz: Matriz con las filas ya normalizadas.
+
+    Returns:
+        Matriz simétrica con la similitud de cada par de filas.
+    """
     return matriz @ matriz.T
 
 X = np.array([
@@ -865,7 +924,7 @@ print(similarity_matrix)
 
 El siguiente código muestra el mismo procedimiento utilizando **PyTorch**:
 
-```py linenums="1"
+```python linenums="1"
 import torch
 import torch.nn.functional as F
 
@@ -957,7 +1016,7 @@ optimización de cálculos o el uso de estrategias que reduzcan el coste computa
 Para crear tensores, es posible hacerlo a partir de listas, mediante inicialización
 aleatoria o con valores fijos:
 
-```py linenums="1"
+```python linenums="1"
 import torch
 
 # Tensores básicos
@@ -982,12 +1041,12 @@ print("Rango:", rango)
 
 Cada tensor contiene información sobre su **tipo de dato**, sus **dimensiones** y el
 **dispositivo de almacenamiento** (CPU o GPU). El tipo de dato (`dtype`) determina la
-precisión numérica del tensor; a mayor precisión, mayor será el rango de valores
+precisión numérica del tensor. A mayor precisión, mayor será el rango de valores
 posibles, pero también el consumo de memoria. El dispositivo (`device`) es relevante
 porque un tensor ubicado en la GPU no puede ser manipulado directamente desde la CPU,
 por lo que es necesario transferirlo o copiarlo según sea necesario:
 
-```py linenums="1"
+```python linenums="1"
 tensor = torch.rand((2, 3, 4))
 print("Tipo de dato:", tensor.dtype)
 print("Forma:", tensor.shape)
@@ -1001,7 +1060,7 @@ mínimo. El parámetro `dim` indica el eje sobre el cual se aplica la operación
 `dim=0` actúa sobre las filas (por columnas), mientras que `dim=1` actúa sobre las
 columnas (por filas):
 
-```py linenums="1"
+```python linenums="1"
 tensor = torch.tensor([[1., 2., 3.], [4., 5., 6.]])
 
 print("Suma total:", tensor.sum())
@@ -1015,7 +1074,7 @@ modificar la forma del tensor sin alterar sus datos subyacentes. Estas operacion
 fundamentales para adaptar las dimensiones de los tensores según las necesidades de las
 redes neuronales:
 
-```py linenums="1"
+```python linenums="1"
 x = torch.arange(1, 7)
 print("Tensor original:", x)
 
@@ -1036,7 +1095,7 @@ Las funciones `permute()` y `transpose()` permiten reordenar las dimensiones de 
 tensor, lo cual es especialmente útil en el procesamiento de imágenes o secuencias, por
 ejemplo, al desplazar canales de color o mapas de características:
 
-```py linenums="1"
+```python linenums="1"
 tensor = torch.rand((2, 3, 4))
 print("Forma original:", tensor.shape)
 
@@ -1053,7 +1112,7 @@ También es posible combinar tensores mediante funciones como `torch.cat()` y
 `torch.stack()`. La primera une tensores existentes a lo largo de un eje específico,
 mientras que la segunda crea una nueva dimensión para apilarlos:
 
-```py linenums="1"
+```python linenums="1"
 a = torch.tensor([[1, 2], [3, 4]])
 b = torch.tensor([[5, 6], [7, 8]])
 
@@ -1072,9 +1131,9 @@ print("Apilamiento (nueva dimensión):\n", stacked)
 PyTorch implementa una gran cantidad de **operaciones vectorizadas**, que permiten
 realizar cálculos sin recurrir a bucles explícitos. Este enfoque no solo mejora la
 legibilidad del código, sino que también aprovecha las optimizaciones internas del
-framework y del hardware subyacente, como las implementaciones en CUDA para GPU:
+_framework_ y del hardware subyacente, como las implementaciones en CUDA para GPU:
 
-```py linenums="1"
+```python linenums="1"
 x = torch.tensor([1., 2., 3.])
 y = torch.tensor([4., 5., 6.])
 
@@ -1089,8 +1148,9 @@ Estas operaciones resultan especialmente útiles para inspeccionar distribucione
 datos o normalizar tensores antes del entrenamiento, tareas que contribuyen a
 estabilizar el aprendizaje de los modelos:
 
-```py linenums="1"
-tensor = torch.randn((3, 4))  # Distribución normal
+```python linenums="1"
+# Distribución normal
+tensor = torch.randn((3, 4))
 print("Tensor aleatorio:\n", tensor)
 print("Media:", tensor.mean())
 print("Desviación estándar:", tensor.std())
@@ -1103,7 +1163,7 @@ NumPy**, lo que facilita su integración con bibliotecas de análisis y visualiz
 Esta interoperabilidad permite combinar el poder de cálculo de PyTorch con la
 versatilidad de ecosistemas como NumPy, Matplotlib o Pandas:
 
-```py linenums="1"
+```python linenums="1"
 import numpy as np
 
 # Tensor a NumPy
@@ -1136,12 +1196,12 @@ Una matriz $\mathbf{A} \in \mathbb{R}^{n \times n}$ es **ortogonal** si sus colu
 ortonormales, condición que se expresa como:
 
 $$
-\mathbf{A}\mathbf{A}^T = \mathbf{I} = \mathbf{A}^T \mathbf{A}
+\mathbf{A}\mathbf{A}^\top = \mathbf{I} = \mathbf{A}^\top \mathbf{A}
 $$
 
 De esta igualdad se deduce una propiedad de gran utilidad computacional:
-$\mathbf{A}^{-1} = \mathbf{A}^T$, de modo que invertir una matriz ortogonal se reduce a
-transponerla.
+$\mathbf{A}^{-1} = \mathbf{A}^\top$, de modo que invertir una matriz ortogonal se reduce
+a transponerla.
 
 En el caso de las bases, dado un espacio vectorial $V$ de dimensión $n$ y una base
 $\{\mathbf{b}_1,\dots,\mathbf{b}_n\}$ de $V$, la base es ortonormal cuando se cumplen
@@ -1198,15 +1258,15 @@ original sus proyecciones sobre los vectores ya calculados:
 
 $$
 \mathbf{w}_n = \mathbf{v}_n - \sum_{i=1}^{n-1} \frac{\mathbf{v}_n \cdot
-\mathbf{w}_i}{\lVert \mathbf{w}_i \rVert^2} \mathbf{w}_i
+\mathbf{w}_i}{\Vert \mathbf{w}_i \Vert^2} \mathbf{w}_i
 $$
 
 El resultado es una base ortogonal. Para obtener además una base ortonormal se divide
 cada vector entre su norma:
 
 $$
-\left\{ \frac{\mathbf{w}_1}{\lVert \mathbf{w}_1 \rVert}, \frac{\mathbf{w}_2}{\lVert
-\mathbf{w}_2 \rVert}, \ldots, \frac{\mathbf{w}_n}{\lVert \mathbf{w}_n \rVert} \right\}
+\left\{ \frac{\mathbf{w}_1}{\Vert \mathbf{w}_1 \Vert}, \frac{\mathbf{w}_2}{\Vert
+\mathbf{w}_2 \Vert}, \ldots, \frac{\mathbf{w}_n}{\Vert \mathbf{w}_n \Vert} \right\}
 $$
 
 ???+ example "Ortogonalización de una base por Gram-Schmidt"
@@ -1219,20 +1279,20 @@ $$
     $\mathbf{v}_3 = (1,0,0,1)$.
 
     El primer vector se toma directamente: $\mathbf{w}_1 = (-1, 1, 0, 0)$, con
-    $\lVert \mathbf{w}_1 \rVert = \sqrt{2}$.
+    $\Vert \mathbf{w}_1 \Vert = \sqrt{2}$.
 
     Para el segundo, con
     $\mathbf{v}_2 \cdot \mathbf{w}_1 = -1$:
 
     $$
-    \mathbf{w}_2 = \mathbf{v}_2 - \frac{\mathbf{v}_2 \cdot \mathbf{w}_1}{\lVert
-    \mathbf{w}_1 \rVert^2} \mathbf{w}_1 = (1,0,1,0) + \frac{1}{2}(-1,1,0,0) =
+    \mathbf{w}_2 = \mathbf{v}_2 - \frac{\mathbf{v}_2 \cdot \mathbf{w}_1}{\Vert
+    \mathbf{w}_1 \Vert^2} \mathbf{w}_1 = (1,0,1,0) + \frac{1}{2}(-1,1,0,0) =
     \left( \frac{1}{2}, \frac{1}{2}, 1, 0 \right)
     $$
 
     Para el tercero, con $\mathbf{v}_3 \cdot \mathbf{w}_1 = -1$,
     $\mathbf{v}_3 \cdot \mathbf{w}_2 = \frac{1}{2}$ y
-    $\lVert \mathbf{w}_2 \rVert^2 = \frac{3}{2}$:
+    $\Vert \mathbf{w}_2 \Vert^2 = \frac{3}{2}$:
 
     $$
     \mathbf{w}_3 = (1,0,0,1) + \frac{1}{2}(-1,1,0,0) - \frac{1/2}{3/2}
@@ -1244,9 +1304,9 @@ $$
     $\{(-1,1,0,0), (\tfrac{1}{2},\tfrac{1}{2},1,0),
     (\tfrac{1}{3},\tfrac{1}{3},-\tfrac{1}{3},1)\}$. Para comprobar la ortogonalidad
     basta multiplicar los vectores por parejas y verificar que el resultado es cero. Con
-    las normas $\lVert \mathbf{w}_1 \rVert = \sqrt{2}$,
-    $\lVert \mathbf{w}_2 \rVert = \frac{\sqrt{6}}{2}$ y
-    $\lVert \mathbf{w}_3 \rVert = \frac{2\sqrt{3}}{3}$, la base ortonormal queda:
+    las normas $\Vert \mathbf{w}_1 \Vert = \sqrt{2}$,
+    $\Vert \mathbf{w}_2 \Vert = \frac{\sqrt{6}}{2}$ y
+    $\Vert \mathbf{w}_3 \Vert = \frac{2\sqrt{3}}{3}$, la base ortonormal queda:
 
     $$
     \left\{ \left(-\frac{1}{\sqrt{2}}, \frac{1}{\sqrt{2}}, 0, 0\right),
@@ -1275,15 +1335,15 @@ La condición que se busca expresar es $\mathbf{w} \cdot \mathbf{v} > a$ para un
 umbral $a$. Desarrollando el producto interno en términos del ángulo:
 
 $$
-\mathbf{w} \cdot \mathbf{v} > a \Rightarrow \lVert \mathbf{w} \rVert \lVert \mathbf{v}
-\rVert \cos\theta > a \Rightarrow \lVert \mathbf{v} \rVert \cos\theta >
-\frac{a}{\lVert \mathbf{w} \rVert}
+\mathbf{w} \cdot \mathbf{v} > a \Rightarrow \Vert \mathbf{w} \Vert \Vert \mathbf{v}
+\Vert \cos\theta > a \Rightarrow \Vert \mathbf{v} \Vert \cos\theta >
+\frac{a}{\Vert \mathbf{w} \Vert}
 $$
 
-La interpretación geométrica es directa. El término $\lVert \mathbf{v} \rVert
-\cos\theta$ es la longitud de la proyección del vector de datos sobre la dirección del
-vector de pesos, mientras que $\frac{a}{\lVert \mathbf{w} \rVert}$ marca un punto fijo
-sobre esa misma dirección. Si la proyección supera ese punto, se satisface la condición
+La interpretación geométrica es directa. El término $\Vert \mathbf{v} \Vert \cos\theta$
+es la longitud de la proyección del vector de datos sobre la dirección del vector de
+pesos, mientras que $\frac{a}{\Vert \mathbf{w} \Vert}$ marca un punto fijo sobre esa
+misma dirección. Si la proyección supera ese punto, se satisface la condición
 $\mathbf{w} \cdot \mathbf{v} > a$ y la muestra queda a un lado del hiperplano. Este
 desarrollo es el fundamento geométrico de las máquinas de vectores de soporte, tratadas
 en el capítulo de modelos supervisados.
@@ -1320,6 +1380,23 @@ matriz que no se puede invertir. El valor absoluto del determinante mide además
 escala el volumen una transformación, idea que reaparece en los modelos generativos de
 flujo normalizado, donde el determinante del Jacobiano corrige la densidad de
 probabilidad al cambiar de variable.
+
+El determinante cumple varias propiedades que simplifican su cálculo y su
+interpretación:
+
+- Intercambiar dos filas o dos columnas cambia el signo del determinante.
+- Si una fila o una columna es combinación lineal de las demás, el determinante es cero.
+- Sumar a una fila un múltiplo de otra no cambia el determinante.
+- El determinante de una matriz triangular es el producto de los elementos de su
+  diagonal.
+- El determinante de un producto es el producto de los determinantes,
+  $\det(\mathbf{A}\mathbf{B}) = \det(\mathbf{A}) \det(\mathbf{B})$.
+
+Estas propiedades justifican el cálculo por eliminación gaussiana. Se reduce la matriz a
+forma triangular llevando la cuenta de los intercambios de filas y de los factores
+aplicados, y se multiplica la diagonal. Así es como lo calculan las bibliotecas
+numéricas, a través de la factorización LU, con un coste del orden de $n^3$ operaciones
+frente al crecimiento factorial del desarrollo de Laplace.
 
 La **traza** de una matriz cuadrada $\mathbf{A} \in \mathbb{R}^{n \times n}$ se define
 como la suma de los elementos de su diagonal principal:
@@ -1386,7 +1463,7 @@ propio $E_\lambda$ coincide con el espacio de soluciones del sistema homogéneo
 $(\mathbf{A} - \lambda \mathbf{I})\mathbf{x} = \mathbf{0}$.
 
 Varias propiedades resultan de interés práctico. Una matriz $\mathbf{A}$ y su
-transpuesta $\mathbf{A}^T$ comparten los mismos autovalores, aunque no necesariamente
+transpuesta $\mathbf{A}^\top$ comparten los mismos autovalores, aunque no necesariamente
 los mismos autovectores. El espacio propio $E_\lambda$ es el núcleo de $\mathbf{A} -
 \lambda \mathbf{I}$, puesto que:
 
@@ -1453,7 +1530,7 @@ Finalmente, una matriz simétrica y definida positiva siempre tiene autovalores 
 
 Dada una matriz $\mathbf{A} \in \mathbb{R}^{n \times n}$, siempre es posible obtener una
 matriz simétrica y semidefinida positiva $\mathbf{S} \in \mathbb{R}^{n \times n}$
-definiendo $\mathbf{S} = \mathbf{A}^T \mathbf{A}$.
+definiendo $\mathbf{S} = \mathbf{A}^\top \mathbf{A}$.
 
 El ejemplo anterior ilustra dos relaciones fundamentales entre los autovalores y las
 magnitudes definidas previamente. El determinante de una matriz es el producto de sus
@@ -1480,9 +1557,79 @@ modela mediante una matriz de transición $\mathbf{A}$ que recoge la probabilida
 terminar en una página distinta. Esta matriz tiene la propiedad de que, para cualquier
 vector de importancia inicial $\mathbf{x}$, la secuencia $\mathbf{x},
 \mathbf{A}\mathbf{x}, \mathbf{A}^2\mathbf{x}, \ldots$ converge a un vector
-$\mathbf{x}^_$. Ese vector es el PageRank y satisface $\mathbf{A}\mathbf{x}^_ =
-\mathbf{x}^_$, de modo que es un autovector asociado al autovalor 1. Tras normalizarlo
-para que $\|\mathbf{x}^_\| = 1$, sus entradas se interpretan como probabilidades.
+$\mathbf{x}^\ast$. Ese vector es el PageRank y satisface $\mathbf{A}\mathbf{x}^\ast =
+\mathbf{x}^\ast$, de modo que es un autovector asociado al autovalor 1. Tras
+normalizarlo para que $\Vert\mathbf{x}^\ast\Vert = 1$, sus entradas se interpretan como
+probabilidades.
+
+### Diagonalización
+
+Una matriz cuadrada $\mathbf{A}$ es **diagonalizable** si existe una matriz regular
+$\mathbf{P}$, la matriz de paso, tal que $\mathbf{D} =
+\mathbf{P}^{-1}\mathbf{A}\mathbf{P}$ es diagonal, o de forma equivalente $\mathbf{A} =
+\mathbf{P}\mathbf{D}\mathbf{P}^{-1}$. La diagonal de $\mathbf{D}$ contiene los
+autovalores, y las columnas de $\mathbf{P}$ los autovectores correspondientes, en el
+mismo orden.
+
+Junto a la multiplicidad algebraica interviene la **multiplicidad geométrica** de un
+autovalor $\lambda$, que es la dimensión de su espacio propio:
+
+$$
+\dim(E_\lambda) = n - \mathrm{rk}(\mathbf{A} - \lambda \mathbf{I})
+$$
+
+Una matriz real es diagonalizable si, y solo si, su polinomio característico tiene todas
+sus raíces reales y, para cada autovalor, la multiplicidad geométrica coincide con la
+algebraica. Es lo que se comprueba en el ejemplo de la matriz simétrica anterior.
+
+La diagonalización facilita el cálculo de potencias. Como $\mathbf{A}^k =
+\mathbf{P}\mathbf{D}\mathbf{P}^{-1}\mathbf{P}\mathbf{D}\mathbf{P}^{-1} \cdots =
+\mathbf{P}\mathbf{D}^k\mathbf{P}^{-1}$, basta con elevar cada elemento de la diagonal.
+Del mismo modo, si ningún autovalor es nulo, la inversa es:
+
+$$
+\mathbf{A}^{-1} = \mathbf{P}
+\begin{pmatrix} 1/\lambda_1 & 0 & \cdots & 0 \\ 0 & 1/\lambda_2 & \cdots & 0 \\ \vdots &
+& \ddots & \vdots \\ 0 & 0 & \cdots & 1/\lambda_n \end{pmatrix} \mathbf{P}^{-1}
+$$
+
+Este mismo principio explica la estabilidad de las redes recurrentes: aplicar
+repetidamente una matriz de pesos equivale a elevar sus autovalores a una potencia, que
+tiende a cero si su módulo es menor que uno y diverge si es mayor, lo que da lugar a los
+gradientes que se desvanecen o explotan.
+
+El siguiente código comprueba con NumPy la diagonalización de la matriz simétrica del
+ejemplo anterior y el cálculo de potencias e inversas a través de ella:
+
+```python linenums="1"
+import numpy as np
+
+# Matriz simétrica del ejemplo, matriz de paso y matriz diagonal
+A = np.array([[3, 1, 1], [1, 3, 1], [1, 1, 3]])
+P = np.array([[-1, -1, 1], [1, 0, 1], [0, 1, 1]])
+D = np.diag([2, 2, 5])
+
+# Comprobación de la diagonalización A = P D P^-1
+print(np.allclose(P @ D @ np.linalg.inv(P), A))
+
+# Autovalores calculados por la biblioteca para una matriz simétrica
+print(np.round(np.linalg.eigvalsh(A), 6))
+
+# Potencia mediante la diagonalización: A^5 = P D^5 P^-1
+A5 = P @ np.linalg.matrix_power(D, 5) @ np.linalg.inv(P)
+print(np.allclose(A5, np.linalg.matrix_power(A, 5)))
+
+# Inversa mediante la diagonalización
+A_inv = P @ np.diag(1 / np.diag(D)) @ np.linalg.inv(P)
+print(np.allclose(A_inv, np.linalg.inv(A)))
+```
+
+```plaintext title="Expected output"
+True
+[2. 2. 5.]
+True
+True
+```
 
 ### Descomposición de Cholesky
 
@@ -1492,7 +1639,7 @@ que el determinante de cada submatriz principal sea positivo. La descomposición
 la matriz como el producto de una matriz triangular inferior por su transpuesta:
 
 $$
-\mathbf{A} = \mathbf{M}\mathbf{M}^T =
+\mathbf{A} = \mathbf{M}\mathbf{M}^\top =
 \begin{pmatrix}m_{11}&0&0\\m_{21}&m_{22}&0\\m_{31}&m_{32}&m_{33}\end{pmatrix}
 \begin{pmatrix}m_{11}&m_{21}&m_{31}\\0&m_{22}&m_{32}\\0&0&m_{33}\end{pmatrix}
 $$
@@ -1503,13 +1650,14 @@ parte de ruido gaussiano independiente y se multiplica por $\mathbf{M}$ para imp
 covarianza deseada. Es el mecanismo que se emplea en procesos gaussianos y en el truco
 de reparametrización de los _autoencoders_ variacionales. Resulta además más rápida y
 numéricamente más estable que calcular una inversa, por lo que se utiliza al evaluar
-verosimilitudes gaussianas.
+verosimilitudes gaussianas. Su uso numérico, junto con el de las factorizaciones LU y
+QR, se describe en [cálculo numérico](section_5_numerical_computing.md).
 
 Un resultado estrechamente relacionado establece que una matriz simétrica $\mathbf{S}
 \in \mathbb{R}^{n \times n}$ siempre puede diagonalizarse con una matriz de paso
-$\mathbf{P}$ ortogonal, de modo que $\mathbf{D} = \mathbf{P}^T \mathbf{S} \mathbf{P}$.
-Esta propiedad es la que garantiza que el análisis de componentes principales siempre
-pueda calcularse sobre una matriz de covarianza.
+$\mathbf{P}$ ortogonal, de modo que $\mathbf{D} = \mathbf{P}^\top \mathbf{S}
+\mathbf{P}$. Esta propiedad es la que garantiza que el análisis de componentes
+principales siempre pueda calcularse sobre una matriz de covarianza.
 
 ### Descomposición en valores singulares
 
@@ -1530,7 +1678,7 @@ mínimos cuadrados apoyada en la SVD.
 La descomposición de una matriz $\mathbf{A} \in \mathbb{R}^{m \times n}$ toma la forma:
 
 $$
-\mathbf{A} = \mathbf{U} \mathbf{\Sigma} \mathbf{V}^T
+\mathbf{A} = \mathbf{U} \mathbf{\Sigma} \mathbf{V}^\top
 $$
 
 donde $\mathbf{U} \in \mathbb{R}^{m \times m}$ y $\mathbf{V} \in \mathbb{R}^{n \times
@@ -1539,7 +1687,7 @@ matriz diagonal cuyas entradas, los valores singulares, no son negativas. Para o
 estas matrices se parte de las dos relaciones siguientes:
 
 $$
-\mathbf{A}^T \mathbf{A} = \mathbf{V} \mathbf{\Sigma}^T \mathbf{\Sigma} \mathbf{V}^T
+\mathbf{A}^\top \mathbf{A} = \mathbf{V} \mathbf{\Sigma}^\top \mathbf{\Sigma} \mathbf{V}^\top
 $$
 
 $$
@@ -1550,25 +1698,25 @@ $$
 
     Se parte de la matriz
     $\mathbf{C} = \begin{pmatrix}5&5\\-1&7\end{pmatrix}$ y se calcula el producto
-    $\mathbf{C}^T \mathbf{C}$:
+    $\mathbf{C}^\top \mathbf{C}$:
 
     $$
-    \mathbf{C}^T \mathbf{C} = \begin{pmatrix}5&-1\\5&7\end{pmatrix}
+    \mathbf{C}^\top \mathbf{C} = \begin{pmatrix}5&-1\\5&7\end{pmatrix}
     \begin{pmatrix}5&5\\-1&7\end{pmatrix} = \begin{pmatrix}26&18\\18&74\end{pmatrix}
     $$
 
     El polinomio característico
-    $\det(\mathbf{C}^T\mathbf{C}-\lambda \mathbf{I}) = \lambda^2-100\lambda+1600$
+    $\det(\mathbf{C}^\top\mathbf{C}-\lambda \mathbf{I}) = \lambda^2-100\lambda+1600$
     proporciona los autovalores $\lambda_1 = 80$ y $\lambda_2 = 20$.
 
-    Para $\lambda_2 = 20$, la matriz
-    $\mathbf{C}^T\mathbf{C}-20\mathbf{I} = \begin{pmatrix}6&18\\18&54\end{pmatrix}$ se
-    reduce por filas a $\begin{pmatrix}1&3\\0&0\end{pmatrix}$, con rango 1. De
-    $x + 3y = 0$ se obtiene el generador $(-3, 1)$, cuya norma es $\sqrt{10}$, lo que da
-    el autovector normalizado $(-3/\sqrt{10},\ 1/\sqrt{10})$.
+    Para $\lambda_2 = 20$, la matriz $\mathbf{C}^\top\mathbf{C}-20\mathbf{I} =
+    \begin{pmatrix}6&18\\18&54\end{pmatrix}$ se reduce por filas a
+    $\begin{pmatrix}1&3\\0&0\end{pmatrix}$, con rango 1. De $x + 3y = 0$ se obtiene el
+    generador $(-3, 1)$, cuya norma es $\sqrt{10}$, lo que da el autovector normalizado
+    $(-3/\sqrt{10},\ 1/\sqrt{10})$.
 
     Para $\lambda_1 = 80$, un desarrollo análogo sobre
-    $\mathbf{C}^T\mathbf{C}-80\mathbf{I} = \begin{pmatrix}-54&18\\18&-6\end{pmatrix}$
+    $\mathbf{C}^\top\mathbf{C}-80\mathbf{I} = \begin{pmatrix}-54&18\\18&-6\end{pmatrix}$
     conduce al autovector normalizado $(1/\sqrt{10},\ 3/\sqrt{10})$.
 
     Con estos autovectores en columnas se construye $\mathbf{V}$, y con las raíces
@@ -1591,8 +1739,8 @@ $$
     \mathbf{U}
     $$
 
-    El producto $\mathbf{U}\mathbf{\Sigma}\mathbf{V}^T$ reproduce la matriz original, lo
-    que confirma la validez de la descomposición.
+    El producto $\mathbf{U}\mathbf{\Sigma}\mathbf{V}^\top$ reproduce la matriz original,
+    lo que confirma la validez de la descomposición.
 
 ### Aproximación de rango bajo y teorema de Eckart-Young-Mirsky
 
@@ -1601,7 +1749,7 @@ de matrices de rango uno, lo que reduce el coste computacional. La matriz de ran
 $\mathbf{A}_i \in \mathbb{R}^{m \times n}$ se construye como:
 
 $$
-\mathbf{A}_i = \mathbf{u}_i \mathbf{v}_i^T
+\mathbf{A}_i = \mathbf{u}_i \mathbf{v}_i^\top
 $$
 
 donde $\mathbf{u}_i$ y $\mathbf{v}_i$ son las columnas $i$-ésimas de $\mathbf{U}$ y
@@ -1609,7 +1757,7 @@ $\mathbf{V}$ respectivamente. Una matriz $\mathbf{A} \in \mathbb{R}^{m \times n}
 rango $r$ se escribe entonces como la suma ponderada de estas matrices:
 
 $$
-\mathbf{A} = \sum_{i=1}^{r}\sigma_i \mathbf{u}_i \mathbf{v}_i^T = \sum_{i=1}^{r}\sigma_i
+\mathbf{A} = \sum_{i=1}^{r}\sigma_i \mathbf{u}_i \mathbf{v}_i^\top = \sum_{i=1}^{r}\sigma_i
 \mathbf{A}_i
 $$
 
@@ -1619,7 +1767,7 @@ $\widehat{\mathbf{A}}(k)$. Para medir la calidad de estas aproximaciones se empl
 \{\mathbf{0}\}$ como:
 
 $$
-\|\mathbf{A}\|_2 = \max \frac{\|\mathbf{A}\mathbf{x}\|_2}{\|\mathbf{x}\|_2}
+\Vert\mathbf{A}\Vert_2 = \max \frac{\Vert\mathbf{A}\mathbf{x}\Vert_2}{\Vert\mathbf{x}\Vert_2}
 $$
 
 La norma espectral de $\mathbf{A}$ coincide con su mayor valor singular $\sigma_1$.
@@ -1631,13 +1779,13 @@ r$, la aproximación truncada $\widehat{\mathbf{A}}(k)$ es la mejor posible:
 
 $$
 \widehat{\mathbf{A}}(k) = \operatorname{arg\,min}_{\mathrm{rk}(\mathbf{B})=k}
-\|\mathbf{A}-\mathbf{B}\|_2
+\Vert\mathbf{A}-\mathbf{B}\Vert_2
 $$
 
 Y el error cometido es exactamente el siguiente valor singular descartado:
 
 $$
-\|\mathbf{A}-\widehat{\mathbf{A}}(k)\|_2 = \sigma_{k+1}
+\Vert\mathbf{A}-\widehat{\mathbf{A}}(k)\Vert_2 = \sigma_{k+1}
 $$
 
 El operador $\operatorname{arg\,min}$ devuelve los puntos del dominio de una función
@@ -1650,6 +1798,113 @@ De aquí derivan la compresión de imágenes, la reducción de dimensionalidad m
 análisis de componentes principales truncado y las técnicas de adaptación de modelos de
 gran tamaño como LoRA, donde una actualización de pesos se representa con dos matrices
 estrechas en lugar de una matriz completa.
+
+## Formas cuadráticas y matrices definidas positivas
+
+El producto interno, la matriz de covarianza o la matriz Hessiana de una función de
+pérdida, que reúne sus segundas derivadas y se define en el capítulo de
+[cálculo vectorial](section_3_vector_calculus.md), comparten una misma estructura: una
+expresión de la forma $\mathbf{x}^\top\mathbf{A}\mathbf{y}$ o
+$\mathbf{x}^\top\mathbf{A}\mathbf{x}$. Las formas bilineales y cuadráticas formalizan
+esa estructura, y su clasificación responde a preguntas como si una matriz es definida
+positiva o si un punto crítico es un mínimo.
+
+### Formas bilineales y cuadráticas
+
+Una **forma bilineal** sobre $\mathbb{R}^n$ es una aplicación $f: \mathbb{R}^n \times
+\mathbb{R}^n \rightarrow \mathbb{R}$ que asigna un escalar a cada par de vectores y es
+lineal en cada uno de sus dos argumentos por separado. Toda forma bilineal se representa
+mediante una matriz cuadrada $\mathbf{A}$ de orden $n$, cuyo elemento $a_{ij}$ es
+$f(\mathbf{e}_i, \mathbf{e}_j)$ para los vectores de la base canónica:
+
+$$
+f(\mathbf{x}, \mathbf{y}) = \mathbf{x}^\top \mathbf{A} \mathbf{y}
+$$
+
+La forma es **simétrica** si $f(\mathbf{x}, \mathbf{y}) = f(\mathbf{y}, \mathbf{x})$, lo
+que equivale a $\mathbf{A} = \mathbf{A}^\top$. El producto interno estudiado antes es
+precisamente una forma bilineal simétrica y definida positiva.
+
+Dada una forma bilineal simétrica $f$, la **forma cuadrática** asociada es
+$\Phi(\mathbf{x}) = f(\mathbf{x}, \mathbf{x}) = \mathbf{x}^\top \mathbf{A} \mathbf{x}$.
+Para escribir la matriz simétrica de una forma cuadrática, los coeficientes de los
+cuadrados $x_i^2$ van a la diagonal y el coeficiente de cada término cruzado $x_i x_j$
+se reparte a partes iguales entre las posiciones $(i, j)$ y $(j, i)$. La forma $\Phi =
+2x_1x_2 + 6x_1x_3 + 2x_2^2 + 2x_2x_3 + x_3^2$ tiene por matriz:
+
+$$
+\mathbf{A} = \begin{pmatrix} 0 & 1 & 3 \\ 1 & 2 & 1 \\ 3 & 1 & 1 \end{pmatrix}
+$$
+
+Como la matriz es simétrica, puede diagonalizarse con una matriz de paso ortogonal
+$\mathbf{P}$. Con el cambio de variables $\mathbf{y} = \mathbf{P}^\top \mathbf{x}$, la
+forma se convierte en una suma de cuadrados ponderada por los autovalores:
+
+$$
+\Phi(\mathbf{x}) = \mathbf{y}^\top \mathbf{D} \mathbf{y} = \sum_{i=1}^{n} \lambda_i
+y_i^2
+$$
+
+Los autovectores son los ejes principales de la forma y los autovalores indican cuánto
+crece en cada uno de ellos. Es la misma lectura que hace el análisis de componentes
+principales sobre una matriz de covarianza.
+
+### Clasificación de las formas cuadráticas
+
+Una forma cuadrática $\Phi$, y por extensión su matriz simétrica, se clasifica según el
+signo de los valores que toma:
+
+- **Definida positiva**: $\Phi(\mathbf{x}) > 0$ para todo $\mathbf{x} \neq \mathbf{0}$.
+  Todos los autovalores son positivos.
+- **Definida negativa**: $\Phi(\mathbf{x}) < 0$ para todo $\mathbf{x} \neq \mathbf{0}$.
+  Todos los autovalores son negativos.
+- **Semidefinida positiva o negativa**: $\Phi(\mathbf{x}) \geq 0$, o $\leq 0$, para todo
+  $\mathbf{x}$. Los autovalores son todos $\geq 0$, o todos $\leq 0$. Incluye a las
+  definidas, y cuando la forma se anula en algún vector no nulo hay algún autovalor
+  cero.
+- **Indefinida**: Toma valores positivos y negativos. Hay autovalores de ambos signos.
+
+Sin diagonalizar, el **criterio de Sylvester** permite clasificar a partir de los
+**menores principales** $\Delta_1, \Delta_2, \ldots, \Delta_n$, los determinantes de las
+submatrices formadas por las $k$ primeras filas y columnas. La forma es definida
+positiva si todos son positivos ($+, +, +, \ldots$) y definida negativa si alternan
+empezando por un negativo ($-, +, -, \ldots$). Si $\Delta_n = |\mathbf{A}| \neq 0$ y no
+se da ninguno de los dos patrones, es indefinida. Si $|\mathbf{A}| = 0$ el criterio no
+basta para distinguir entre semidefinida e indefinida, por lo que hay que recurrir a los
+autovalores.
+
+???+ example "Clasificación por el criterio de Sylvester"
+
+    La forma $Q(x, y, z) = -4x^2 + 4xz - 5y^2 - 2z^2$ tiene por matriz simétrica, con el
+    término $4xz$ repartido entre las posiciones $(1, 3)$ y $(3, 1)$:
+
+    $$
+    \mathbf{A} = \begin{pmatrix} -4 & 0 & 2 \\ 0 & -5 & 0 \\ 2 & 0 & -2 \end{pmatrix}
+    $$
+
+    Sus menores principales son:
+
+    $$
+    \Delta_1 = -4 \qquad
+    \Delta_2 = \begin{vmatrix} -4 & 0 \\ 0 & -5 \end{vmatrix} = 20 \qquad
+    \Delta_3 = |\mathbf{A}| = -40 + 20 = -20
+    $$
+
+    El patrón $-, +, -$ indica que $Q$ es definida negativa.
+
+    En cambio, la matriz $\mathbf{B} = \begin{pmatrix} 3 & -2 & 4 \\ -2 & 6 & 2 \\
+    4 & 2 & 3 \end{pmatrix}$ tiene menores principales $\Delta_1 = 3$,
+    $\Delta_2 = 18 - 4 = 14$ y $\Delta_3 = -98$. El patrón $+, +, -$ con determinante
+    no nulo no es ninguno de los definidos, de modo que la forma es indefinida. Sus
+    autovalores, $7$, $7$ y $-2$, lo confirman.
+
+Esta clasificación tiene consecuencias directas en aprendizaje automático. Una matriz de
+covarianza es siempre semidefinida positiva, y la descomposición de Cholesky exige que
+sea definida positiva. En optimización, el signo de la forma cuadrática asociada a la
+matriz Hessiana en un punto crítico determina si es un mínimo (definida positiva), un
+máximo (definida negativa) o un punto de silla (indefinida). Además, una función con
+Hessiana semidefinida positiva en todo su dominio es convexa. Esta aplicación se
+desarrolla en el capítulo de [optimización](section_4_optimization.md).
 
 El siguiente capítulo aborda el cálculo vectorial, que completa el aparato matemático
 necesario para comprender cómo se entrenan los modelos a partir de estas estructuras.

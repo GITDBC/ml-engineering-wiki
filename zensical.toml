@@ -25,7 +25,9 @@ nav = [
         {"Python" = [
             "03_programming/01_python/section_1_environments.md",
             "03_programming/01_python/section_2_fundamentals.md",
-            "03_programming/01_python/section_3_libraries.md"
+            "03_programming/01_python/section_3_oop_and_advanced.md",
+            "03_programming/01_python/section_4_standard_library.md",
+            "03_programming/01_python/section_5_libraries.md"
         ]},
         {"Rust" = [
             "03_programming/02_rust/section_1_fundamentals.md",

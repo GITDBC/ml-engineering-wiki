@@ -2,8 +2,8 @@
 icon: lucide/binary
 authors: Daniel Bazo Correa
 description:
-    Pilas, colas, listas enlazadas, listas doblemente enlazadas y árboles binarios de
-    búsqueda, con sus operaciones, costes e implementaciones en Python.
+    Pilas, colas, listas enlazadas, listas doblemente enlazadas, árboles binarios de
+    búsqueda y tablas _hash_, con sus operaciones, costes e implementaciones en Python.
 title: Estructuras de datos
 ---
 
@@ -16,7 +16,9 @@ title: Estructuras de datos
 
 Este capítulo presenta las estructuras de datos fundamentales, describiendo la forma en
 que organizan la información en memoria, las operaciones que ofrecen, el coste asociado
-a cada una de ellas y una implementación de referencia en Python. El análisis de la
+a cada una de ellas y una implementación de referencia en Python. Se recorren las pilas,
+las colas, las listas enlazadas y doblemente enlazadas, los árboles binarios de búsqueda
+y las tablas _hash_, con sus estrategias de resolución de colisiones. El análisis de la
 complejidad de estas operaciones se apoya en la notación Big O, que se aborda en el
 capítulo de [algoritmos](section_2_algorithms.md).
 
@@ -183,7 +185,7 @@ constante amortizado.
     print(f"Tamaño tras extraer: {pila.size()}")
     ```
 
-    ```title="Salida esperada"
+    ```plaintext title="Expected output"
     Cima: 3
     Extraído: 3
     Tamaño tras extraer: 2
@@ -325,7 +327,7 @@ el recorrido en anchura de un grafo.
     print(f"Tamaño tras eliminar: {cola.size()}")
     ```
 
-    ```title="Salida esperada"
+    ```plaintext title="Expected output"
     Frente: 1
     Eliminado: 1
     Tamaño tras eliminar: 2
@@ -495,7 +497,7 @@ memoria y el procesador no puede aprovechar la lectura de bloques contiguos.
     print(f"Contenido tras eliminar: {lista.recorrido()}")
     ```
 
-    ```title="Salida esperada"
+    ```plaintext title="Expected output"
     Contenido: [1, 2, 3]
     Eliminado: 1
     Contenido tras eliminar: [2, 3]
@@ -670,7 +672,7 @@ elementos según su uso reciente.
     print(f"Vacía: {lista_doble.esta_vacia()}")
     ```
 
-    ```title="Salida esperada"
+    ```plaintext title="Expected output"
     Último: 2
     Primero: 0
     Vacía: False
@@ -697,9 +699,9 @@ elemento tras agotar la secuencia sin comprobar explícitamente el final.
 
 !!! warning
 
-    La ausencia de un nodo terminal hace que cualquier recorrido escrito con la condición
-    habitual de parada en el enlace nulo entre en bucle infinito. El recorrido debe
-    detenerse al volver a alcanzar el nodo de partida.
+    La ausencia de un nodo terminal hace que cualquier recorrido escrito con la
+    condición habitual de parada en el enlace nulo entre en bucle infinito. El recorrido
+    debe detenerse al volver a alcanzar el nodo de partida.
 
 ## Árboles binarios de búsqueda
 
@@ -910,8 +912,8 @@ orden resultante.
     ```
 
     Al insertar los valores 5, 3, 8, 1 y 4, el recorrido en orden devuelve la secuencia
-    ordenada, mientras que los otros dos recorridos reflejan la estructura jerárquica del
-    árbol:
+    ordenada, mientras que los otros dos recorridos reflejan la estructura jerárquica
+    del árbol:
 
     ```python linenums="1"
     arbol = ArbolBinario()
@@ -925,21 +927,21 @@ orden resultante.
     print(f"Búsqueda del 4: {arbol.buscar(4) is not None}")
     ```
 
-    ```title="Salida esperada"
+    ```plaintext title="Expected output"
     Inorden: [1, 3, 4, 5, 8]
     Preorden: [5, 3, 1, 4, 8]
     Postorden: [1, 4, 3, 8, 5]
     Búsqueda del 4: True
     ```
 
-## Tablas hash
+## Tablas _hash_
 
 Las estructuras anteriores requieren recorrer elementos o descender por niveles para
-localizar un valor. Una **tabla hash** (_hash table_) elimina esa búsqueda calculando
+localizar un valor. Una **tabla _hash_** (_hash table_) elimina esa búsqueda calculando
 directamente la posición donde reside el dato, lo que reduce el coste de acceso a $O(1)$
 en el caso promedio frente al $O(N)$ de una búsqueda lineal.
 
-El mecanismo se apoya en una **función hash** que transforma la clave en un índice
+El mecanismo se apoya en una **función _hash_** que transforma la clave en un índice
 válido dentro de un _array_ de tamaño $N$:
 
 $$
@@ -947,8 +949,107 @@ $$
 $$
 
 De este modo, la clave `marcos` asociada al valor `7489` se convierte en un índice
-concreto mediante la función hash, y tanto la inserción como la consulta acceden
+concreto mediante la función _hash_, y tanto la inserción como la consulta acceden
 directamente a esa posición.
+
+### Funciones de dispersión
+
+La eficiencia de una tabla _hash_ depende en gran medida de la función de dispersión.
+Una buena función cumple tres propiedades:
+
+- **Determinista**: La misma clave produce siempre el mismo índice.
+- **Uniforme**: Reparte las claves de forma homogénea entre las casillas y evita
+  acumulaciones, que causan colisiones (claves distintas con el mismo índice).
+- **Eficiente**: Se evalúa en cada inserción, consulta y eliminación, por lo que su
+  coste se suma al de todas las operaciones.
+
+Para claves enteras, el método más habitual es el de la **división**, que corresponde a
+la fórmula anterior con $\mathrm{hash}(k) = k$. Su calidad depende del tamaño $N$. Con
+$N = 10$ solo interviene la última cifra decimal de la clave, de modo que un número de
+identificación terminado en 5 comparte casilla con cualquier otro terminado en 5 con
+independencia del resto de cifras. Algo análogo ocurre con las potencias de dos, que
+solo conservan los bits menos significativos. Por ello se recomienda un número primo
+alejado de una potencia de dos.
+
+Para cadenas se evalúa un polinomio cuyos coeficientes son los códigos de los
+caracteres. Si $c_i$ es el código del carácter $i$-ésimo de una cadena de longitud $L$ y
+$B$ es una base fija, el índice es:
+
+$$
+h(s) = \left( \sum_{i=0}^{L-1} c_i \cdot B^{L-1-i} \right) \bmod N
+$$
+
+La suma ponderada por posición del ejemplo de la sección siguiente es una versión
+simplificada de esta idea, con pesos lineales en lugar de potencias. En la práctica el
+polinomio se evalúa con el esquema de Horner, que aplica el módulo en cada paso para
+mantener los valores acotados y produce el mismo resultado que aplicarlo al final:
+
+???+ tip "Implementación"
+
+    ```python linenums="1"
+    def hash_division(clave: int, n: int) -> int:
+        """
+        Calcula el índice de una clave entera por el método de la división.
+
+        Args:
+            clave: Clave entera no negativa.
+            n: Número de casillas de la tabla.
+
+        Returns:
+            Índice comprendido entre 0 y n - 1.
+        """
+
+        return clave % n
+
+
+    def hash_polinomico(texto: str, n: int, base: int = 31) -> int:
+        """
+        Calcula el índice de una cadena con un polinomio evaluado por Horner.
+
+        Args:
+            texto: Cadena que actúa como clave.
+            n: Número de casillas de la tabla.
+            base: Base del polinomio.
+
+        Returns:
+            Índice comprendido entre 0 y n - 1.
+        """
+
+        valor = 0
+
+        for caracter in texto:
+            valor = (valor * base + ord(caracter)) % n
+
+        return valor
+    ```
+
+    El siguiente fragmento muestra el efecto del tamaño sobre claves que son
+    múltiplos de 10 y comprueba que el polinomio distingue dos cadenas con las
+    mismas letras:
+
+    ```python linenums="1"
+    claves = [10, 20, 30, 40, 50, 60]
+    print(f"Con N = 10: {[hash_division(c, 10) for c in claves]}")
+    print(f"Con N = 11: {[hash_division(c, 11) for c in claves]}")
+    print(f"marcos: {hash_polinomico('marcos', 11)}")
+    print(f"socram: {hash_polinomico('socram', 11)}")
+    ```
+
+    ```plaintext title="Expected output"
+    Con N = 10: [0, 0, 0, 0, 0, 0]
+    Con N = 11: [10, 9, 8, 7, 6, 5]
+    marcos: 4
+    socram: 7
+    ```
+
+!!! note
+
+    La función `hash` incorporada en Python no es adecuada cuando el índice debe
+    conservarse entre ejecuciones. Para las cadenas se inicializa con una semilla
+    aleatoria distinta en cada proceso, de modo que el mismo texto produce valores
+    diferentes en dos ejecuciones. Un índice calculado con ella no puede guardarse
+    en un archivo ni compartirse entre procesos, caso en el que conviene una función
+    propia como la anterior.
 
 ### Colisiones
 
@@ -962,17 +1063,17 @@ calculada. En el peor caso puede recorrer la tabla completa sin encontrar hueco.
 que han colisionado, de modo que la consulta requiere recorrer la cadena
 correspondiente.
 
-Una tercera vía consiste en mejorar la propia función hash para que distribuya las
+Una tercera vía consiste en mejorar la propia función _hash_ para que distribuya las
 claves de forma más uniforme. Cuando la clave es una cadena de texto, una técnica
 habitual consiste en tomar el valor ASCII de cada carácter y multiplicarlo por la
 posición que ocupa, lo que hace que el resultado dependa del orden de los caracteres y
 no solo de su presencia.
 
-???+ example "Función hash sensible al orden de los caracteres"
+???+ example "Función _hash_ sensible al orden de los caracteres"
 
-    Aplicando esta técnica a las claves `marcos` y `socram`, que contienen exactamente los
-    mismos caracteres en orden distinto, se obtienen índices diferentes sobre una tabla de
-    tamaño 10.
+    Aplicando esta técnica a las claves `marcos` y `socram`, que contienen exactamente
+    los mismos caracteres en orden distinto, se obtienen índices diferentes sobre una
+    tabla de tamaño 10.
 
     Para la clave `marcos`:
 
@@ -994,8 +1095,473 @@ no solo de su presencia.
     Una función que sumase únicamente los valores ASCII sin ponderar por la posición
     produciría el mismo índice para ambas claves y por tanto una colisión evitable.
 
+### Encadenamiento
+
+En el encadenamiento, cada casilla de la tabla se denomina cubeta (_bucket_) y
+referencia la colección de elementos que comparten índice. La inserción calcula el
+índice, comprueba que la clave no figure ya en la cubeta y añade el elemento. La
+consulta y la eliminación recorren únicamente la cubeta correspondiente. Si las claves
+se reparten de forma uniforme, cada cubeta contiene en promedio $\alpha = n / N$
+elementos, valor denominado factor de carga, siendo $n$ el número de registros y $N$ el
+de cubetas. El coste medio de cada operación es por tanto $O(1 + \alpha)$.
+
+Las cubetas pueden ser listas enlazadas o _arrays_ dinámicos. La implementación
+siguiente usa listas de Python con pares clave-valor. Los nodos enlazados y los punteros
+que exigiría una cubeta en forma de lista se desarrollan en C++ en el capítulo de
+[memoria dinámica](../03_programming/06_cpp/section_5_memory.md).
+
+???+ tip "Implementación"
+
+    ```python linenums="1"
+    class TablaHashEncadenada:
+        """
+        Tabla hash con encadenamiento y claves enteras.
+
+        Attributes:
+            cubetas: Una lista de pares (clave, valor) por cada índice.
+        """
+
+        def __init__(self, n_cubetas: int = 10) -> None:
+            """
+            Inicializa la tabla con todas las cubetas vacías.
+
+            Args:
+                n_cubetas: Número de casillas de la tabla.
+            """
+
+            self.cubetas: list[list[tuple[int, str]]] = [[] for _ in range(n_cubetas)]
+
+        def _cubeta(self, clave: int) -> list[tuple[int, str]]:
+            """Devuelve la cubeta que corresponde a una clave."""
+
+            return self.cubetas[clave % len(self.cubetas)]
+
+        def insertar(self, clave: int, valor: str) -> bool:
+            """
+            Inserta un par o actualiza el valor de una clave existente.
+
+            Args:
+                clave: Clave entera.
+                valor: Valor asociado.
+
+            Returns:
+                True si la clave era nueva y False si se actualizó.
+            """
+
+            cubeta = self._cubeta(clave)
+
+            for i, (otra, _) in enumerate(cubeta):
+                if otra == clave:
+                    cubeta[i] = (clave, valor)
+                    return False
+
+            cubeta.append((clave, valor))
+            return True
+
+        def consultar(self, clave: int) -> str | None:
+            """
+            Recupera el valor asociado a una clave.
+
+            Args:
+                clave: Clave entera que se busca.
+
+            Returns:
+                El valor almacenado, o None si la clave no existe.
+            """
+
+            for otra, valor in self._cubeta(clave):
+                if otra == clave:
+                    return valor
+
+            return None
+
+        def eliminar(self, clave: int) -> bool:
+            """
+            Elimina una clave de su cubeta.
+
+            Args:
+                clave: Clave entera que se elimina.
+
+            Returns:
+                True si existía y se eliminó, False en caso contrario.
+            """
+
+            cubeta = self._cubeta(clave)
+
+            for i, (otra, _) in enumerate(cubeta):
+                if otra == clave:
+                    del cubeta[i]
+                    return True
+
+            return False
+
+        def numero_registros(self) -> int:
+            """Cuenta los registros almacenados en todas las cubetas."""
+
+            return sum(len(cubeta) for cubeta in self.cubetas)
+
+        def factor_carga(self) -> float:
+            """Calcula la proporción entre registros y casillas."""
+
+            return self.numero_registros() / len(self.cubetas)
+    ```
+
+    Las claves 5 y 15 terminan en 5 y colisionan en la misma cubeta, donde quedan
+    encadenadas. La inserción de una clave repetida actualiza su valor:
+
+    ```python linenums="1"
+    tabla = TablaHashEncadenada()
+    tabla.insertar(5, "a")
+    tabla.insertar(22, "b")
+    tabla.insertar(15, "c")
+
+    print(f"Cubeta 5: {tabla.cubetas[5]}")
+    print(f"Clave nueva: {tabla.insertar(22, 'd')}")
+    print(f"Consulta 22: {tabla.consultar(22)}")
+    print(f"Eliminada 5: {tabla.eliminar(5)}")
+    print(f"Registros: {tabla.numero_registros()}")
+    print(f"Factor de carga: {tabla.factor_carga()}")
+    ```
+
+    ```plaintext title="Expected output"
+    Cubeta 5: [(5, 'a'), (15, 'c')]
+    Clave nueva: False
+    Consulta 22: d
+    Eliminada 5: True
+    Registros: 2
+    Factor de carga: 0.2
+    ```
+
+### Direccionamiento abierto
+
+El direccionamiento abierto almacena todos los elementos en el propio _array_ de la
+tabla, sin estructuras auxiliares. Ante una colisión se examina una secuencia
+determinista de casillas hasta encontrar una libre. El sondeo lineal avanza de una en
+una a partir del índice calculado:
+
+$$
+h_i(k) = (\mathrm{hash}(k) + i) \bmod N, \qquad i = 0, 1, 2, \dots
+$$
+
+Una búsqueda termina al encontrar la clave o una casilla vacía, que indica que la clave
+no existe. Esta regla condiciona la eliminación. Si una casilla ocupada se vaciara sin
+más, cualquier clave insertada después de ella a causa de una colisión quedaría
+inalcanzable. Por eso la casilla se marca con una señal de borrado (_tombstone_), que
+las búsquedas atraviesan y que una inserción posterior puede reutilizar.
+
+Otro inconveniente del sondeo lineal es que los elementos que colisionan tienden a
+agruparse en rachas contiguas de casillas ocupadas, un fenómeno denominado agrupamiento
+primario (_primary clustering_) que alarga las secuencias de sondeo. El sondeo
+cuadrático, que usa desplazamientos $i^2$, y el doble _hash_, que calcula el paso con
+una segunda función, reducen este efecto. En cualquier variante, la tabla debe conservar
+casillas libres, por lo que ha de ampliarse antes de llenarse. La ventaja es la
+contigüidad en memoria, que favorece la localidad de _cache_ frente a las cadenas de
+nodos dispersos.
+
+???+ tip "Implementación"
+
+    ```python linenums="1"
+    from collections.abc import Iterator
+    from typing import Final
+
+    # Marca que sustituye a una casilla cuyo registro fue eliminado.
+    BORRADA: Final = object()
+
+
+    class TablaHashAbierta:
+        """
+        Tabla hash con direccionamiento abierto y sondeo lineal.
+
+        Attributes:
+            casillas: Pares (clave, valor), None si está libre o BORRADA.
+            ocupadas: Número de registros vivos.
+        """
+
+        def __init__(self, capacidad: int = 8) -> None:
+            """
+            Inicializa la tabla con todas las casillas libres.
+
+            Args:
+                capacidad: Número de casillas de la tabla.
+            """
+
+            self.casillas: list[tuple[int, str] | object | None] = [None] * capacidad
+            self.ocupadas: int = 0
+
+        def _sondeo(self, clave: int) -> Iterator[int]:
+            """
+            Genera la secuencia de casillas que se examinan para una clave.
+
+            Args:
+                clave: Clave entera que se busca o inserta.
+
+            Yields:
+                Índices a partir de clave mod N, avanzando de uno en uno.
+            """
+
+            n = len(self.casillas)
+
+            for desplazamiento in range(n):
+                yield (clave + desplazamiento) % n
+
+        def insertar(self, clave: int, valor: str) -> None:
+            """
+            Inserta un par o actualiza el valor de una clave existente.
+
+            Args:
+                clave: Clave entera.
+                valor: Valor asociado.
+
+            Raises:
+                OverflowError: Si no queda ninguna casilla disponible.
+            """
+
+            libre = None
+
+            for i in self._sondeo(clave):
+                casilla = self.casillas[i]
+
+                if casilla is None:
+                    libre = i if libre is None else libre
+                    break
+
+                if casilla is BORRADA:
+                    libre = i if libre is None else libre
+                elif casilla[0] == clave:
+                    self.casillas[i] = (clave, valor)
+                    return
+
+            if libre is None:
+                raise OverflowError("Tabla llena.")
+
+            self.casillas[libre] = (clave, valor)
+            self.ocupadas += 1
+
+        def buscar(self, clave: int) -> str | None:
+            """
+            Recupera el valor asociado a una clave.
+
+            Args:
+                clave: Clave entera que se busca.
+
+            Returns:
+                El valor almacenado, o None si la clave no existe.
+            """
+
+            for i in self._sondeo(clave):
+                casilla = self.casillas[i]
+
+                if casilla is None:
+                    return None
+
+                if casilla is not BORRADA and casilla[0] == clave:
+                    return casilla[1]
+
+            return None
+
+        def eliminar(self, clave: int) -> bool:
+            """
+            Elimina una clave dejando una marca de borrado.
+
+            Args:
+                clave: Clave entera que se elimina.
+
+            Returns:
+                True si existía y se eliminó, False en caso contrario.
+            """
+
+            for i in self._sondeo(clave):
+                casilla = self.casillas[i]
+
+                if casilla is None:
+                    return False
+
+                if casilla is not BORRADA and casilla[0] == clave:
+                    self.casillas[i] = BORRADA
+                    self.ocupadas -= 1
+                    return True
+
+            return False
+    ```
+
+    Las claves 3, 11 y 19 producen el mismo índice en una tabla de 8 casillas y
+    ocupan tres casillas consecutivas. Tras eliminar la clave 11, la búsqueda de la
+    19 sigue siendo posible gracias a la señal de borrado, y una inserción posterior
+    reutiliza la casilla liberada:
+
+    ```python linenums="1"
+    tabla = TablaHashAbierta(8)
+
+    for clave in (3, 11, 19):
+        tabla.insertar(clave, f"valor{clave}")
+
+    print(f"Casillas 3 a 5: {tabla.casillas[3:6]}")
+    tabla.eliminar(11)
+    print(f"Buscar 19 tras eliminar 11: {tabla.buscar(19)}")
+    tabla.insertar(27, "valor27")
+    print(f"Casilla 4 reutilizada: {tabla.casillas[4]}")
+    ```
+
+    ```plaintext title="Expected output"
+    Casillas 3 a 5: [(3, 'valor3'), (11, 'valor11'), (19, 'valor19')]
+    Buscar 19 tras eliminar 11: valor19
+    Casilla 4 reutilizada: (27, 'valor27')
+    ```
+
+!!! warning
+
+    Sustituir la casilla de una clave eliminada por un valor vacío en lugar de una
+    señal de borrado rompe las búsquedas. En el ejemplo anterior, `buscar(19)`
+    encontraría vacía la casilla 4 y devolvería `None` aunque la clave esté
+    almacenada en la 5.
+
+### Factor de carga y redispersión
+
+El **factor de carga** (_load factor_) es la proporción entre los elementos almacenados
+y las casillas disponibles:
+
+$$
+\alpha = \frac{n}{N}
+$$
+
+En el encadenamiento puede superar 1, ya que cada cubeta admite varios elementos. En el
+direccionamiento abierto está acotado por 1, y el coste de las operaciones crece con
+rapidez al acercarse a ese límite. Bajo la hipótesis de una función de dispersión
+uniforme, el número medio de comparaciones es aproximadamente:
+
+$$
+C_{\text{encadenamiento, éxito}} \approx 1 + \frac{\alpha}{2}
+$$
+
+$$
+C_{\text{lineal, éxito}} \approx \frac{1}{2} \left( 1 + \frac{1}{1 - \alpha} \right)
+$$
+
+$$
+C_{\text{lineal, fracaso}} \approx
+\frac{1}{2} \left( 1 + \frac{1}{(1 - \alpha)^2} \right)
+$$
+
+Las dos últimas fórmulas corresponden al sondeo lineal. El éxito o el fracaso indican si
+la clave buscada está o no en la tabla, y en el encadenamiento el fracaso cuesta $1 +
+\alpha$. La tabla siguiente evalúa las expresiones anteriores para varios factores de
+carga:
+
+| $\alpha$ | Encadenamiento, éxito | Sondeo lineal, éxito | Sondeo lineal, fracaso |
+| :------- | :-------------------- | :------------------- | :--------------------- |
+| 0,50     | 1,25                  | 1,50                 | 2,50                   |
+| 0,75     | 1,38                  | 2,50                 | 8,50                   |
+| 0,90     | 1,45                  | 5,50                 | 50,50                  |
+
+El sondeo lineal pasa de resultar casi tan barato como el encadenamiento a ser inviable
+en pocos puntos de carga, razón por la que las tablas de direccionamiento abierto se
+amplían mucho antes de llenarse. Los umbrales habituales rondan 0,75 en tablas
+encadenadas y entre 0,5 y 0,7 en las de direccionamiento abierto. El tipo `dict` de
+CPython, por ejemplo, amplía su tabla al llegar a dos tercios de ocupación.
+
+Al superar el umbral se aplica la **redispersión** (_rehashing_). Consiste en crear una
+tabla mayor, habitualmente de tamaño doble, y reinsertar en ella todos los elementos. No
+basta con copiar las casillas, porque el índice depende de $N$ y cada elemento debe
+recalcularse. En una tabla con señales de borrado, la redispersión las elimina y
+recupera el espacio que ocupaban. La operación cuesta $O(n)$, pero al duplicar el tamaño
+sucede cada vez con menos frecuencia y el coste amortizado de la inserción sigue siendo
+$O(1)$. El razonamiento es el mismo que justifica el coste amortizado de apilar en una
+pila basada en _array_ dinámico.
+
+???+ tip "Implementación"
+
+    La clase siguiente extiende la tabla encadenada. Tras cada inserción comprueba
+    el factor de carga y, si supera el umbral, reconstruye la tabla con $2N + 1$
+    cubetas, un tamaño impar que evita las potencias de dos aunque no garantiza un
+    número primo.
+
+    ```python linenums="1"
+    class TablaHashDinamica(TablaHashEncadenada):
+        """
+        Tabla hash encadenada que amplía su tamaño al superar un umbral.
+
+        Attributes:
+            umbral: Factor de carga a partir del cual se redispersa.
+        """
+
+        def __init__(self, n_cubetas: int = 4, umbral: float = 0.75) -> None:
+            """
+            Inicializa la tabla con un tamaño inicial y un umbral.
+
+            Args:
+                n_cubetas: Número inicial de casillas.
+                umbral: Factor de carga máximo tolerado.
+            """
+
+            super().__init__(n_cubetas)
+            self.umbral: float = umbral
+
+        def redispersar(self, n_cubetas: int) -> None:
+            """
+            Reconstruye la tabla con un nuevo número de casillas.
+
+            Args:
+                n_cubetas: Nuevo número de casillas.
+            """
+
+            pares = [par for cubeta in self.cubetas for par in cubeta]
+            self.cubetas = [[] for _ in range(n_cubetas)]
+
+            for clave, valor in pares:
+                super().insertar(clave, valor)
+
+        def insertar(self, clave: int, valor: str) -> bool:
+            """
+            Inserta un par y redispersa si se supera el umbral.
+
+            Args:
+                clave: Clave entera.
+                valor: Valor asociado.
+
+            Returns:
+                True si la clave era nueva y False si se actualizó.
+            """
+
+            insertada = super().insertar(clave, valor)
+
+            if insertada and self.factor_carga() > self.umbral:
+                self.redispersar(2 * len(self.cubetas) + 1)
+
+            return insertada
+    ```
+
+    Con cuatro cubetas y un umbral de 0,75, la tabla se amplía al insertar el cuarto
+    y el séptimo registro, y los registros siguen siendo localizables tras la
+    reconstrucción:
+
+    ```python linenums="1"
+    tabla = TablaHashDinamica()
+    tamano = len(tabla.cubetas)
+
+    for clave in range(100, 112):
+        tabla.insertar(clave, f"valor{clave}")
+
+        if len(tabla.cubetas) != tamano:
+            tamano = len(tabla.cubetas)
+            print(f"Redispersión al insertar {clave}: {tamano} cubetas")
+
+    print(f"Factor de carga final: {tabla.factor_carga():.2f}")
+    print(f"Consulta 105: {tabla.consultar(105)}")
+    ```
+
+    ```plaintext title="Expected output"
+    Redispersión al insertar 103: 9 cubetas
+    Redispersión al insertar 106: 19 cubetas
+    Factor de carga final: 0.63
+    Consulta 105: valor105
+    ```
+
 En Python, el tipo `dict` y el tipo `set` están implementados internamente como tablas
-hash, lo que explica el coste constante de sus operaciones de consulta y pertenencia.
+_hash_, lo que explica el coste constante de sus operaciones de consulta y pertenencia.
+Los mismos mecanismos sustentan las cachés y el _feature hashing_ del aprendizaje
+automático, donde los nombres de las variables categóricas se transforman en índices de
+un vector de tamaño fijo y se toleran las colisiones a cambio de no almacenar un
+diccionario de categorías.
 
 ## Comparativa de estructuras
 
@@ -1010,10 +1576,11 @@ representativas y el criterio de uso asociado a cada estructura:
 | Lista enlazada            | $O(N)$              | $O(1)$               | $O(N)$      | Secuencias con inserciones frecuentes    |
 | Lista doblemente enlazada | $O(N)$              | $O(1)$               | $O(N)$      | Recorridos bidireccionales, _cache_      |
 | Árbol binario de búsqueda | $O(\log N)$         | $O(\log N)$          | $O(\log N)$ | Datos ordenados con búsquedas frecuentes |
-| Tabla hash                | No aplica           | $O(1)$               | $O(1)$      | Acceso por clave, diccionarios           |
+| Tabla _hash_              | No aplica           | $O(1)$               | $O(1)$      | Acceso por clave, diccionarios           |
 
 Los costes indicados para el árbol binario de búsqueda corresponden al caso promedio y
-requieren que la estructura se mantenga razonablemente equilibrada. Los de la tabla hash
-también corresponden al caso promedio y degradan a $O(N)$ cuando las colisiones se
-acumulan. El capítulo de algoritmos profundiza en el análisis que sustenta estas cifras
-y en los métodos clásicos de ordenación y búsqueda que operan sobre estas estructuras.
+requieren que la estructura se mantenga razonablemente equilibrada. Los de la tabla
+_hash_ también corresponden al caso promedio y degradan a $O(N)$ cuando las colisiones
+se acumulan, algo que la redispersión limita al mantener acotado el factor de carga. El
+capítulo de algoritmos profundiza en el análisis que sustenta estas cifras y en los
+métodos clásicos de ordenación y búsqueda que operan sobre estas estructuras.

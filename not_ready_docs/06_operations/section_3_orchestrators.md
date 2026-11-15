@@ -24,7 +24,7 @@ componentes, la gestión de pods, despliegues, servicios y patrones de resilienc
 
 <figure markdown="span">
   ![Logo de Kubernetes](../assets/img/docs/logos/kubernetes-logo.png)
-  <figcaption>Logo de Kubernetes</figcaption>
+  <figcaption>Logo de Kubernetes.</figcaption>
 </figure>
 
 La adopción de Kubernetes se motiva principalmente por la necesidad de administrar de
@@ -411,11 +411,11 @@ el número de réplicas dentro de los límites establecidos.
     ```
 
     Con un objetivo del 70 % de utilización media y una solicitud de `100m` por réplica,
-    un consumo agregado sostenido de 840 milicores conduce a 12 réplicas, ya que
-    840 / (100 × 0,7) = 12, y uno de 140 milicores, al mínimo de 2. El valor de
-    `minReplicas` no baja de 2 porque una réplica única deja el servicio sin
-    disponibilidad durante cualquier reemplazo, y `maxReplicas` acota los recursos que el
-    servicio puede reclamar al clúster.
+    un consumo agregado sostenido de 840 milicores conduce a 12 réplicas, ya que 840 /
+    (100 × 0,7) = 12, y uno de 140 milicores, al mínimo de 2. El valor de `minReplicas`
+    no baja de 2 porque una réplica única deja el servicio sin disponibilidad durante
+    cualquier reemplazo, y `maxReplicas` acota los recursos que el servicio puede
+    reclamar al clúster.
 
 Dos condiciones determinan su utilidad: que el _deployment_ declare
 `resources.requests`, porque la utilización se calcula como fracción de lo solicitado, y
@@ -455,7 +455,9 @@ monitoreo:
 #### Tipos de servicios
 
 Los servicios en Kubernetes permiten acceder a los _pods_ desde dentro y fuera del
-clúster. Existen varios tipos de servicios según las necesidades de exposición.
+clúster. Existen varios tipos de servicios según las necesidades de exposición. Las
+nociones de dirección IP y puerto en las que se apoyan se explican en el capítulo de
+[redes y TCP/IP](../05_infrastructure/03_networking/section_1_tcpip.md).
 
 **ClusterIP** proporciona una dirección IP virtual única a nivel de clúster, facilitando
 la comunicación y el balanceo de carga entre _pods_ de forma interna.
@@ -541,19 +543,19 @@ balanceador de carga por servicio.
                       number: 8080
     ```
 
-    El campo `ingressClassName` identifica al controlador que debe atender la regla, algo
-    necesario cuando el clúster tiene más de uno desplegado. El campo `pathType` es
+    El campo `ingressClassName` identifica al controlador que debe atender la regla,
+    algo necesario cuando el clúster tiene más de uno desplegado. El campo `pathType` es
     obligatorio en la versión vigente de la API, `networking.k8s.io/v1`; las versiones
-    preliminares `extensions/v1beta1` y `networking.k8s.io/v1beta1` están retiradas desde
-    Kubernetes 1.22 y el servidor rechaza los manifiestos que las declaren.
+    preliminares `extensions/v1beta1` y `networking.k8s.io/v1beta1` están retiradas
+    desde Kubernetes 1.22 y el servidor rechaza los manifiestos que las declaren.
 
 !!! warning
 
     El tipo NodePort resulta adecuado para desarrollo y pruebas, pero no para
     producción. Expone un puerto en todos los nodos del clúster dentro de un rango
     elevado y no fija, lo que complica la gestión de nombres y certificados. En
-    producción se recurre a LoadBalancer o, preferentemente, a un _Ingress_ que centralice
-    el enrutamiento y la terminación TLS.
+    producción se recurre a LoadBalancer o, preferentemente, a un _Ingress_ que
+    centralice el enrutamiento y la terminación TLS.
 
 Cuando una petición llega a un servicio, este la redirige de forma aleatoria a uno de
 los _pods_ gestionados por el _deployment_ asociado, lo que proporciona el balanceo de
@@ -623,10 +625,11 @@ abstracción sobre el que operan:
 
 !!! note "Elección de la categoría adecuada"
 
-    La elección depende de los requisitos del proyecto. Las soluciones _serverless_ minimizan
-    la carga operativa pero limitan el control y pueden resultar costosas a gran escala. La
-    orquestación de contenedores ofrece un equilibrio entre flexibilidad y automatización.
-    Las VMs y servidores proporcionan máximo control a costa de mayor complejidad operativa.
+    La elección depende de los requisitos del proyecto. Las soluciones _serverless_
+    minimizan la carga operativa pero limitan el control y pueden resultar costosas a
+    gran escala. La orquestación de contenedores ofrece un equilibrio entre flexibilidad
+    y automatización. Las VMs y servidores proporcionan máximo control a costa de mayor
+    complejidad operativa.
 
 La orquestación resuelve la ejecución y el escalado de los servicios que componen un
 sistema. Cuando esos servicios contienen modelos de aprendizaje automático aparecen

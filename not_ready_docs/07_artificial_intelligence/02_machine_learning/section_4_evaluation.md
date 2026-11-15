@@ -61,7 +61,8 @@ Ambas métricas se pueden expresar en porcentaje multiplicando por cien.
 
 ???+ example "Matriz de confusión 2×2"
 
-    Supongamos un algoritmo de regresión logística que predice si un paciente tiene enfermedad cardíaca o no, con la siguiente matriz de confusión:
+    Supongamos un algoritmo de regresión logística que predice si un paciente tiene
+    enfermedad cardíaca o no, con la siguiente matriz de confusión:
 
     |                        | Predice enfermedad | Predice no enfermedad |
     | ---------------------- | ------------------ | --------------------- |
@@ -80,11 +81,19 @@ Ambas métricas se pueden expresar en porcentaje multiplicando por cien.
     Specificity = \frac{100}{100 + 30} = \frac{100}{130} = 0.7692 \; (76.92\%)
     $$
 
-    Esto indica que el 85.29% de los pacientes con enfermedad han sido clasificados correctamente y el 76.92% de los pacientes sin enfermedad han sido clasificados correctamente. Estas métricas permiten comparar directamente con otros modelos, como un árbol de decisión, y elegir el más adecuado según la prioridad del problema: si detectar pacientes sin enfermedad es más importante, se podría preferir la regresión logística; si detectar pacientes con enfermedad es prioritario, se podría optar por el árbol de decisión.
+    Esto indica que el 85.29% de los pacientes con enfermedad han sido clasificados
+    correctamente y el 76.92% de los pacientes sin enfermedad han sido clasificados
+    correctamente. Estas métricas permiten comparar directamente con otros modelos, como
+    un árbol de decisión, y elegir el más adecuado según la prioridad del problema. Si
+    detectar pacientes sin enfermedad es más importante, se podría preferir la regresión
+    logística. Si detectar pacientes con enfermedad es prioritario, se podría optar por
+    el árbol de decisión.
 
 ???+ example "Matriz de confusión multiclase (3×3)"
 
-    Para matrices de confusión de mayor tamaño, la interpretación es análoga, calculando la sensibilidad y la especificidad para cada categoría. Supongamos una matriz de confusión con 3 clases A, B y C:
+    Para matrices de confusión de mayor tamaño, la interpretación es análoga, calculando
+    la sensibilidad y la especificidad para cada categoría. Supongamos una matriz de
+    confusión con 3 clases A, B y C:
 
     | Real \ Predicho | A   | B   | C   |
     | --------------- | --- | --- | --- |
@@ -92,9 +101,10 @@ Ambas métricas se pueden expresar en porcentaje multiplicando por cien.
     | **B**           | 8   | 45  | 7   |
     | **C**           | 6   | 9   | 40  |
 
-    Los valores de la diagonal principal representan las clasificaciones correctas, las filas representan la clase real y las columnas la clase predicha.
+    Los valores de la diagonal principal representan las clasificaciones correctas, las
+    filas representan la clase real y las columnas la clase predicha.
 
-    **Recall por clase:**
+    **Recall por clase**:
 
     $$Recall_A = \frac{50}{50 + 5 + 10} = \frac{50}{65} = 0.7692 \; (76.92\%)$$
 
@@ -102,7 +112,7 @@ Ambas métricas se pueden expresar en porcentaje multiplicando por cien.
 
     $$Recall_C = \frac{40}{6 + 9 + 40} = \frac{40}{55} = 0.7273 \; (72.73\%)$$
 
-    **Especificidad por clase:**
+    **Especificidad por clase**:
 
     Para la clase A: $FP_A = 8 + 6 = 14$, $TN_A = 45 + 7 + 9 + 40 = 101$
 
@@ -116,7 +126,13 @@ Ambas métricas se pueden expresar en porcentaje multiplicando por cien.
 
     $$Specificity_C = \frac{108}{108 + 17} = 0.8640 \; (86.40\%)$$
 
-    En resumen, para matrices de confusión multiclase, el recall se calcula a partir de la fila de la clase de interés (proporción de la diagonal respecto al total de la fila), mientras que la especificidad se obtiene considerando todos los valores que no pertenecen a dicha clase. Los verdaderos negativos corresponden a todas las celdas que no están ni en la fila ni en la columna de la clase de interés, y los falsos positivos son los valores de la columna de la clase de interés excluyendo la diagonal.
+    En resumen, para matrices de confusión multiclase, el recall se calcula a partir de
+    la fila de la clase de interés (proporción de la diagonal respecto al total de la
+    fila), mientras que la especificidad se obtiene considerando todos los valores que
+    no pertenecen a dicha clase. Los verdaderos negativos corresponden a todas las
+    celdas que no están ni en la fila ni en la columna de la clase de interés, y los
+    falsos positivos son los valores de la columna de la clase de interés excluyendo la
+    diagonal.
 
 ### ROC y AUC
 
@@ -144,3 +160,9 @@ En conjuntos de datos no balanceados, es habitual sustituir la tasa de falsos po
 correctamente clasificados respecto al total de predicciones positivas. La curva
 resultante, denominada **curva Precision-Recall**, ofrece una evaluación más equilibrada
 del rendimiento del modelo en estos escenarios.
+
+## Cierre
+
+El [siguiente capítulo](section_5_dimensionality_reduction.md) describe las técnicas
+principales para reducir la dimensionalidad de los datos: PCA, t-SNE y UMAP. Estas
+técnicas permiten visualizar los datos y mejorar la eficiencia de los modelos.

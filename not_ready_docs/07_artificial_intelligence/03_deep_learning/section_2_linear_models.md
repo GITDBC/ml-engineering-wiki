@@ -345,7 +345,7 @@ $$
 
 donde $\alpha$ es la tasa de aprendizaje o ratio de aprendizaje, un hiperparámetro que
 controla el tamaño del paso dado en cada iteración. Si $\alpha$ es demasiado grande, el
-algoritmo puede divergir; si es demasiado pequeño, la convergencia será muy lenta. El
+algoritmo puede divergir. Si es demasiado pequeño, la convergencia será muy lenta. El
 proceso se repite hasta alcanzar un mínimo adecuado de $J(w, b)$, lo que se traduce en
 predicciones más precisas.
 
@@ -363,7 +363,7 @@ $$
 El objetivo consiste en aplicar el descenso del gradiente sobre esta función, calculando
 explícitamente las derivadas parciales respecto a $x_1$ y $x_2$:
 
-```py linenums="1"
+```python linenums="1"
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -424,7 +424,7 @@ operaciones realizadas sobre los tensores, y al invocar el método `backward()`,
 la regla de la cadena para calcular las derivadas necesarias. Este mecanismo se conoce
 también como el modo inverso de diferenciación automática:
 
-```py linenums="1"
+```python linenums="1"
 import torch
 
 x = torch.tensor([2.0, 3.0], requires_grad=True)
@@ -440,6 +440,75 @@ Además, PyTorch permite desactivar el cálculo de gradientes cuando no es neces
 durante la fase de inferencia, utilizando el contexto `with torch.no_grad():` o el modo
 `with torch.inference_mode():`, que resulta aún más eficiente. Esto reduce
 significativamente el consumo de memoria y mejora el rendimiento computacional.
+
+El descenso del gradiente anterior puede escribirse sin la función `gradiente()`,
+delegando las derivadas en `autograd`. Cada iteración llama a `backward()` para obtener
+las derivadas parciales y actualiza los puntos bajo `torch.no_grad()`, de modo que la
+actualización no se registre en el grafo computacional. Como `backward()` acumula los
+gradientes, estos se reinician al final de cada iteración. El siguiente ejemplo, además,
+comprueba que el gradiente de `autograd` coincide con el analítico:
+
+```python linenums="1"
+import torch
+
+torch.manual_seed(0)
+
+
+def function(x: torch.Tensor) -> torch.Tensor:
+    """Evalúa f(x1, x2) para cada fila de la entrada.
+
+    Args:
+        x: Tensor de forma (N, 2) con los puntos donde evaluar la función.
+
+    Returns:
+        Tensor de forma (N,) con el valor de la función en cada punto.
+    """
+    x1, x2 = x[:, 0], x[:, 1]
+    return torch.sin(x1) * torch.cos(x2) + torch.sin(0.5 * x1) * torch.cos(0.5 * x2)
+
+
+def gradiente(x: torch.Tensor) -> torch.Tensor:
+    """Calcula las derivadas parciales analíticas de f(x1, x2).
+
+    Args:
+        x: Tensor de forma (N, 2) con los puntos donde evaluar el gradiente.
+
+    Returns:
+        Tensor de forma (N, 2) con las derivadas respecto a x1 y x2.
+    """
+    x1, x2 = x[:, 0], x[:, 1]
+    df_x1 = torch.cos(x1) * torch.cos(x2) + 0.5 * torch.cos(0.5 * x1) * torch.cos(0.5 * x2)
+    df_x2 = -torch.sin(x1) * torch.sin(x2) - 0.5 * torch.sin(0.5 * x1) * torch.sin(0.5 * x2)
+    return torch.stack([df_x1, df_x2], dim=1)
+
+
+# Puntos iniciales en el dominio [0, 10] con seguimiento de gradientes
+X = (torch.rand(5, 2) * 10).requires_grad_()
+
+# Los puntos son independientes, por lo que la suma permite un único cálculo
+grad_auto = torch.autograd.grad(function(X).sum(), X)[0]
+print("Gradiente de autograd igual al analítico:", torch.allclose(grad_auto, gradiente(X.detach())))
+
+learning_rate = 1e-3
+print("Valor medio de f antes:", round(function(X).mean().item(), 4))
+for _ in range(30):
+    function(X).sum().backward()
+    # La actualización no debe registrarse en el grafo computacional
+    with torch.no_grad():
+        X -= learning_rate * X.grad
+    # backward() acumula, por lo que el gradiente se reinicia en cada iteración
+    X.grad.zero_()
+print("Valor medio de f después:", round(function(X).mean().item(), 4))
+```
+
+```plaintext title="Expected output"
+Gradiente de autograd igual al analítico: True
+Valor medio de f antes: -0.4098
+Valor medio de f después: -0.4344
+```
+
+El valor medio de $f$ disminuye tras 30 iteraciones, lo que indica que los puntos se
+desplazan en el sentido de descenso.
 
 ### Descenso del gradiente estocástico y tamaño del lote
 
@@ -462,7 +531,8 @@ ejemplo. Entre ambos extremos se sitúan los _mini-batches_, con tamaños habitu
 entre 2 y 256 muestras, que constituyen el compromiso recomendado en la práctica. El
 tamaño del lote es un hiperparámetro, por lo que se ajusta manualmente junto con la tasa
 de aprendizaje y la regularización. En PyTorch se configura mediante el argumento
-`batch_size` de `DataLoader`.
+`batch_size` de `DataLoader`. Un ejemplo completo de bucle de entrenamiento con
+`DataLoader` se desarrolla en [redes neuronales](section_3_neural_networks.md).
 
 Cada lote produce una estimación del gradiente de la función de pérdida sobre todo el
 conjunto de datos. Si $B$ denota el conjunto de índices de las muestras del lote, $|B|$
@@ -547,25 +617,25 @@ El optimizador **Adam** combina las ventajas de Momentum y RMSprop, acumulando t
 media de los gradientes como la media de sus cuadrados. Su formulación se realiza en
 cuatro etapas:
 
-1. **Media de gradientes (primer momento):**
+1. **Media de gradientes (primer momento)**:
 
 $$
 m_t = \beta_1 m_{t-1} + (1-\beta_1) \, \nabla_\theta \mathcal{L}(\theta_t).
 $$
 
-2. **Media de cuadrados de gradientes (segundo momento):**
+2. **Media de cuadrados de gradientes (segundo momento)**:
 
 $$
 v_t = \beta_2 v_{t-1} + (1-\beta_2) \, \left(\nabla_\theta \mathcal{L}(\theta_t)\right)^2.
 $$
 
-3. **Corrección del sesgo inicial:**
+3. **Corrección del sesgo inicial**:
 
 $$
 \hat{m}_t = \frac{m_t}{1-\beta_1^t}, \quad \hat{v}_t = \frac{v_t}{1-\beta_2^t}.
 $$
 
-4. **Actualización final de los parámetros:**
+4. **Actualización final de los parámetros**:
 
 $$
 \theta_{t+1} = \theta_t - \frac{\eta}{\sqrt{\hat{v}_t} + \epsilon} \, \hat{m}_t.
@@ -579,7 +649,7 @@ A modo de ilustración, se presenta una implementación de los principales optim
 aplicada a la función de prueba $f(\theta) = \theta^2$, cuyo mínimo global se encuentra
 en $\theta=0$:
 
-```py linenums="1"
+```python linenums="1"
 import numpy as np
 
 # Función de pérdida y gradiente
@@ -630,10 +700,144 @@ print("RMSprop:", rmsprop(theta_init, grad))
 print("Adam:", adam(theta_init, grad))
 ```
 
+En PyTorch, estos optimizadores se encuentran en `torch.optim` y comparten la misma
+interfaz. Cada iteración sigue el patrón `zero_grad()`, `backward()` y `step()`. La
+primera operación reinicia los gradientes acumulados, la segunda calcula las derivadas
+con `autograd` y la tercera actualiza los parámetros. El siguiente ejemplo repite el
+experimento anterior sobre $f(\theta) = \theta^2$:
+
+```python linenums="1"
+import torch
+
+torch.manual_seed(0)
+
+
+def minimizar(clase_optimizador: type[torch.optim.Optimizer], **kwargs: float) -> float:
+    """Minimiza f(theta) = theta^2 durante 20 iteraciones desde theta = 5.
+
+    Args:
+        clase_optimizador: Clase del optimizador de `torch.optim`.
+        **kwargs: Hiperparámetros del optimizador.
+
+    Returns:
+        Valor final de theta.
+    """
+    theta = torch.tensor(5.0, requires_grad=True)
+    optimizador = clase_optimizador([theta], **kwargs)
+    for _ in range(20):
+        # Patrón estándar: reiniciar gradientes, retropropagar y actualizar
+        optimizador.zero_grad()
+        (theta**2).backward()
+        optimizador.step()
+    return theta.item()
+
+
+configuraciones = {
+    "SGD": (torch.optim.SGD, {"lr": 0.1}),
+    "Momentum (PyTorch)": (torch.optim.SGD, {"lr": 0.1, "momentum": 0.9}),
+    "Momentum (fórmula del texto)": (torch.optim.SGD, {"lr": 0.01, "momentum": 0.9}),
+    "RMSprop": (torch.optim.RMSprop, {"lr": 0.1, "alpha": 0.9}),
+    "Adam": (torch.optim.Adam, {"lr": 0.1}),
+}
+for nombre, (clase, hiperparametros) in configuraciones.items():
+    print(f"{nombre}: {minimizar(clase, **hiperparametros):.4f}")
+```
+
+```plaintext title="Expected output"
+SGD: 0.0576
+Momentum (PyTorch): -1.7463
+Momentum (fórmula del texto): -1.3534
+RMSprop: 2.4518
+Adam: 3.0603
+```
+
+SGD, RMSprop y Adam reproducen los valores de la implementación con NumPy. _Momentum_
+solo los reproduce con la tasa de aprendizaje indicada en la nota siguiente.
+
+!!! note
+
+    PyTorch implementa _Momentum_ como $v_t = \beta v_{t-1} + g_t$ y $\theta_{t+1} =
+    \theta_t - \eta v_t$, sin el factor $(1-\beta)$ de la fórmula presentada antes.
+    Ambas versiones coinciden si la tasa de aprendizaje de PyTorch es $\eta (1-\beta)$.
+    En el ejemplo, `lr=0.01` con `momentum=0.9` equivale a $\eta = 0.1$ en la fórmula
+    del texto, y de ahí que el resultado sea el de la versión con NumPy.
+
+### Programación de la tasa de aprendizaje
+
+Durante el entrenamiento, la función de pérdida puede estancarse y el modelo dejar de
+mejorar a pesar de seguir iterando. Una práctica habitual consiste entonces en reducir
+la tasa de aprendizaje a medida que avanza el entrenamiento, por ejemplo dividiéndola
+entre 10 ($\alpha_{\text{nueva}} = 0.1 \cdot \alpha_{\text{anterior}}$). Los
+programadores (_schedulers_) de `torch.optim.lr_scheduler` automatizan esta reducción.
+`StepLR` la aplica cada número fijo de épocas, mientras que `ReduceLROnPlateau` la
+aplica cuando la métrica monitorizada no mejora durante `patience` épocas. Por defecto
+vigila una magnitud que debe disminuir (`mode="min"`, como la pérdida de validación), y
+con `mode="max"` puede vigilar una métrica que debe aumentar, como la exactitud. El
+siguiente ejemplo muestra la evolución de la tasa de aprendizaje con ambos
+programadores, usando una secuencia de pérdidas sintética:
+
+```python linenums="1"
+import torch
+
+torch.manual_seed(0)
+
+
+def crear_optimizador() -> torch.optim.Optimizer:
+    """Crea un optimizador SGD con tasa de aprendizaje 0.1 sobre un parámetro ficticio.
+
+    Returns:
+        Optimizador listo para asociarlo a un programador de la tasa de aprendizaje.
+    """
+    parametro = torch.nn.Parameter(torch.zeros(1))
+    return torch.optim.SGD([parametro], lr=0.1)
+
+
+# Reducción fija: la tasa se multiplica por 0.1 cada 3 épocas
+optimizador = crear_optimizador()
+scheduler = torch.optim.lr_scheduler.StepLR(optimizador, step_size=3, gamma=0.1)
+for epoca in range(6):
+    optimizador.step()
+    scheduler.step()
+    print(f"StepLR, época {epoca + 1}: lr = {scheduler.get_last_lr()[0]:.4f}")
+
+# Reducción adaptativa: la tasa se reduce si la pérdida no mejora durante 2 épocas
+optimizador = crear_optimizador()
+scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(
+    optimizador, mode="min", factor=0.1, patience=2
+)
+perdidas = [1.0, 0.8, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7]
+for epoca, perdida in enumerate(perdidas):
+    optimizador.step()
+    scheduler.step(perdida)
+    print(f"ReduceLROnPlateau, época {epoca + 1}: lr = {scheduler.get_last_lr()[0]:.4f}")
+```
+
+```plaintext title="Expected output"
+StepLR, época 1: lr = 0.1000
+StepLR, época 2: lr = 0.1000
+StepLR, época 3: lr = 0.0100
+StepLR, época 4: lr = 0.0100
+StepLR, época 5: lr = 0.0100
+StepLR, época 6: lr = 0.0010
+ReduceLROnPlateau, época 1: lr = 0.1000
+ReduceLROnPlateau, época 2: lr = 0.1000
+ReduceLROnPlateau, época 3: lr = 0.1000
+ReduceLROnPlateau, época 4: lr = 0.1000
+ReduceLROnPlateau, época 5: lr = 0.1000
+ReduceLROnPlateau, época 6: lr = 0.0100
+ReduceLROnPlateau, época 7: lr = 0.0100
+ReduceLROnPlateau, época 8: lr = 0.0100
+```
+
+`StepLR` reduce la tasa al final de las épocas 3 y 6 sin mirar la pérdida.
+`ReduceLROnPlateau` espera a que la pérdida lleve tres épocas sin mejorar desde su
+mínimo (época 3), es decir, más de `patience=2`, y solo entonces la reduce al final de
+la época 6.
+
 ## Métodos de regularización
 
 En el contexto de la regresión lineal, es posible obtener una solución analítica para
-los pesos del modelo mediante la **pseudoinversa de Moore–Penrose**, que proporciona una
+los pesos del modelo mediante la **pseudoinversa de Moore-Penrose**, que proporciona una
 estimación cerrada de los parámetros cuando la matriz de diseño no es cuadrada o no
 tiene inversa directa. Esta solución se expresa como:
 
@@ -715,12 +919,14 @@ de regularización más utilizadas destacan:
   transformaciones aplicadas a los datos originales, como rotaciones, traslaciones,
   cambios de escala o variaciones de iluminación. Esta técnica incrementa la diversidad
   del conjunto de entrenamiento y hace que el modelo sea menos sensible a variaciones
-  irrelevantes.
+  irrelevantes. Un ejemplo con `torchvision.transforms.v2` se desarrolla en
+  [redes convolucionales](section_4_cnn.md).
 
 - **Detención temprana (_early stopping_)**: Supervisa el rendimiento del modelo sobre
   el conjunto de validación y detiene el entrenamiento cuando el error deja de mejorar,
   evitando que la red se ajuste demasiado a las particularidades del conjunto de
-  entrenamiento.
+  entrenamiento. Un ejemplo con paciencia y restauración del mejor modelo se desarrolla
+  en [redes neuronales](section_3_neural_networks.md).
 
 - **Normalización de entradas**: Escala y centra las características de los datos para
   garantizar magnitudes comparables, acelerando la convergencia, mejorando la
@@ -728,6 +934,43 @@ de regularización más utilizadas destacan:
   práctica habitual consiste en restar la media y dividir por la desviación estándar de
   cada característica, de modo que los datos queden centrados en cero con varianza
   unitaria.
+
+En PyTorch, el _dropout_ se aplica con la capa `nn.Dropout(p)`, que anula cada unidad
+con probabilidad $p$ y multiplica las restantes por $1/(1-p)$ para conservar el valor
+esperado de la salida. Este escalado equivale al ajuste proporcional de los pesos, pero
+se realiza durante el entrenamiento. El comportamiento de la capa depende del modo del
+modelo, como muestra el siguiente ejemplo sobre un vector de unos:
+
+```python linenums="1"
+import torch
+from torch import nn
+
+torch.manual_seed(0)
+
+dropout = nn.Dropout(p=0.5)
+x = torch.ones(8)
+
+# En entrenamiento se anulan unidades al azar y el resto se escala por 1 / (1 - p)
+dropout.train()
+print("Entrenamiento:", dropout(x))
+
+# En inferencia la capa es la identidad
+dropout.eval()
+print("Inferencia:   ", dropout(x))
+```
+
+```plaintext title="Expected output"
+Entrenamiento: tensor([0., 0., 2., 0., 0., 0., 2., 2.])
+Inferencia:    tensor([1., 1., 1., 1., 1., 1., 1., 1.])
+```
+
+En entrenamiento, con $p = 0.5$, las unidades que sobreviven duplican su valor y la
+selección cambia en cada llamada. En inferencia, la capa no modifica la entrada.
+
+La regularización L2 se activa en `torch.optim` mediante el argumento `weight_decay`,
+que suma `weight_decay * w` al gradiente de cada parámetro. El optimizador `AdamW`
+aplica ese decaimiento de forma desacoplada del gradiente adaptativo, por lo que es la
+variante habitual de Adam cuando se regulariza.
 
 En complemento a la regularización, las técnicas de **normalización de activaciones**
 resultan esenciales para estabilizar el entrenamiento y acelerar la convergencia.
@@ -810,7 +1053,7 @@ $$
 $$
 
 donde $H(\mathbf{y})$ representa la entropía de las etiquetas verdaderas y
-$D_{KL}(\mathbf{y} \,||\, \mathbf{p})$ es la **divergencia de Kullback–Leibler**,
+$D_{KL}(\mathbf{y} \,||\, \mathbf{p})$ es la **divergencia de Kullback-Leibler**,
 definida como:
 
 $$
@@ -819,6 +1062,15 @@ $$
 
 Minimizar la entropía cruzada implica reducir la divergencia entre la distribución
 predicha y la distribución verdadera.
+
+!!! note "Entropía cruzada en PyTorch"
+
+    La pérdida `nn.CrossEntropyLoss` recibe los _logits_ sin normalizar y no las
+    probabilidades, porque aplica internamente `log_softmax`. Por ello la última capa
+    del modelo no incluye _Softmax_ durante el entrenamiento. Como objetivo admite los
+    índices enteros de la clase correcta, sin necesidad de codificación _one-hot_, y
+    también distribuciones de probabilidad por clase. Su argumento
+    `label_smoothing=ε` aplica el suavizado de etiquetas descrito anteriormente.
 
 ## Incertidumbre, calibración y pérdida focal
 
@@ -888,19 +1140,21 @@ $\gamma = 0$, la pérdida focal se reduce a la entropía cruzada estándar.
 
 Para ilustrar de forma práctica los conceptos presentados anteriormente, a continuación
 se muestra una implementación básica de la regresión logística utilizando Python y la
-librería NumPy. Este ejemplo incluye todas las etapas fundamentales del modelo: la
+biblioteca NumPy. Este ejemplo incluye todas las etapas fundamentales del modelo: la
 inicialización de parámetros, _forward propagation_, _backward propagation_, la
 actualización de los parámetros mediante descenso del gradiente y, finalmente, la
 generación de predicciones y la evaluación del modelo:
 
-```py linenums="1"
+```python linenums="1"
 import numpy as np
 import matplotlib.pyplot as plt
 
 # Dataset de ejemplo
 np.random.seed(1)
-m = 200  # número de ejemplos
-n = 2    # número de características
+# número de ejemplos
+m = 200
+# número de características
+n = 2
 
 # Clase 0
 X0 = np.random.randn(m//2, n) + np.array([-2, -2])
@@ -984,3 +1238,64 @@ plt.ylabel("Coste")
 plt.title("Reducción del coste durante el entrenamiento")
 plt.show()
 ```
+
+La misma regresión logística se expresa en PyTorch con una capa `nn.Linear`, que calcula
+$z = \mathbf{w}^\top \mathbf{x} + b$, y la pérdida `nn.BCEWithLogitsLoss`, que combina
+la sigmoide con la entropía cruzada binaria en una única operación, más estable
+numéricamente que aplicar la sigmoide y calcular después el logaritmo. Las funciones
+`backward_propagation` y `update_params` desaparecen, porque `backward()` obtiene los
+gradientes y `torch.optim.SGD` actualiza los parámetros. El siguiente ejemplo entrena el
+modelo sobre el mismo conjunto de datos sintético:
+
+```python linenums="1"
+import numpy as np
+import torch
+from torch import nn
+
+torch.manual_seed(0)
+
+# Mismo conjunto de datos que en la versión con NumPy
+np.random.seed(1)
+m = 200
+X0 = np.random.randn(m // 2, 2) + np.array([-2, -2])
+X1 = np.random.randn(m // 2, 2) + np.array([2, 2])
+X = torch.tensor(np.vstack((X0, X1)), dtype=torch.float32)
+Y = torch.cat((torch.zeros(m // 2, 1), torch.ones(m // 2, 1)))
+
+# La capa lineal calcula z = w^T x + b y la sigmoide va incluida en la pérdida
+modelo = nn.Linear(2, 1)
+func_perdida = nn.BCEWithLogitsLoss()
+optimizador = torch.optim.SGD(modelo.parameters(), lr=0.1)
+
+for i in range(1000):
+    optimizador.zero_grad()
+    coste = func_perdida(modelo(X), Y)
+    coste.backward()
+    optimizador.step()
+    if i % 250 == 0:
+        print(f"Iteración {i}: coste = {coste.item():.4f}")
+
+# La predicción binaria se obtiene con la sigmoide y el umbral 0.5, sin gradientes
+with torch.no_grad():
+    Y_pred = (torch.sigmoid(modelo(X)) > 0.5).float()
+print(f"Exactitud del modelo: {(Y_pred == Y).float().mean().item() * 100:.2f}%")
+```
+
+```plaintext title="Expected output"
+Iteración 0: coste = 0.4318
+Iteración 250: coste = 0.0258
+Iteración 500: coste = 0.0205
+Iteración 750: coste = 0.0184
+Exactitud del modelo: 99.50%
+```
+
+El coste inicial difiere del 0.6931 de la versión con NumPy, porque `nn.Linear` parte de
+pesos aleatorios en lugar de nulos, pero la exactitud final es la misma.
+
+## Cierre
+
+Una vez entendido el entrenamiento de un modelo lineal mediante el descenso del
+gradiente, el [siguiente capítulo](section_3_neural_networks.md) desarrolla las redes
+neuronales, desde la neurona artificial hasta las estrategias de optimización y el
+aprendizaje por transferencia. Incluye además la diferenciación automática, que
+generaliza el cálculo de gradientes a modelos con muchas capas.

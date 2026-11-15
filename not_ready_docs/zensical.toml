@@ -25,7 +25,9 @@ nav = [
         {"Python" = [
             "03_programming/01_python/section_1_environments.md",
             "03_programming/01_python/section_2_fundamentals.md",
-            "03_programming/01_python/section_3_libraries.md",
+            "03_programming/01_python/section_3_oop_and_advanced.md",
+            "03_programming/01_python/section_4_standard_library.md",
+            "03_programming/01_python/section_5_libraries.md",
         ]},
         {"Rust" = [
             "03_programming/02_rust/section_1_fundamentals.md",
@@ -38,6 +40,28 @@ nav = [
         ]},
         {"Desarrollo web" = [
             "03_programming/04_web/section_1_fundamentals.md"
+        ]},
+        {"C para sistemas" = [
+            "03_programming/05_c_systems/section_1_fundamentals.md",
+            "03_programming/05_c_systems/section_2_files.md",
+            "03_programming/05_c_systems/section_3_processes.md",
+            "03_programming/05_c_systems/section_4_ipc.md",
+            "03_programming/05_c_systems/section_5_signals.md",
+            "03_programming/05_c_systems/section_6_state_machines.md",
+            "03_programming/05_c_systems/section_7_sockets.md"
+        ]},
+        {"C++" = [
+            "03_programming/06_cpp/section_1_fundamentals.md",
+            "03_programming/06_cpp/section_2_functions_and_data.md",
+            "03_programming/06_cpp/section_3_files.md",
+            "03_programming/06_cpp/section_4_oop.md",
+            "03_programming/06_cpp/section_5_memory.md"
+        ]},
+        {"Programación concurrente" = [
+            "03_programming/07_concurrency/section_1_fundamentals.md",
+            "03_programming/07_concurrency/section_2_shared_memory.md",
+            "03_programming/07_concurrency/section_3_message_passing_events.md",
+            "03_programming/07_concurrency/section_4_classic_problems.md"
         ]}
     ]},
     {"Ingeniería y operaciones" = [
@@ -60,13 +84,18 @@ nav = [
         {"Cloud" = [
             "05_infrastructure/02_cloud/section_1_fundamentals.md",
             "05_infrastructure/02_cloud/section_2_aws.md"
+        ]},
+        {"Redes" = [
+            "05_infrastructure/03_networking/section_1_tcpip.md"
         ]}
     ]},
     {"Inteligencia artificial" = [
         {"Matemáticas" = [
             "07_artificial_intelligence/01_mathematics/section_1_statistics.md",
             "07_artificial_intelligence/01_mathematics/section_2_deep_learning_math.md",
-            "07_artificial_intelligence/01_mathematics/section_3_vector_calculus.md"
+            "07_artificial_intelligence/01_mathematics/section_3_vector_calculus.md",
+            "07_artificial_intelligence/01_mathematics/section_4_optimization.md",
+            "07_artificial_intelligence/01_mathematics/section_5_numerical_computing.md"
         ]},
         {"Machine Learning" = [
             "07_artificial_intelligence/02_machine_learning/section_1_fundamentals.md",
@@ -86,10 +115,7 @@ nav = [
             "07_artificial_intelligence/03_deep_learning/section_7_generative_ai.md",
             "07_artificial_intelligence/03_deep_learning/section_8_graph_neural_networks.md",
             "07_artificial_intelligence/03_deep_learning/section_9_reinforcement_learning.md",
-            "07_artificial_intelligence/03_deep_learning/section_10_agents.md",
-            "07_artificial_intelligence/03_deep_learning/libraries/jax.md",
-            "07_artificial_intelligence/03_deep_learning/libraries/pytorch.md",
-            "07_artificial_intelligence/03_deep_learning/libraries/tensorflow.md"
+            "07_artificial_intelligence/03_deep_learning/section_10_agents.md"
         ]},
         {"Desarrollo con IA" = [
             "07_artificial_intelligence/04_ai_development/section_1_fundamentals.md",

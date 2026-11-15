@@ -15,7 +15,7 @@ title: Aprendizaje por Refuerzo
 El **Aprendizaje por Refuerzo** (_Reinforcement Learning_, RL) constituye un paradigma
 del aprendizaje automático en el cual un agente aprende a tomar decisiones mediante la
 interacción continua con un entorno. A diferencia del aprendizaje supervisado, en RL no
-se proporcionan ejemplos etiquetados; el comportamiento deseado se induce mediante un
+se proporcionan ejemplos etiquetados. El comportamiento deseado se induce mediante un
 **sistema de recompensas**, cuyo propósito es incentivar al agente a ejecutar acciones
 que maximicen su desempeño a largo plazo. La señal de recompensa actúa, por tanto, como
 el principal mecanismo de guía del aprendizaje.
@@ -44,7 +44,7 @@ relevante del entorno. Una hipótesis fundamental es la **propiedad de Markov**,
 cual el futuro depende únicamente del estado presente y no de la secuencia completa de
 eventos pasados. La **acción** $A$ es la decisión que el agente toma en un estado
 determinado y que provoca una transición en el entorno. La **recompensa** $R$ es una
-señal escalar inmediata que evalúa la acción realizada; en muchos modelos se define como
+señal escalar inmediata que evalúa la acción realizada. En muchos modelos se define como
 $R(S)$, dependiendo del estado alcanzado. En los **estados terminales** no se otorgan
 recompensas adicionales.
 
@@ -103,7 +103,7 @@ política $\pi$:
 $V^{\pi}(s) = \mathbb{E}_{\pi}\left[\sum_{t=0}^{\infty} \gamma^t R_t \mid S_0 =
 s\right]$
 
-La **función de valor acción–estado** $Q^{\pi}(s,a)$ estima el retorno esperado al
+La **función de valor acción-estado** $Q^{\pi}(s,a)$ estima el retorno esperado al
 ejecutar la acción $a$ en el estado $s$ y continuar siguiendo la política $\pi$:
 
 $Q^{\pi}(s,a) = \mathbb{E}_{\pi}\left[\sum_{t=0}^{\infty} \gamma^t R_t \mid S_0 = s, A_0
@@ -196,3 +196,10 @@ En conclusión, el aprendizaje por refuerzo proporciona un marco riguroso y flex
 el diseño de agentes autónomos capaces de aprender estrategias óptimas en entornos
 complejos, combinando teoría de procesos de decisión de Markov, funciones de valor,
 políticas estocásticas y métodos avanzados de aproximación y actualización.
+
+## Cierre
+
+El [último capítulo](section_10_agents.md) introduce los agentes basados en modelos de
+lenguaje, que razonan, planifican e interactúan con su entorno mediante herramientas.
+Sigue al aprendizaje por refuerzo porque retoma la noción de agente que actúa sobre un
+entorno.

@@ -65,30 +65,30 @@ el documento para que sea compatible con estas herramientas.
 Para lograr una estructura clara, lógica y profesional, se recomienda organizar el
 currículum en las siguientes secciones:
 
-- **Encabezado (datos de contacto):** Incluye nombre y apellidos, teléfono, correo
+- **Encabezado (datos de contacto)**: Incluye nombre y apellidos, teléfono, correo
   electrónico profesional, ubicación y enlaces a perfiles relevantes como LinkedIn o
   GitHub. Para candidaturas de ámbito nacional suele bastar con indicar la ciudad,
   mientras que en procesos internacionales conviene especificar también el país de
   residencia, ya que esto informa a la empresa de la necesidad de contemplar tiempos de
   traslado, tramitación de visado u otros aspectos logísticos en caso de aceptar el
   puesto.
-- **Resumen profesional:** Un breve párrafo de entre 60 y 100 palabras que resuma la
+- **Resumen profesional**: Un breve párrafo de entre 60 y 100 palabras que resuma la
   especialidad, los logros más relevantes y las palabras clave alineadas con el puesto.
-- **Experiencia profesional:** Presentada en orden cronológico inverso, de lo más
+- **Experiencia profesional**: Presentada en orden cronológico inverso, de lo más
   reciente a lo más antiguo, bajo el formato **\[Puesto\] | \[Empresa\] | \[Fechas\]**.
   Se deben describir logros concretos y medibles utilizando la **fórmula XYZ**, es
   decir, _«Logré X, medido por Y, realizando Z»_. Resulta fundamental reflejar tanto las
   **habilidades técnicas (_hard skills_)** como las **habilidades blandas (_soft
   skills_)**, siempre aplicadas a situaciones reales. En los primeros años de carrera,
   el peso de la parte técnica suele ser mayor.
-- **Educación y certificaciones:** Sigue el formato **\[Grado académico\] |
+- **Educación y certificaciones**: Sigue el formato **\[Grado académico\] |
   \[Institución\] | \[Año\]** e incluye certificaciones técnicas de peso, como las de
   AWS, Azure o similares. Los cursos en línea, por ejemplo de Coursera, generalmente
   aportan poco valor al currículum y restan espacio a proyectos más relevantes, aunque
   pueden mencionarse durante la entrevista. Resultan útiles cuando la experiencia
   laboral o el número de proyectos es limitado, en cuyo caso conviene respaldarlos con
   evidencias del trabajo realizado.
-- **Proyectos y publicaciones (opcional):** Sección valiosa para perfiles con poca
+- **Proyectos y publicaciones (opcional)**: Sección valiosa para perfiles con poca
   experiencia, procesos de cambio de carrera o cuando los trabajos realizados están
   directamente vinculados al puesto solicitado. Las publicaciones y la participación en
   congresos tienen un gran peso cuando los perfiles son de I+D.
@@ -114,23 +114,23 @@ genéricas en resultados medibles.
 Para que el currículum resulte claro, conciso y estratégico, se sugiere seguir estas
 recomendaciones:
 
-1. **Adaptación:** Incorporar palabras clave de la descripción del puesto. Una
+1. **Adaptación**: Incorporar palabras clave de la descripción del puesto. Una
    estrategia útil consiste en crear una nube de palabras de la oferta de trabajo para
    identificar los términos esenciales e incluirlos en el texto.
-2. **Formato compatible con ATS:** Evitar imágenes, gráficos o tablas que dificulten la
+2. **Formato compatible con ATS**: Evitar imágenes, gráficos o tablas que dificulten la
    lectura automática y emplear tipografías legibles como Arial, Calibri o Times New
    Roman.
-3. **Extensión:** Mantener una extensión máxima de una página, ampliable a dos solo en
+3. **Extensión**: Mantener una extensión máxima de una página, ampliable a dos solo en
    casos de amplia trayectoria o perfiles académicos y de alta dirección.
-4. **Calidad:** Eliminar cualquier error ortográfico o gramatical y evitar frases
+4. **Calidad**: Eliminar cualquier error ortográfico o gramatical y evitar frases
    genéricas o clichés que no aporten información sustancial.
 
 !!! tip "Alineación con la oferta"
 
     Antes de enviar la candidatura conviene contrastar el vocabulario del currículum con
     el de la descripción del puesto. Cuanto mayor sea la coincidencia de términos
-    relevantes, mayor será la probabilidad de superar el filtro automático y de captar la
-    atención del reclutador en la primera lectura.
+    relevantes, mayor será la probabilidad de superar el filtro automático y de captar
+    la atención del reclutador en la primera lectura.
 
 ## LinkedIn
 
@@ -142,11 +142,11 @@ la probabilidad de ser contactado para entrevistas.
 
 Un perfil sólido comienza con una estética cuidada y profesional:
 
-- **Foto de perfil:** Debe ser clara y transmitir cercanía. Se recomienda emplear un
+- **Foto de perfil**: Debe ser clara y transmitir cercanía. Se recomienda emplear un
   fondo neutro, vestimenta formal o semiformal y una expresión natural.
-- **Banner personalizado:** Constituye una oportunidad para reforzar la especialidad
+- **Banner personalizado**: Constituye una oportunidad para reforzar la especialidad
   técnica y proyectar una identidad visual coherente con el sector.
-- **URL personalizada:** Resulta fundamental contar con una dirección limpia y fácil de
+- **URL personalizada**: Resulta fundamental contar con una dirección limpia y fácil de
   recordar, por ejemplo `linkedin.com/in/nombre-apellido` en lugar de una cadena de
   números genérica. Esto facilita su inclusión en el currículum y en otros documentos.
 
@@ -193,12 +193,12 @@ Las preguntas suelen clasificarse en dos categorías principales:
 
 ???+ example "Método CARL aplicado a una pregunta conductual"
 
-    Ante la pregunta _«Cuéntame una ocasión en la que resolviste un problema técnico bajo
-    presión»_, una respuesta estructurada con el método CARL describiría el **Contexto**
-    (una incidencia en producción durante un pico de tráfico), la **Acción** (el
-    diagnóstico y la corrección aplicada), los **Resultados** (el servicio restablecido
-    en pocos minutos y sin pérdida de datos) y la **Lección** (la incorporación de
-    alertas automáticas para anticipar situaciones similares).
+    Ante la pregunta _«Cuéntame una ocasión en la que resolviste un problema técnico
+    bajo presión»_, una respuesta estructurada con el método CARL describiría el
+    **Contexto** (una incidencia en producción durante un pico de tráfico), la
+    **Acción** (el diagnóstico y la corrección aplicada), los **Resultados** (el
+    servicio restablecido en pocos minutos y sin pérdida de datos) y la **Lección** (la
+    incorporación de alertas automáticas para anticipar situaciones similares).
 
 ### Preparación de preguntas clave
 
@@ -207,29 +207,29 @@ Las preguntas suelen clasificarse en dos categorías principales:
 Se recomienda estructurar la respuesta siguiendo la línea temporal **Presente, Pasado y
 Futuro**:
 
-- **Presente:** Rol actual y logros principales.
-- **Pasado:** Experiencia previa más relevante para el puesto.
-- **Futuro:** Cómo encaja el perfil con los objetivos de la empresa.
+- **Presente**: Rol actual y logros principales.
+- **Pasado**: Experiencia previa más relevante para el puesto.
+- **Futuro**: Cómo encaja el perfil con los objetivos de la empresa.
 
 #### ¿Dónde te ves en X años?
 
 El entrevistador busca compromiso y proyección. Un enfoque realista y profesional sería
 el siguiente:
 
-- **Corto plazo (de 1 a 2 años):** Aprendizaje profundo de los procesos, productos,
+- **Corto plazo (de 1 a 2 años)**: Aprendizaje profundo de los procesos, productos,
   clientes y retos del equipo.
-- **Medio plazo (de 3 a 4 años):** Generación de soluciones con impacto directo en la
+- **Medio plazo (de 3 a 4 años)**: Generación de soluciones con impacto directo en la
   organización.
-- **Largo plazo:** Evolución hacia roles de especialización técnica, liderazgo o
+- **Largo plazo**: Evolución hacia roles de especialización técnica, liderazgo o
   mentoría.
 
 #### ¿Por qué deberíamos contratarte?
 
 Una estructura efectiva para esta respuesta es la **regla del 50/30/20**:
 
-- **50 %:** Lo que se aporta y cómo los logros conectan con los requisitos del puesto.
-- **30 %:** Las motivaciones y por qué se desea unirse específicamente a esa empresa.
-- **20 %:** El factor diferenciador, ya sea un rasgo personal, una experiencia singular
+- **50 %**: Lo que se aporta y cómo los logros conectan con los requisitos del puesto.
+- **30 %**: Las motivaciones y por qué se desea unirse específicamente a esa empresa.
+- **20 %**: El factor diferenciador, ya sea un rasgo personal, una experiencia singular
   o un ejemplo memorable.
 
 ### Preguntas para plantear a la empresa
@@ -238,7 +238,7 @@ Una entrevista es un diálogo bidireccional, por lo que también resulta esencia
 preguntas que ayuden a evaluar si la empresa y el puesto encajan con las expectativas
 del candidato. A continuación se recogen preguntas útiles organizadas por temática.
 
-**Compensación y beneficios:**
+**Compensación y beneficios**:
 
 - ¿El salario indicado es bruto anual y en cuántas pagas se reparte?
 - Además del salario base, ¿qué beneficios ofrecen, como ticket restaurante, seguro
@@ -249,7 +249,7 @@ del candidato. A continuación se recogen preguntas útiles organizadas por tem�
 - ¿Cuántos días de vacaciones ofrecen?
 - ¿Hay bonus variable anual? ¿Cómo se calcula?
 
-**Modalidad de trabajo:**
+**Modalidad de trabajo**:
 
 - ¿Cuál es la política de teletrabajo? ¿Qué porcentaje de días es obligatorio acudir a
   la oficina?
@@ -258,7 +258,7 @@ del candidato. A continuación se recogen preguntas útiles organizadas por tem�
 - Si el puesto es remoto, ¿se aporta el equipo de trabajo, ayuda para material de
   oficina o compensación por los gastos de internet y luz?
 
-**Crecimiento profesional:**
+**Crecimiento profesional**:
 
 - ¿Qué posibilidades de crecimiento hay en el equipo y en la empresa?
 - ¿Ofrecen formación pagada, certificaciones o asistencia a conferencias?
@@ -268,7 +268,7 @@ del candidato. A continuación se recogen preguntas útiles organizadas por tem�
 - ¿Hay tiempo reservado dentro de la jornada para formación, investigación o proyectos
   internos?
 
-**El día a día y el equipo:**
+**El día a día y el equipo**:
 
 - ¿Cómo es el equipo en el que se trabajaría? ¿Cuántas personas lo componen y qué roles
   desempeñan?
@@ -280,7 +280,7 @@ del candidato. A continuación se recogen preguntas útiles organizadas por tem�
   herramienta de apoyo o se espera que reemplace parte del desarrollo? ¿Cómo afecta eso
   a los tiempos de entrega y a las expectativas sobre el desarrollador?
 
-**Preguntas clave para un cambio de trabajo:**
+**Preguntas clave para un cambio de trabajo**:
 
 - ¿Cómo es la rotación en la empresa? ¿Cuál es la antigüedad media del equipo?
 - ¿Cuánto dura el periodo de prueba y en qué condiciones?
@@ -294,7 +294,7 @@ del candidato. A continuación se recogen preguntas útiles organizadas por tem�
   prensa o rondas de financiación) y, en la entrevista, abordarlo de forma indirecta a
   través del modelo de negocio y de la procedencia de los ingresos.
 
-**Sobre el propio proceso de selección:**
+**Sobre el propio proceso de selección**:
 
 - ¿Cuáles son los siguientes pasos y en qué plazo se comunicaría una decisión?
 - ¿Cuántas fases quedan y en qué consisten? Si hay prueba técnica, ¿cuánto tiempo
@@ -325,16 +325,16 @@ no continuar con el proceso, salvo que exista una necesidad específica.
 
 ### Estrategias de negociación
 
-- **Definir un suelo salarial:** Resulta fundamental tener clara una cifra que garantice
+- **Definir un suelo salarial**: Resulta fundamental tener clara una cifra que garantice
   condiciones de vida favorables y realistas. A partir de ese número, se recomienda
   añadir un margen adicional como espacio de maniobra.
-- **Priorizar el rango de la empresa:** Una buena práctica consiste en preguntar primero
+- **Priorizar el rango de la empresa**: Una buena práctica consiste en preguntar primero
   cuál es el rango presupuestado para la posición, lo que evita proponer una cifra a la
   baja y permite alinearse con las expectativas de la empresa. En ocasiones, los
   reclutadores no facilitan ese dato. En tales casos, lo habitual es proponer una cifra
   más alta o un rango salarial amplio, ajustándolo a medida que se obtiene más
   información sobre las responsabilidades reales del puesto.
-- **Justificar la petición:** Las pretensiones económicas deben estar respaldadas por
+- **Justificar la petición**: Las pretensiones económicas deben estar respaldadas por
   argumentos sólidos, como los años de experiencia, los proyectos que hayan generado
   beneficios medibles, el dominio de tecnologías clave o las actividades adicionales que
   distingan al candidato.

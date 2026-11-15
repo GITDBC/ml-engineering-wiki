@@ -119,3 +119,78 @@ pueden tomar cualquier número dentro de un rango, como la altura de una persona
 pueden existir valores intermedios con una precisión arbitraria. En contraste, los
 valores discretos solo pueden asumir ciertos valores específicos, como la cantidad de
 páginas de un libro, donde no existen valores intermedios entre un número entero y otro.
+
+#### Datos categóricos
+
+Los datos **categóricos** toman valores de un conjunto finito de categorías sin un orden
+numérico entre ellas, como el tipo de planta o el color de un objeto. Como los modelos
+operan con números, cada categoría se codifica antes de entrenar. Asignar un entero a
+cada categoría introduciría un orden y una distancia que no existen, por lo que se
+recurre a la codificación **_one-hot_** (**_one-hot encoding_**): cada muestra se
+representa con un vector de $k$ componentes, todas a cero salvo la de su clase, que vale
+uno. Con NumPy, la fila $i$ de la matriz identidad de tamaño $k$ es el vector _one-hot_
+de la clase $i$, y la operación inversa se obtiene con `argmax` sobre cada fila.
+
+???+ example "Codificación _one-hot_ y su inversa"
+
+    El ejemplo codifica seis etiquetas con tres categorías y recupera los índices
+    originales.
+
+    ```python linenums="1"
+    import numpy as np
+
+
+    def codificar_one_hot(y: np.ndarray, k: int) -> np.ndarray:
+        """Codifica un vector de índices de clase en una matriz one-hot.
+
+        Args:
+            y: Vector de enteros en el rango [0, k) con una etiqueta por muestra.
+            k: Número de categorías distintas.
+
+        Returns:
+            Matriz de forma (n, k) con un 1 en la columna de la clase de cada muestra.
+        """
+        # Cada fila de la identidad es el vector one-hot de una clase
+        return np.eye(k)[y]
+
+
+    def decodificar_one_hot(y_one_hot: np.ndarray) -> np.ndarray:
+        """Recupera los índices de clase a partir de una matriz one-hot.
+
+        Args:
+            y_one_hot: Matriz de forma (n, k) con codificación one-hot.
+
+        Returns:
+            Vector de n enteros con el índice de la clase de cada muestra.
+        """
+        # La posición del valor máximo de cada fila es el índice de la clase
+        return np.argmax(y_one_hot, axis=1)
+
+
+    # Etiquetas de seis muestras con tres categorías: 0, 1 y 2
+    y = np.array([0, 2, 1, 2, 0, 1])
+    y_one_hot = codificar_one_hot(y, k=3)
+    print(y_one_hot)
+    print(decodificar_one_hot(y_one_hot))
+    ```
+
+    ```plaintext title="Expected output"
+    [[1. 0. 0.]
+     [0. 0. 1.]
+     [0. 1. 0.]
+     [0. 0. 1.]
+     [1. 0. 0.]
+     [0. 1. 0.]]
+    [0 2 1 2 0 1]
+    ```
+
+No todos los modelos necesitan esta codificación en las etiquetas. En PyTorch,
+`nn.CrossEntropyLoss` recibe los índices de clase directamente, por lo que no requiere
+_one-hot_ en la variable dependiente.
+
+## Cierre
+
+Con los conceptos básicos y los tipos de datos ya presentados, el
+[siguiente capítulo](section_2_supervised_models.md) describe modelos de aprendizaje
+supervisado concretos: Naïve Bayes, árboles de decisión, máquinas de vectores de soporte
+y XGBoost.

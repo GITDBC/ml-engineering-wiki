@@ -140,7 +140,7 @@ $$
 ### Gradientes de funciones con valor vectorial
 
 Para una función $f: \mathbb{R}^{n} \to \mathbb{R}^{m}$ y un vector $\mathbf{x} =
-\lbrack x_1, \ldots, x_n \rbrack^{T} \in \mathbb{R}^{n}$, el vector de valores de la
+\lbrack x_1, \ldots, x_n \rbrack^{\top} \in \mathbb{R}^{n}$, el vector de valores de la
 función se escribe como:
 
 $$
@@ -241,7 +241,7 @@ Dada una estructura de red definida por $f_0 := \mathbf{x}_0$ y $f_i :=
 objetivo consiste en encontrar los parámetros que minimizan la pérdida cuadrática:
 
 $$
-L(\theta) = \lVert y - f_K(\theta, \mathbf{x}) \rVert^{2}
+L(\theta) = \Vert y - f_K(\theta, \mathbf{x}) \Vert^{2}
 $$
 
 $$
@@ -375,3 +375,8 @@ económicas a esta información de curvatura.
 Los fundamentos de probabilidad y distribuciones que completan este aparato matemático,
 y que sustentan los modelos probabilísticos, se tratan en el capítulo de
 [estadística](section_1_statistics.md).
+
+El siguiente capítulo, [optimización](section_4_optimization.md), aplica estas
+herramientas a la minimización de funciones de pérdida: la aproximación de Taylor, la
+clasificación de puntos críticos con la Hessiana y la optimización con restricciones
+mediante multiplicadores de Lagrange.

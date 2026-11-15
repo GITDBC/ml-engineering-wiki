@@ -64,3 +64,9 @@ original.
   ![Elección de un método de reducción de dimensionalidad](../../assets/img/docs/machine_learning/ml-dimensionality-choosing-method.svg)
   <figcaption>Flujo de decisión para elegir un método de reducción de dimensionalidad según el uso que se vaya a dar a la salida.</figcaption>
 </figure>
+
+## Cierre
+
+El [siguiente capítulo](section_6_advanced.md) aborda técnicas avanzadas de aprendizaje
+automático, como la imputación de datos, la detección de anomalías, los sistemas de
+recomendación y los modelos probabilísticos, que se apoyan en lo visto hasta aquí.

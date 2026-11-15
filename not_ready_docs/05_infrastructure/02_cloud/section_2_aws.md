@@ -163,6 +163,10 @@ virtuales aisladas dentro de la infraestructura de AWS. Cada VPC funciona como u
 entorno de red privado en el que se despliegan los recursos, con control total sobre el
 rango de direcciones IP, las tablas de enrutamiento y las puertas de enlace.
 
+Los conceptos de direccionamiento IPv4, máscaras y notación CIDR que sustentan estas
+redes se explican en el capítulo de
+[redes y TCP/IP](../03_networking/section_1_tcpip.md).
+
 Al crear una cuenta de AWS, se genera automáticamente una **VPC por defecto** en cada
 región, configurada para que los recursos desplegados en ella tengan acceso a Internet
 de forma inmediata. Si bien esta configuración resulta conveniente para pruebas y

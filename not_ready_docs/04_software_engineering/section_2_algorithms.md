@@ -3,7 +3,7 @@ icon: lucide/arrow-down-up
 authors: Daniel Bazo Correa
 description:
     Notación Big O para el análisis de complejidad, métodos clásicos de ordenación y
-    métodos de búsqueda.
+    búsqueda, y algoritmos genéticos aplicados al problema del viajante.
 title: Algoritmos
 ---
 
@@ -19,7 +19,9 @@ un algoritmo con independencia del lenguaje y del equipo donde se ejecuta, y apl
 después ese análisis a los métodos clásicos de ordenación y búsqueda. Las
 implementaciones presentadas operan sobre listas de Python y complementan las
 estructuras descritas en el capítulo de
-[estructuras de datos](section_1_data_structures.md).
+[estructuras de datos](section_1_data_structures.md). El capítulo se completa con los
+algoritmos genéticos, una técnica de optimización para problemas sin solución exacta
+asumible, que se ilustra con el problema del viajante.
 
 ## Bibliografía
 
@@ -221,7 +223,7 @@ encuentra ya ordenada y la implementación detecta la ausencia de intercambios, 
     print(f"Resultado: {ordenacion_burbuja([5, 1, 4, 2, 8])}")
     ```
 
-    ```title="Salida esperada"
+    ```plaintext title="Expected output"
     Resultado: [1, 2, 4, 5, 8]
     ```
 
@@ -274,7 +276,7 @@ uno por iteración.
     print(f"Resultado: {ordenacion_seleccion([5, 1, 4, 2, 8])}")
     ```
 
-    ```title="Salida esperada"
+    ```plaintext title="Expected output"
     Resultado: [1, 2, 4, 5, 8]
     ```
 
@@ -324,7 +326,7 @@ subproblemas resultan suficientemente pequeños.
     print(f"Resultado: {ordenacion_insercion([5, 1, 4, 2, 8])}")
     ```
 
-    ```title="Salida esperada"
+    ```plaintext title="Expected output"
     Resultado: [1, 2, 4, 5, 8]
     ```
 
@@ -382,7 +384,7 @@ ordenados.
     print(f"Índice del 7: {busqueda_lineal([5, 1, 4, 2, 8], 7)}")
     ```
 
-    ```title="Salida esperada"
+    ```plaintext title="Expected output"
     Índice del 4: 2
     Índice del 7: None
     ```
@@ -429,10 +431,10 @@ $$
     en la mitad izquierda, y si es menor solo en la derecha.
 
     Repitiendo el procedimiento sobre la mitad que queda, el número de cartas candidatas
-    se reduce a la mitad en cada paso, lo que arroja la complejidad $O(\log_2 N)$ derivada
-    anteriormente. La única particularidad frente a la implementación habitual es que, al
-    estar la secuencia ordenada de forma decreciente, las comparaciones que determinan
-    hacia qué lado continuar quedan invertidas.
+    se reduce a la mitad en cada paso, lo que arroja la complejidad $O(\log_2 N)$
+    derivada anteriormente. La única particularidad frente a la implementación habitual
+    es que, al estar la secuencia ordenada de forma decreciente, las comparaciones que
+    determinan hacia qué lado continuar quedan invertidas.
 
 - **Complejidad temporal**: $O(\log N)$ en el peor caso.
 - **Complejidad espacial**: $O(1)$.
@@ -475,7 +477,7 @@ $$
     print(f"Índice del 7: {busqueda_binaria([1, 2, 4, 5, 8], 7)}")
     ```
 
-    ```title="Salida esperada"
+    ```plaintext title="Expected output"
     Índice del 4: 2
     Índice del 7: None
     ```
@@ -484,8 +486,8 @@ $$
 
     Aplicar la búsqueda binaria sobre una lista desordenada no produce un error de
     ejecución, sino un resultado incorrecto, ya que el algoritmo descarta intervalos
-    asumiendo una ordenación que no existe. Verificar esta precondición es responsabilidad
-    de quien invoca la función.
+    asumiendo una ordenación que no existe. Verificar esta precondición es
+    responsabilidad de quien invoca la función.
 
 La elección entre ambos métodos depende, por tanto, del estado de los datos y del número
 de consultas previstas:
@@ -494,3 +496,597 @@ de consultas previstas:
 | :------ | :------------------ | :------------------- | :--------------------------------------- |
 | Lineal  | No                  | $O(N)$               | Datos desordenados o búsquedas puntuales |
 | Binaria | Sí                  | $O(\log N)$          | Datos ordenados con búsquedas frecuentes |
+
+Los métodos de ordenación y de búsqueda tienen solución exacta y eficiente. Otros
+problemas, los de **optimización combinatoria**, buscan dentro de un conjunto finito
+pero enorme de configuraciones la que minimiza o maximiza un criterio y carecen de un
+algoritmo exacto asumible. Se renuncia entonces a garantizar el óptimo a cambio de
+soluciones buenas en un tiempo razonable.
+
+## Algoritmos genéticos
+
+Un **algoritmo genético** mantiene una **población** de soluciones candidatas y la hace
+evolucionar imitando la selección natural: los individuos mejor adaptados tienen más
+probabilidad de transmitir su material a la siguiente generación, donde se combinan y
+sufren pequeñas alteraciones aleatorias. Es una técnica de búsqueda de propósito
+general, útil cuando el espacio es enorme, no hay un gradiente que seguir y conviene
+manipular muchos parámetros a la vez. Por eso se emplea también en aprendizaje
+automático, por ejemplo en la búsqueda de hiperparámetros.
+
+### Problema de aplicación: el viajante
+
+Para concretar los operadores se usa un problema clásico de optimización combinatoria,
+el **problema del viajante** (_traveling salesman problem_, TSP). Consiste en encontrar
+el recorrido cerrado de longitud mínima que visita cada uno de $N$ puntos exactamente
+una vez y regresa al de partida. Una solución es una permutación $\pi$ de los puntos, y
+su longitud es la suma de las distancias entre puntos consecutivos, incluido el regreso:
+
+$$
+L(\pi) = \sum_{i=0}^{N-1} d\left(\pi_i, \pi_{(i+1) \bmod N}\right)
+$$
+
+donde $d(a, b)$ es la distancia euclídea entre dos puntos. Fijar el punto de partida
+deja $(N-1)!$ recorridos posibles, cantidad que supera a cualquier crecimiento
+exponencial: con 20 puntos son unos $10^{17}$. Como no se conoce un algoritmo exacto
+polinómico, se recurre a métodos como el genético, que no garantizan el óptimo.
+
+Las coordenadas de ejemplo se generan con una semilla fija en un cuadrado de 100 por 100
+unidades. Con 10 puntos todavía es viable enumerar los $9! = 362880$ recorridos, lo que
+proporciona el óptimo exacto como referencia. Los bloques de código de esta sección
+forman un único módulo, por lo que cada uno reutiliza las definiciones de los
+anteriores.
+
+???+ tip "Distancias y longitud de un recorrido"
+
+    ```python linenums="1"
+    import math
+    import random
+    from dataclasses import dataclass
+    from itertools import permutations
+
+
+    def generar_puntos(n: int, semilla: int) -> list[tuple[float, float]]:
+        """
+        Genera puntos aleatorios en un cuadrado de 100 por 100 unidades.
+
+        Args:
+            n: Número de puntos.
+            semilla: Semilla del generador aleatorio.
+
+        Returns:
+            La lista de coordenadas (x, y).
+        """
+
+        rng = random.Random(semilla)
+
+        return [
+            (round(rng.uniform(0, 100), 1), round(rng.uniform(0, 100), 1))
+            for _ in range(n)
+        ]
+
+
+    def matriz_distancias(puntos: list[tuple[float, float]]) -> list[list[float]]:
+        """
+        Precalcula la distancia euclídea entre todos los pares de puntos.
+
+        Args:
+            puntos: Coordenadas de los puntos.
+
+        Returns:
+            Matriz cuadrada con la distancia entre cada par de puntos.
+        """
+
+        return [[math.dist(a, b) for b in puntos] for a in puntos]
+
+
+    def longitud_recorrido(orden: list[int], d: list[list[float]]) -> float:
+        """
+        Suma las distancias de un recorrido cerrado.
+
+        Args:
+            orden: Permutación de los índices de los puntos.
+            d: Matriz de distancias.
+
+        Returns:
+            La longitud total, incluido el regreso al primer punto.
+        """
+
+        n: int = len(orden)
+
+        return sum(d[orden[i]][orden[(i + 1) % n]] for i in range(n))
+
+
+    def optimo_exacto(d: list[list[float]]) -> float:
+        """
+        Enumera todos los recorridos que parten del punto 0.
+
+        Args:
+            d: Matriz de distancias.
+
+        Returns:
+            La longitud del recorrido más corto. Solo es viable para pocos puntos.
+        """
+
+        n: int = len(d)
+
+        return min(
+            longitud_recorrido([0, *resto], d) for resto in permutations(range(1, n))
+        )
+    ```
+
+    ```python linenums="1"
+    puntos: list[tuple[float, float]] = generar_puntos(10, 42)
+    d: list[list[float]] = matriz_distancias(puntos)
+
+    orden_inicial: list[int] = list(range(10))
+
+    print(f"Primer punto: {puntos[0]}")
+    print(f"Orden inicial: {longitud_recorrido(orden_inicial, d):.3f}")
+    print(f"Longitud óptima: {optimo_exacto(d):.3f}")
+    ```
+
+    ```plaintext title="Expected output"
+    Primer punto: (63.9, 2.5)
+    Orden inicial: 516.759
+    Longitud óptima: 264.011
+    ```
+
+### Vocabulario y ciclo de evolución
+
+La terminología procede de la biología. Un organismo contiene células, estas contienen
+cromosomas y los cromosomas almacenan el ADN. Simplificando, el **genoma** es la
+colección completa del material genético de un individuo y cada **gen** es una de sus
+unidades. La tabla siguiente traduce esos conceptos al problema del viajante, con la
+codificación por claves aleatorias que se describe en la sección siguiente:
+
+| Concepto            | Significado en el algoritmo                 | En el viajante                       |
+| :------------------ | :------------------------------------------ | :----------------------------------- |
+| Gen                 | Un valor del genoma                         | Un número real asociado a un punto   |
+| Genoma              | Secuencia completa de genes de un individuo | Un número real por cada punto        |
+| Individuo           | Una solución candidata                      | Un orden de visita                   |
+| Población           | Conjunto de individuos                      | Conjunto de órdenes candidatos       |
+| Aptitud (_fitness_) | Calidad de un individuo                     | Función decreciente de la longitud   |
+| Generación          | Una iteración del algoritmo                 | Una población nueva a partir de otra |
+
+El algoritmo comienza con una población inicial aleatoria. Cada individuo se evalúa con
+la función de aptitud, y los mejor puntuados se seleccionan como progenitores. Su
+material genético se recombina mediante el cruce y se altera con la mutación. El
+resultado, formado por los vástagos o descendientes, constituye la generación siguiente.
+El ciclo se repite hasta cumplir un criterio de parada.
+
+```mermaid
+flowchart TD
+    Inicial["Población inicial aleatoria"] --> Evaluar["Evaluar la aptitud"]
+    Evaluar --> Parada{"¿Criterio de parada?"}
+    Parada -- "Sí" --> Mejor["Devolver el mejor individuo"]
+    Parada -- "No" --> Seleccion["Selección de progenitores"]
+    Seleccion --> Cruce["Cruce"]
+    Cruce --> Mutacion["Mutación"]
+    Mutacion --> Evaluar
+```
+
+### Codificación del genoma
+
+La **codificación** decide cómo se representa una solución en el genoma y condiciona qué
+operadores son válidos. Para el viajante, la representación natural es la permutación.
+Sin embargo, cruzar dos permutaciones cortando y empalmando segmentos suele producir
+puntos repetidos y ausentes, de modo que el vástago no es un recorrido válido. Existen
+operadores diseñados para permutaciones, como el cruce de orden y el cruce parcialmente
+emparejado, que evitan ese problema a costa de una implementación más elaborada.
+
+Una alternativa más simple es la codificación por **claves aleatorias** (_random keys_,
+Bean, 1994). El genoma es un vector de $N$ números reales, uno por punto, y el orden de
+visita se obtiene ordenando los puntos según el valor de su gen. Cualquier vector de
+reales decodifica a una permutación válida, por lo que el cruce y la mutación de números
+reales no necesitan reparación. Los empates se resuelven por orden de aparición, porque
+la ordenación de Python es estable, y la decodificación siempre es determinista.
+
+???+ tip "Implementación"
+
+    ```python linenums="1"
+    def decodificar(genes: list[float]) -> list[int]:
+        """
+        Convierte un genoma de claves reales en un orden de visita.
+
+        Args:
+            genes: Un valor real por punto.
+
+        Returns:
+            Los índices de los puntos ordenados por el valor de su gen.
+        """
+
+        return sorted(range(len(genes)), key=lambda i: genes[i])
+    ```
+
+    ```python linenums="1"
+    genes_ejemplo: list[float] = [0.62, 0.11, 0.85, 0.40, 0.27]
+
+    print(f"Orden decodificado: {decodificar(genes_ejemplo)}")
+    ```
+
+    ```plaintext title="Expected output"
+    Orden decodificado: [1, 4, 3, 0, 2]
+    ```
+
+En el ejemplo, el punto 1 posee el gen más pequeño (0.11) y se visita primero, seguido
+del punto 4 (0.27), y así sucesivamente.
+
+### Función de aptitud
+
+La **función de aptitud** puntúa a cada individuo y debe crecer cuando la solución
+mejora, porque la selección favorece los valores altos. Como el objetivo es minimizar la
+longitud $L$ del recorrido, se invierte:
+
+$$
+f = \frac{1}{L + 1}
+$$
+
+El sumando 1 evita la división por cero ante un recorrido de longitud nula.
+
+???+ tip "Implementación"
+
+    ```python linenums="1"
+    def aptitud(longitud: float) -> float:
+        """
+        Transforma una longitud en una aptitud que crece al acortar el recorrido.
+
+        Args:
+            longitud: Longitud del recorrido.
+
+        Returns:
+            El valor 1 / (longitud + 1).
+        """
+
+        return 1.0 / (longitud + 1.0)
+    ```
+
+    ```python linenums="1"
+    print(f"Aptitud con longitud 270: {aptitud(270.0):.5f}")
+    print(f"Aptitud con longitud 264: {aptitud(264.0):.5f}")
+    ```
+
+    ```plaintext title="Expected output"
+    Aptitud con longitud 270: 0.00369
+    Aptitud con longitud 264: 0.00377
+    ```
+
+!!! note
+
+    La diferencia de aptitud entre un recorrido de longitud 270 y otro de 264, valores
+    próximos al óptimo de este ejemplo, es de solo un 2 %. Cuando la población ya
+    contiene recorridos parecidos, la selección proporcional apenas distingue a los
+    buenos de los mediocres, un fenómeno conocido como baja presión selectiva. La
+    selección por torneo, la selección por rango o el escalado de la aptitud corrigen
+    ese comportamiento.
+
+### Selección por ruleta
+
+En la **selección por ruleta**, la probabilidad de elegir al individuo $i$ es
+proporcional a su aptitud:
+
+$$
+p_i = \frac{f_i}{\sum_{j=1}^{M} f_j}
+$$
+
+donde $M$ es el tamaño de la población. La imagen asociada es una ruleta cuyos sectores
+miden lo que su aptitud, de modo que los individuos mejores se eligen más a menudo sin
+excluir por completo a los peores, lo que preserva diversidad. Cada vástago necesita dos
+progenitores distintos, porque cruzar un individuo consigo mismo solo produce una copia.
+Tras elegir al primero se anula su peso y se vuelve a girar la ruleta.
+
+???+ tip "Implementación"
+
+    ```python linenums="1"
+    def seleccionar_pareja(
+        aptitudes: list[float], rng: random.Random
+    ) -> tuple[int, int]:
+        """
+        Elige dos progenitores distintos por el método de la ruleta.
+
+        Args:
+            aptitudes: Aptitud de cada individuo.
+            rng: Generador aleatorio.
+
+        Returns:
+            Los índices de los dos progenitores.
+        """
+
+        indices: range = range(len(aptitudes))
+        madre: int = rng.choices(indices, weights=aptitudes)[0]
+
+        # El primer progenitor recibe peso nulo para que no se repita
+        pesos: list[float] = aptitudes.copy()
+        pesos[madre] = 0.0
+        padre: int = rng.choices(indices, weights=pesos)[0]
+
+        return madre, padre
+    ```
+
+!!! warning
+
+    Una implementación manual de la ruleta acumula aptitudes hasta superar un número
+    aleatorio del intervalo $\lbrack 0, \sum f_j)$. Con coma flotante, la suma acumulada
+    puede quedar ligeramente por debajo del total, y un bucle que no comprueba el límite
+    del vector accede fuera de él, lo que en Python provoca un `IndexError`. La función
+    `random.choices` encapsula esa búsqueda y elimina el riesgo.
+
+### Cruce en k puntos
+
+El **cruce** (_crossover_) combina el material de dos progenitores. En el cruce en $k$
+puntos se eligen $k$ posiciones distintas del genoma y el vástago copia los genes de un
+progenitor hasta el primer corte, del otro hasta el segundo, y así de forma alterna. Con
+$k = 2$, el vástago hereda los extremos de un progenitor y el tramo central del otro.
+Los cortes se sortean entre 1 y $N-1$, porque uno en el extremo no intercambiaría nada,
+de modo que $k \le N - 1$. Con claves aleatorias, el cruce transmite valores de gen y,
+con ellos, el orden relativo entre puntos, y no sus posiciones en el recorrido.
+
+### Mutación
+
+La **mutación** introduce variaciones aleatorias que reponen la diversidad perdida y
+evitan que la población quede atrapada en soluciones mediocres, un efecto llamado
+convergencia prematura. Se controla con tres parámetros: el porcentaje de individuos que
+mutan en cada generación, el porcentaje de genes que se alteran dentro de cada individuo
+mutado y la amplitud máxima $\delta$ de la perturbación. A cada gen elegido se le suma
+un valor aleatorio uniforme:
+
+$$
+g_i' = g_i + u, \qquad u \sim \mathcal{U}(-\delta, \delta)
+$$
+
+Como la decodificación depende solo del orden relativo de los genes, una perturbación
+pequeña intercambia puntos vecinos en el orden y una grande reordena el recorrido de
+forma drástica.
+
+???+ tip "Implementación del cruce y la mutación"
+
+    ```python linenums="1"
+    def cruzar(
+        madre: list[float], padre: list[float], puntos: int, rng: random.Random
+    ) -> list[float]:
+        """
+        Cruza dos genomas alternando segmentos entre puntos de corte.
+
+        Args:
+            madre: Genoma del primer progenitor.
+            padre: Genoma del segundo progenitor.
+            puntos: Número de puntos de corte.
+            rng: Generador aleatorio.
+
+        Returns:
+            El genoma del vástago.
+        """
+
+        # Un corte en la posición p separa los genes p - 1 y p
+        cortes: set[int] = set(rng.sample(range(1, len(madre)), puntos))
+        fuente: list[float] = madre
+        hijo: list[float] = []
+
+        for posicion in range(len(madre)):
+            if posicion in cortes:
+                fuente = padre if fuente is madre else madre
+
+            hijo.append(fuente[posicion])
+
+        return hijo
+
+
+    def mutar(
+        genes: list[float], pct_genes: float, amplitud: float, rng: random.Random
+    ) -> None:
+        """
+        Perturba in situ un porcentaje de los genes con ruido uniforme.
+
+        Args:
+            genes: Genoma que se modifica.
+            pct_genes: Porcentaje de genes que se perturban.
+            amplitud: Valor absoluto máximo de la perturbación.
+            rng: Generador aleatorio.
+        """
+
+        cantidad: int = int(len(genes) * pct_genes / 100.0)
+
+        for i in rng.sample(range(len(genes)), cantidad):
+            genes[i] += rng.uniform(-amplitud, amplitud)
+    ```
+
+    ```python linenums="1"
+    rng_demo = random.Random(3)
+    madre_demo: list[float] = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6]
+    padre_demo: list[float] = [0.95, 0.85, 0.75, 0.65, 0.55, 0.45]
+    hijo_demo: list[float] = cruzar(madre_demo, padre_demo, 2, rng_demo)
+
+    print(f"Vástago: {hijo_demo}")
+    print(f"Orden decodificado: {decodificar(hijo_demo)}")
+    ```
+
+    ```plaintext title="Expected output"
+    Vástago: [0.1, 0.2, 0.75, 0.65, 0.55, 0.6]
+    Orden decodificado: [0, 1, 4, 5, 3, 2]
+    ```
+
+Con los cortes 2 y 5 resultantes de la semilla, los genes 0 y 1 proceden de la madre,
+los genes 2 a 4 del padre y el gen 5 de nuevo de la madre.
+
+### Elitismo
+
+El **elitismo** copia el mejor individuo de cada generación, sin cruce ni mutación, a la
+siguiente. Garantiza que la mejor aptitud nunca empeore entre generaciones, algo que no
+ocurre sin él porque la ruleta y la mutación pueden destruir la mejor solución
+encontrada. El élite ocupa un puesto de la población, por lo que solo se generan $M - 1$
+vástagos por cruce.
+
+!!! warning
+
+    Mutar al individuo élite anula su función. Es un error fácil de cometer cuando se
+    identifica al élite por una posición que el sorteo de individuos mutantes sí puede
+    alcanzar. En la implementación, el élite ocupa la posición 0 y esa posición se
+    excluye del sorteo.
+
+### Bucle principal y criterio de parada
+
+Cada generación decodifica y evalúa a toda la población, registra al mejor individuo,
+comprueba el criterio de parada y construye la siguiente población. Los criterios más
+habituales son los siguientes:
+
+- **Número máximo de generaciones**: Acota el coste del algoritmo.
+- **Solución suficiente**: Se detiene al alcanzar una longitud o una aptitud objetivo.
+- **Estancamiento**: Se detiene si la mejor solución no mejora durante un número fijo de
+  generaciones, denominado paciencia.
+- **Presupuesto agotado**: Se detiene al superar un tiempo o un número de evaluaciones.
+- **Interrupción manual**: El usuario detiene la ejecución.
+
+La implementación combina el límite de generaciones con el estancamiento. Los parámetros
+se agrupan en un registro inmutable para poder variarlos sin tocar el código del
+algoritmo.
+
+???+ tip "Parámetros del algoritmo"
+
+    ```python linenums="1"
+    @dataclass(frozen=True)
+    class Parametros:
+        """
+        Parámetros del algoritmo genético.
+
+        Attributes:
+            individuos: Tamaño de la población.
+            generaciones: Número máximo de generaciones.
+            puntos_corte: Puntos de corte del cruce.
+            pct_individuos: Porcentaje de individuos que mutan por generación.
+            pct_genes: Porcentaje de genes que mutan en un individuo mutado.
+            amplitud: Valor absoluto máximo de la perturbación de un gen.
+            elitismo: Si es True, el mejor individuo pasa intacto.
+            paciencia: Generaciones sin mejora tras las que se detiene la
+                búsqueda.
+        """
+
+        individuos: int = 100
+        generaciones: int = 100
+        puntos_corte: int = 2
+        pct_individuos: float = 30.0
+        pct_genes: float = 20.0
+        amplitud: float = 0.2
+        elitismo: bool = True
+        paciencia: int = 30
+    ```
+
+???+ tip "Implementación"
+
+    ```python linenums="1"
+    def algoritmo_genetico(
+        d: list[list[float]], p: Parametros, semilla: int
+    ) -> tuple[list[int], float, list[float]]:
+        """
+        Busca un recorrido corto con un algoritmo genético de claves aleatorias.
+
+        Args:
+            d: Matriz de distancias.
+            p: Parámetros del algoritmo.
+            semilla: Semilla del generador aleatorio.
+
+        Returns:
+            El mejor orden, su longitud y la mejor longitud tras cada generación.
+        """
+
+        rng = random.Random(semilla)
+        n: int = len(d)
+        poblacion: list[list[float]] = [
+            [rng.random() for _ in range(n)] for _ in range(p.individuos)
+        ]
+        mejor_orden: list[int] = []
+        mejor_longitud: float = math.inf
+        historial: list[float] = []
+        sin_mejora: int = 0
+
+        for _ in range(p.generaciones):
+            ordenes = [decodificar(genes) for genes in poblacion]
+            longitudes = [longitud_recorrido(orden, d) for orden in ordenes]
+            mejor: int = min(range(p.individuos), key=longitudes.__getitem__)
+
+            if longitudes[mejor] < mejor_longitud - 1e-9:
+                mejor_orden, mejor_longitud = ordenes[mejor], longitudes[mejor]
+                sin_mejora = 0
+            else:
+                sin_mejora += 1
+
+            historial.append(mejor_longitud)
+
+            if sin_mejora >= p.paciencia:
+                break
+
+            aptitudes = [aptitud(longitud) for longitud in longitudes]
+            siguiente: list[list[float]] = []
+
+            if p.elitismo:
+                siguiente.append(poblacion[mejor].copy())
+
+            while len(siguiente) < p.individuos:
+                madre, padre = seleccionar_pareja(aptitudes, rng)
+                progenitores = (poblacion[madre], poblacion[padre])
+                siguiente.append(cruzar(*progenitores, p.puntos_corte, rng))
+
+            # Con elitismo, la posición 0 guarda al mejor y no se muta
+            primero: int = 1 if p.elitismo else 0
+            mutantes: int = int(p.individuos * p.pct_individuos / 100.0)
+
+            for i in rng.sample(range(primero, p.individuos), mutantes):
+                mutar(siguiente[i], p.pct_genes, p.amplitud, rng)
+
+            poblacion = siguiente
+
+        return mejor_orden, mejor_longitud, historial
+    ```
+
+    ```python linenums="1"
+    orden_ag, longitud_ag, historial = algoritmo_genetico(d, Parametros(), 1)
+
+    for generacion in (1, 10, 20, len(historial)):
+        print(f"Generación {generacion:2d}: {historial[generacion - 1]:.3f}")
+
+    print(f"Orden: {orden_ag}")
+    ```
+
+    ```plaintext title="Expected output"
+    Generación  1: 387.686
+    Generación 10: 295.530
+    Generación 20: 264.011
+    Generación 48: 264.011
+    Orden: [3, 7, 2, 8, 5, 6, 1, 4, 0, 9]
+    ```
+
+La mejor longitud parte de 387.686, el mejor de 100 órdenes al azar, y desciende hasta
+264.011, el óptimo exacto calculado antes por enumeración. La ejecución se detiene en la
+generación 48 por estancamiento, tras 30 generaciones sin mejora. En problemas reales no
+puede comprobarse que se alcance el óptimo, y distintas semillas pueden terminar en
+recorridos algo más largos. Para 10 puntos la enumeración es más sencilla, y el interés
+del método está en los espacios de búsqueda donde esa enumeración es inviable.
+
+!!! warning
+
+    El generador aleatorio se crea una sola vez y se pasa a todas las funciones.
+    Reiniciar el generador con la misma semilla en cada individuo, cruce o mutación
+    genera una población inicial con individuos idénticos y decisiones aleatorias
+    correlacionadas entre sí, lo que elimina la diversidad que el algoritmo necesita. La
+    semilla fija solo debe usarse una vez, para que la ejecución completa sea
+    reproducible.
+
+### Efecto de los parámetros
+
+El comportamiento del algoritmo depende de sus parámetros, y no existe una combinación
+universal. La tabla resume el efecto habitual de cada uno:
+
+| Parámetro                | Al aumentarlo                      | Riesgo                                         |
+| :----------------------- | :--------------------------------- | :--------------------------------------------- |
+| Tamaño de la población   | Más diversidad y exploración       | El coste por generación crece linealmente      |
+| Número de generaciones   | Más tiempo de refinamiento         | Rendimientos decrecientes                      |
+| Puntos de corte          | Mayor mezcla entre progenitores    | Rompe combinaciones de genes que funcionaban   |
+| Individuos mutados       | Más diversidad                     | Se degrada hacia una búsqueda aleatoria        |
+| Genes mutados y amplitud | Cambios mayores en cada individuo  | Se pierde lo ya aprendido por los progenitores |
+| Elitismo                 | Conserva siempre la mejor solución | Con muchos élites, convergencia prematura      |
+
+Los valores adecuados dependen del problema y no constituyen una regla general. En una
+aplicación real, los parámetros se ajustan de forma empírica repitiendo la ejecución con
+varias semillas.
+
+El siguiente capítulo, sobre
+[diseño y código sostenible](section_3_sustainable_code.md), pasa de la eficiencia de
+los algoritmos a los principios que mantienen un código legible y fácil de modificar.

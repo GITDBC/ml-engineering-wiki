@@ -108,7 +108,7 @@ Un caso particular lo constituyen los grafos bipartitos, en los que los nodos pu
 dividirse en dos conjuntos disjuntos de tal forma que cada enlace conecta un nodo de un
 conjunto con uno del otro, sin enlaces internos dentro de un mismo conjunto. Este tipo
 de grafos es frecuente en problemas de recomendación y análisis de relaciones
-usuario–objeto.
+usuario-objeto.
 
 ## Representación matricial de los grafos
 
@@ -205,7 +205,7 @@ Entre las métricas locales más utilizadas se encuentra el número de vecinos c
 entre dos nodos, que captura el solapamiento de sus entornos inmediatos. Para introducir
 una normalización se emplea el coeficiente de Jaccard, definido como la razón entre la
 intersección y la unión de los conjuntos de vecinos. Otra métrica relevante es el índice
-de Adamic–Adar, que pondera los vecinos comunes de forma inversamente proporcional a su
+de Adamic-Adar, que pondera los vecinos comunes de forma inversamente proporcional a su
 grado, penalizando nodos muy conectados.
 
 A nivel global, cuando las distancias entre nodos superan los dos saltos, se utilizan
@@ -221,7 +221,14 @@ grafos $G$ y $G'$ mide su similitud mediante una función $K(G, G')$ que es sim�
 semidefinida positiva, lo que garantiza la existencia de una representación implícita en
 un espacio de características.
 
-Entre los kernels más utilizados se encuentran los _graphlet kernels_, que representan
-cada grafo como un vector de frecuencias de subgrafos pequeños, y el kernel de
-Weisfeiler–Lehman, que se basa en un proceso iterativo de relabeling. En este último,
+Entre los _kernels_ más utilizados se encuentran los _graphlet kernels_, que representan
+cada grafo como un vector de frecuencias de subgrafos pequeños, y el _kernel_ de
+Weisfeiler-Lehman, que se basa en un proceso iterativo de _relabeling_. En este último,
 cada nodo recibe inicialmente una etiqueta según sus características
+
+## Cierre
+
+El [siguiente capítulo](section_9_reinforcement_learning.md) presenta el aprendizaje por
+refuerzo, un paradigma en el que un agente aprende a decidir mediante la interacción con
+un entorno y un sistema de recompensas, sin ejemplos etiquetados. Sigue a este porque
+pasa de aprender a partir de datos estáticos a aprender a partir de la interacción.

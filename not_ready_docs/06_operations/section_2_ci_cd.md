@@ -173,8 +173,8 @@ con Linux, macOS y Windows entre las opciones disponibles.
 !!! note "_Runners_ disponibles"
 
     El catálogo completo de _runners_ alojados por GitHub, con sus sistemas operativos y
-    sus recursos asignados, se detalla en la
-    [documentación oficial](https://docs.github.com/en/actions/using-github-hosted-runners/using-github-hosted-runners/about-github-hosted-runners).
+    sus recursos asignados, se detalla en la [documentación
+    oficial](https://docs.github.com/en/actions/using-github-hosted-runners/using-github-hosted-runners/about-github-hosted-runners).
 
 Dentro de los _steps_ es posible integrar acciones predefinidas, disponibles en el
 [repositorio oficial de acciones](https://github.com/actions) y en el
@@ -209,8 +209,8 @@ para las tareas posteriores.
             uses: actions/checkout@v4
     ```
 
-    La ejecución se dispara ante un `push` o un `pull_request` sobre la rama `main`, y el
-    único _step_ descarga el código del repositorio en el _runner_.
+    La ejecución se dispara ante un `push` o un `pull_request` sobre la rama `main`, y
+    el único _step_ descarga el código del repositorio en el _runner_.
 
 !!! tip "Acción `checkout`"
 
@@ -319,9 +319,10 @@ han cambiado.
 
     La clave `venv-${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}` incorpora el
     sistema operativo del _runner_ y un _hash_ del archivo `poetry.lock`, de modo que la
-    caché solo se renueva cuando cambian las dependencias declaradas. Esta técnica reduce
-    de forma notable el tiempo de ejecución, aunque conviene revisar periódicamente su
-    comportamiento para evitar que un _pipeline_ trabaje con dependencias obsoletas.
+    caché solo se renueva cuando cambian las dependencias declaradas. Esta técnica
+    reduce de forma notable el tiempo de ejecución, aunque conviene revisar
+    periódicamente su comportamiento para evitar que un _pipeline_ trabaje con
+    dependencias obsoletas.
 
 ### Modularización de _workflows_
 
@@ -450,7 +451,7 @@ escribir un _workflow_ adicional.
 GitLab ofrece capacidades de integración y entrega continua de forma nativa. Su sistema
 de CI/CD se configura mediante un archivo `.gitlab-ci.yml` situado en la raíz del
 repositorio y se apoya en una arquitectura cliente-servidor. El GitLab Server actúa como
-orquestador, mientras que los GitLab Runners ejecutan los _jobs_ y devuelven los
+orquestador, mientras que los _runners_ de GitLab ejecutan los _jobs_ y devuelven los
 resultados al servidor.
 
 ### Estructura básica de un _pipeline_
@@ -488,10 +489,11 @@ todos los _jobs_.
     image: ghcr.io/astral-sh/uv:python3.11-bookworm
     ```
 
-    Las reglas ejecutan el _pipeline_ en los eventos de _merge request_ y en los _pushes_
-    a la rama `develop`, y descartan la ejecución sobre una rama que ya tiene una _merge
-    request_ abierta. Las variables globales centralizan las rutas del proyecto y limitan
-    la profundidad del clonado para acelerar la preparación de cada _job_.
+    Las reglas ejecutan el _pipeline_ en los eventos de _merge request_ y en los
+    _pushes_ a la rama `develop`, y descartan la ejecución sobre una rama que ya tiene
+    una _merge request_ abierta. Las variables globales centralizan las rutas del
+    proyecto y limitan la profundidad del clonado para acelerar la preparación de cada
+    _job_.
 
 !!! note "Imagen por defecto"
 
@@ -657,9 +659,9 @@ que pueden ser privados.
       - remote: "https://gitlab.com/grupo/proyecto/-/raw/main/ci/shared.yml"
     ```
 
-    La clave `local` importa un archivo del propio repositorio y la clave `remote` toma la
-    configuración de una dirección externa, lo que permite compartir definiciones entre
-    varios proyectos.
+    La clave `local` importa un archivo del propio repositorio y la clave `remote` toma
+    la configuración de una dirección externa, lo que permite compartir definiciones
+    entre varios proyectos.
 
 ### Catálogo de componentes CI/CD
 
@@ -705,15 +707,15 @@ almacenarse fuera del contenedor.
 !!! note "Docker-in-Docker"
 
     El Docker _executor_ admite además el modo Docker-in-Docker (DinD) mediante imágenes
-    específicas como `docker:dind`, que habilita la ejecución de comandos de Docker dentro
-    de los propios _jobs_. Esta capacidad resulta útil para construir, etiquetar y
-    publicar imágenes de contenedores directamente desde el _pipeline_.
+    específicas como `docker:dind`, que habilita la ejecución de comandos de Docker
+    dentro de los propios _jobs_. Esta capacidad resulta útil para construir, etiquetar
+    y publicar imágenes de contenedores directamente desde el _pipeline_.
 
 !!! note "Submódulos y permisos"
 
-    En el caso de los submódulos de Git es necesario activar los permisos del _job token_
-    para que un repositorio pueda acceder a otro durante el clonado, especialmente cuando
-    ambos no pertenecen al mismo grupo.
+    En el caso de los submódulos de Git es necesario activar los permisos del _job
+    token_ para que un repositorio pueda acceder a otro durante el clonado,
+    especialmente cuando ambos no pertenecen al mismo grupo.
 
 ### _Stages_ especiales
 

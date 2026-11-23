@@ -41,3 +41,8 @@ requerir el uso de múltiples herramientas.
 | **_Tool Usage_**               | Llamadas a APIs, ejecución de código.                                  |
 | **Interacción con el entorno** | Manipulación de interfaces o del entorno.                              |
 | **Comunicación**               | Colaboración entre agentes y usuarios.                                 |
+
+Los capítulos de [desarrollo con IA](../04_ai_development/section_1_fundamentals.md)
+llevan estos conceptos a la práctica. Parten de los fundamentos de la integración de
+modelos de lenguaje y construyen agentes con herramientas, memoria, _middleware_, MCP y
+subagentes mediante LangChain y DeepAgents.

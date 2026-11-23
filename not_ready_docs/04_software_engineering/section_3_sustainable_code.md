@@ -441,6 +441,104 @@ módulo tenga una interfaz simple que una implementación simple, porque la inte
 soportan todos los consumidores del módulo, mientras que la implementación solo afecta a
 quien lo mantiene.
 
+### Reducción del número de parámetros
+
+Una función con muchos parámetros es difícil de llamar y de leer, porque obliga a
+recordar su orden. Dos prácticas lo mitigan. La primera es llamar a las funciones con
+**argumentos con nombre** (_keyword arguments_), de modo que cada valor se identifica
+por el nombre del parámetro y la llamada se explica sola. La segunda es agrupar los
+parámetros que viajan juntos en una _dataclass_ inmutable, con
+`@dataclass(frozen=True)`, tal como se describe en el capítulo de
+[POO y características avanzadas](../03_programming/01_python/section_3_oop_and_advanced.md),
+y que además puede exigir que sus campos se indiquen por nombre mediante `kw_only=True`.
+
+Esta agrupación tiene un límite. Si una función recibe el objeto completo pero solo usa
+dos de sus campos, queda ligada a la estructura entera, de modo que cualquier cambio en
+ella puede afectarle aunque no le concierna. Este defecto se denomina **acoplamiento por
+sello** (_stamp coupling_). Las funciones simples y reutilizables deben recibir solo los
+parámetros específicos que necesitan, y la _dataclass_ completa se reserva para las
+funciones que de verdad trabajan con toda la configuración.
+
+???+ example "Configuración agrupada y funciones con parámetros específicos"
+
+    La configuración de un entrenamiento se agrupa en una _dataclass_ inmutable. La
+    función `describir_optimizador` solo necesita dos valores, de modo que los recibe
+    por separado y no depende de la estructura completa. La versión acoplada hace lo
+    mismo, pero obliga a quien la llama a construir una configuración entera.
+
+    ```python linenums="1"
+    from dataclasses import FrozenInstanceError, dataclass
+
+
+    @dataclass(frozen=True, kw_only=True)
+    class ConfiguracionEntrenamiento:
+        """Hiperparámetros relacionados de un entrenamiento."""
+
+        tasa_aprendizaje: float
+        decaimiento_pesos: float = 0.0
+        epocas: int = 10
+        tamano_lote: int = 32
+
+
+    def describir_optimizador(tasa_aprendizaje: float, decaimiento_pesos: float) -> str:
+        """
+        Describe el optimizador a partir de los dos valores que necesita.
+
+        Args:
+            tasa_aprendizaje: Tamaño del paso de la actualización.
+            decaimiento_pesos: Coeficiente de regularización de los pesos.
+
+        Returns:
+            Descripción del optimizador.
+        """
+        return f"AdamW(lr={tasa_aprendizaje}, weight_decay={decaimiento_pesos})"
+
+
+    def describir_optimizador_acoplado(configuracion: ConfiguracionEntrenamiento) -> str:
+        """
+        Hace lo mismo, pero depende de toda la configuración.
+
+        Args:
+            configuracion: Configuración completa del entrenamiento.
+
+        Returns:
+            Descripción del optimizador.
+        """
+        return (
+            f"AdamW(lr={configuracion.tasa_aprendizaje}, "
+            f"weight_decay={configuracion.decaimiento_pesos})"
+        )
+
+
+    configuracion = ConfiguracionEntrenamiento(tasa_aprendizaje=1e-3, epocas=5)
+
+    # Cada valor se pasa por su nombre, con lo que la llamada se explica sola
+    print(
+        describir_optimizador(
+            tasa_aprendizaje=configuracion.tasa_aprendizaje,
+            decaimiento_pesos=configuracion.decaimiento_pesos,
+        )
+    )
+    print(describir_optimizador_acoplado(configuracion))
+
+    try:
+        configuracion.epocas = 3
+    except FrozenInstanceError:
+        print("La configuración es inmutable")
+
+    try:
+        ConfiguracionEntrenamiento(0.001)
+    except TypeError:
+        print("Los campos solo se aceptan por nombre")
+    ```
+
+    ```plaintext title="Expected output"
+    AdamW(lr=0.001, weight_decay=0.0)
+    AdamW(lr=0.001, weight_decay=0.0)
+    La configuración es inmutable
+    Los campos solo se aceptan por nombre
+    ```
+
 ## Gestión de excepciones
 
 El manejo de excepciones puede representar una fracción significativa de todo el código

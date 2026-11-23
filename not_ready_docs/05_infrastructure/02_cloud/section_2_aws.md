@@ -962,7 +962,10 @@ preentrenados y de modelos fundacionales que sirven como punto de partida para
 adaptarlos después a un caso de uso concreto. **Amazon Bedrock** lleva esa idea un paso
 más allá al proporcionar acceso mediante API a modelos fundacionales de varios
 proveedores, con soporte multimodal y mecanismos de personalización, sin que el cliente
-gestione en ningún momento la infraestructura que los ejecuta.
+gestione en ningún momento la infraestructura que los ejecuta. Es una de las rutas de
+acceso a modelos de lenguaje que se comparan, junto con los SDK nativos y las pasarelas,
+en el capítulo de
+[fundamentos del desarrollo con modelos de lenguaje](../../07_artificial_intelligence/04_ai_development/section_1_fundamentals.md).
 
 En el nivel de infraestructura, las instancias de computación acelerada descritas en la
 sección de cómputo aportan la capacidad de cálculo necesaria para el entrenamiento,
@@ -1144,7 +1147,9 @@ fiabilidad y la eficiencia operativa.
 AWS publica un volumen considerable de material de consulta gratuito, que constituye la
 primera vía de resolución de dudas. Incluye la documentación oficial con las guías de
 usuario y de los SDK, los _whitepapers_ de arquitectura, el blog de AWS y la comunidad
-AWS re:Post, donde se plantean y resuelven preguntas técnicas.
+AWS re:Post, donde se plantean y resuelven preguntas técnicas. A ello se suma **AWS
+Skill Builder**, la plataforma de formación de AWS, con cursos sobre los servicios y
+sobre herramientas de desarrollo como Kiro.
 
 Cuando el material de consulta no basta, los **planes de soporte** determinan el nivel
 de asistencia disponible. Los tiempos de respuesta son acumulativos, de modo que cada

@@ -119,7 +119,13 @@ nav = [
         ]},
         {"Desarrollo con IA" = [
             "07_artificial_intelligence/04_ai_development/section_1_fundamentals.md",
-            "07_artificial_intelligence/04_ai_development/section_2_local_llms.md"
+            "07_artificial_intelligence/04_ai_development/section_2_local_llms.md",
+            "07_artificial_intelligence/04_ai_development/section_3_langchain.md",
+            "07_artificial_intelligence/04_ai_development/section_4_middleware.md",
+            "07_artificial_intelligence/04_ai_development/section_5_mcp.md",
+            "07_artificial_intelligence/04_ai_development/section_6_deepagents.md",
+            "07_artificial_intelligence/04_ai_development/section_7_subagents.md",
+            "07_artificial_intelligence/04_ai_development/section_8_agent_deployment.md"
         ]}
     ]},
     {"Carrera profesional" = [

@@ -291,3 +291,7 @@ En el plano del _software_, quedan abiertas líneas como acelerar el _streaming_
 OpenCode, reconectar automáticamente si el servidor cae, alternar de forma automática
 entre modelos de 3B y de 7B, o habilitar un modo de agente que edite código de forma
 autónoma, al estilo de Claude Code.
+
+El [siguiente capítulo](section_3_langchain.md) presenta LangChain, la biblioteca con la
+que se construyen aplicaciones y agentes sobre cualquiera de estos modelos, ya sean
+externos o servidos desde infraestructura propia.

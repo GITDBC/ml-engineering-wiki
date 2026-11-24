@@ -972,6 +972,43 @@ sección de cómputo aportan la capacidad de cálculo necesaria para el entrenam
 junto con los aceleradores diseñados por AWS, Trainium para entrenar modelos e
 Inferentia para servirlos en producción.
 
+### Arquitectura de ejemplo: recomendaciones en tiempo real
+
+Los servicios de esta sección se entienden mejor encadenados en un caso concreto. Una
+aplicación de comercio electrónico quiere mostrar recomendaciones en tiempo real a sus
+clientes, y para ello necesita convertir su actividad en un conjunto de datos de
+entrenamiento que alimente un modelo. La arquitectura combina una canalización de datos
+automatizada con dos perfiles que la explotan, el científico de datos y el ingeniero de
+aprendizaje automático.
+
+```mermaid
+flowchart LR
+    C["1. Clientes<br />Aplicación de comercio electrónico"] <-->|"Actualiza y consulta datos"| D["2. Amazon DynamoDB"]
+    D --> K["3. Amazon Kinesis<br />Data Streams<br />Ingesta"]
+    subgraph P["Canalización de datos automatizada"]
+        K --> F["Amazon Data Firehose<br />5. Entrega"]
+        L["4. AWS Lambda<br />Procesamiento"] <--> F
+        F --> S["Amazon S3<br />Archivos CSV"]
+        S <--> G["6. AWS Glue<br />Data Catalog<br />Catalogación"]
+    end
+    G --> A["7. Amazon Athena<br />Consultas ad hoc"]
+    A --> DS["Científico de datos"]
+    S --> M["8. Amazon SageMaker AI<br />Entrenamiento"]
+    ML["Ingeniero de ML"] --> M
+    M -->|"Recomendaciones en tiempo real"| C
+```
+
+El recorrido tiene ocho pasos. La aplicación atiende a los clientes (1) y guarda y
+recupera los datos de su actividad en DynamoDB (2). Los cambios se ingieren mediante
+Kinesis Data Streams (3) y una función de Lambda los procesa y los transforma (4)
+mientras Firehose los entrega por lotes (5) como archivos CSV en un _bucket_ de S3, el
+_data lake_. El catálogo de datos de Glue registra los esquemas de esos archivos (6), lo
+que permite al científico de datos explorarlos con consultas SQL ad hoc en Athena sin
+cargarlos en ningún otro sitio (7). Por último, SageMaker AI entrena el modelo con los
+mismos datos de S3 bajo la supervisión del ingeniero de aprendizaje automático (8), y el
+modelo resultante devuelve recomendaciones en tiempo real a la aplicación, con lo que el
+ciclo se cierra.
+
 ## Infraestructura como código
 
 **AWS CloudFormation** es el servicio de infraestructura como código (_Infrastructure as

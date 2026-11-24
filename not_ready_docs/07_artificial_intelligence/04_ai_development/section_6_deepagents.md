@@ -19,11 +19,11 @@ Este capítulo presenta **DeepAgents**, un _framework_ construido sobre LangChai
 LangGraph que proporciona a un agente todo lo que necesita para abordar tareas largas y
 abiertas. Recorre el concepto de arnés, las herramientas integradas, el entorno de
 ejecución y sus _backends_, los permisos sobre el sistema de archivos, la ejecución de
-comandos con aislamiento, la memoria, las _skills_ y las técnicas para gestionar el
-contexto. La coordinación de varios agentes y el intérprete de código se tratan en el
-capítulo siguiente. Presupone los capítulos de [LangChain](section_3_langchain.md) y de
-[_middleware_](section_4_middleware.md). Los ejemplos se probaron con
-`deepagents==0.7.34`.
+comandos con aislamiento, la memoria, las _skills_, las técnicas para gestionar el
+contexto y las de recuperación de información. La coordinación de varios agentes y el
+intérprete de código se tratan en el capítulo siguiente. Presupone los capítulos de
+[LangChain](section_3_langchain.md) y de [_middleware_](section_4_middleware.md). Los
+ejemplos se probaron con `deepagents==0.7.34`.
 
 ## Bibliografía
 
@@ -48,6 +48,36 @@ concreto.
 | Paralelizar tareas        | Subagentes y programación desde un intérprete             |
 | Supervisión humana        | `interrupt_on` y permisos de tipo `interrupt`             |
 | Mejorar con el tiempo     | Memoria de largo plazo en archivos                        |
+
+La anatomía completa del arnés se agrupa en cuatro bloques. El **entorno de ejecución**
+reúne el intérprete de código, el _sandbox_ y el sistema de archivos. La **gestión del
+contexto** se apoya sobre ese entorno con las _skills_, la memoria, el resumen, la
+descarga de contexto y el _prompt caching_. La **delegación** aporta la planificación y
+los subagentes. La **supervisión** (_steering_) corresponde a la aprobación humana.
+
+```mermaid
+flowchart TD
+    subgraph E["Entorno de ejecución"]
+        I["Intérprete de código"]
+        S["Sandbox"]
+        F["Sistema de archivos"]
+    end
+    subgraph C["Gestión del contexto"]
+        K["Skills"]
+        M["Memoria"]
+        R["Resumen"]
+        O["Descarga de contexto"]
+        P["Prompt caching"]
+    end
+    subgraph D["Delegación"]
+        PL["Planificación"]
+        SA["Subagentes"]
+    end
+    subgraph T["Supervisión"]
+        H["Aprobación humana"]
+    end
+    E --> C
+```
 
 `create_deep_agent` devuelve el mismo tipo de objeto que `create_agent`, de modo que
 conserva `invoke`, `stream`, el _checkpointer_ y los _threads_ de conversación. El
@@ -93,13 +123,14 @@ ejecutar código dentro del bucle del agente son opcionales. Lo que hace configu
 entorno es el **_backend_**, la capa a la que las herramientas de archivos delegan cada
 operación.
 
-| _Backend_           | Dónde se guardan los archivos                                         |
-| :------------------ | :-------------------------------------------------------------------- |
-| `StateBackend`      | En el estado del _thread_ actual, por defecto y no persistente.       |
-| `FilesystemBackend` | En un directorio del disco local.                                     |
-| `StoreBackend`      | En un almacén de LangGraph, persistente y compartido entre _threads_. |
-| `CompositeBackend`  | En varios _backends_, según el prefijo de la ruta.                    |
-| _Backend_ propio    | En un servicio como S3 o GitHub, implementando el protocolo.          |
+| _Backend_           | Dónde se guardan los archivos                                           |
+| :------------------ | :---------------------------------------------------------------------- |
+| `StateBackend`      | En el estado del _thread_ actual, por defecto y no persistente.         |
+| `FilesystemBackend` | En un directorio del disco local.                                       |
+| `StoreBackend`      | En un almacén de LangGraph, persistente y compartido entre _threads_.   |
+| `CompositeBackend`  | En varios _backends_, según el prefijo de la ruta.                      |
+| `ContextHubBackend` | En un repositorio de agente de LangSmith Hub, persistente y compartido. |
+| _Backend_ propio    | En un servicio como S3 o GitHub, implementando el protocolo.            |
 
 Con un único _backend_, todas las rutas van al mismo destino. Con un `CompositeBackend`,
 un _backend_ por defecto atiende las rutas generales y cada prefijo registrado se
@@ -424,23 +455,237 @@ ocupa de traer la información adecuada. DeepAgents aplica varias estrategias a 
 5. **_Prompt caching_**: Reduce el coste de repetir el prefijo del _prompt_, aunque
    depende del modelo utilizado.
 
-Para buscar información dentro de los archivos existen dos enfoques complementarios.
-`grep` encuentra coincidencias exactas de palabras clave, lo que funciona bien con
-términos concretos pero obliga a probar sinónimos si no se conoce la palabra exacta. Un
-almacén vectorial (_vector store_) busca por significado, normalmente mediante
-_embeddings_ y una medida como la **similitud del coseno** entre el vector $\mathbf{a}$
-de la consulta y el vector $\mathbf{b}$ de cada fragmento:
+Qué parte de esa información entra en el contexto, y cómo se encuentra, es el problema
+de la recuperación, que se trata en la sección siguiente.
+
+## Recuperación de información
+
+La **recuperación** (_retrieval_) consiste en traer al contexto la información adecuada
+y solo esa. Un agente que trabaja sobre muchos archivos o sobre resultados voluminosos
+se enfrenta a tres problemas distintos, y cada uno tiene su propia solución.
+
+| Problema                        | Síntoma                                       | Solución                                                       |
+| :------------------------------ | :-------------------------------------------- | :------------------------------------------------------------- |
+| Búsqueda ineficiente            | Se leen archivos enteros que no hacían falta. | Explorar primero con `glob` y `grep`, y leer solo lo que casa. |
+| Demasiado contexto de una vez   | Un único resultado llena la ventana.          | Leer por rangos y descargar los resultados grandes al disco.   |
+| Contexto irrelevante u obsoleto | Se mezclan fuentes que no vienen al caso.     | Delegar la lectura en subagentes y sintetizar sus resúmenes.   |
+
+### Búsqueda ineficiente
+
+La estrategia más costosa consiste en listar el directorio y leer todos los archivos
+antes de responder. La alternativa es **explorar primero**: `glob` localiza archivos por
+nombre, `grep` busca texto dentro de ellos y `read_file` lee únicamente lo que ha
+coincidido. Dos agentes sobre la misma carpeta de notas ilustran la diferencia. El
+primero abre todo porque el _prompt_ le prohíbe buscar, y el segundo usa las
+herramientas por defecto. La métrica relevante es el **contexto máximo**, el mayor
+número de _tokens_ de entrada que se envía al modelo en una sola llamada.
+
+```python linenums="1"
+from langchain.messages import AIMessage
+
+
+def contexto_maximo(resultado: dict) -> int:
+    """Devuelve el mayor número de tokens de entrada enviado al modelo.
+
+    Args:
+        resultado: Diccionario devuelto por `invoke`, con la clave `messages`.
+
+    Returns:
+        Tokens de entrada de la llamada con más contexto, o 0 si no hay metadatos.
+    """
+    return max(
+        (
+            mensaje.usage_metadata["input_tokens"]
+            for mensaje in resultado["messages"]
+            if isinstance(mensaje, AIMessage) and mensaje.usage_metadata
+        ),
+        default=0,
+    )
+```
+
+```python linenums="1"
+from pathlib import Path
+
+from deepagents import create_deep_agent
+from deepagents.backends import FilesystemBackend
+
+from modelos import crear_modelo
+
+PREGUNTA = "¿Qué se decidió sobre el presupuesto en las notas de /notes/?"
+
+backend = FilesystemBackend(root_dir=Path("datos"), virtual_mode=True)
+
+agente_abre_todo = create_deep_agent(
+    model=crear_modelo(),
+    backend=backend,
+    system_prompt=(
+        "No uses glob ni grep. Lista /notes/ con ls y lee cada archivo con "
+        "read_file antes de responder."
+    ),
+)
+agente_explora = create_deep_agent(model=crear_modelo(), backend=backend)
+
+for agente in (agente_abre_todo, agente_explora):
+    resultado = agente.invoke({"messages": [{"role": "user", "content": PREGUNTA}]})
+    print(f"Contexto máximo: {contexto_maximo(resultado):,} tokens")
+```
+
+El contexto máximo del primer agente crece con el número de notas, mientras que el del
+segundo apenas varía porque solo lee los archivos que contienen la palabra buscada.
+
+### Demasiado contexto de una vez
+
+Aunque la búsqueda sea eficiente, un único archivo o resultado puede ser enorme, como
+una exportación de 40 000 filas. `read_file` admite un **desplazamiento** (_offset_) y
+un **límite** (_limit_), de modo que el agente lee la región que le interesa,
+normalmente la que señala un `grep`, en lugar del archivo completo. Cuando una
+herramienta devuelve muchos resultados, existen dos patrones. La herramienta puede
+guardar cada resultado como un archivo, por ejemplo en `/retrieved/`, y devolver solo
+las rutas, que el agente lee después a demanda. Si no lo hace, el arnés descarga el
+resultado grande a `/large_tool_results/id_de_la_llamada` y deja en el contexto la ruta
+y una vista previa, que se amplía con lecturas por `offset` y `limit`, como se describió
+al tratar la descarga de contexto.
+
+### Contexto irrelevante u obsoleto
+
+El tercer problema no es de tamaño sino de calidad. Entre los resultados de una búsqueda
+puede haber un artículo de hace dos años, ya superado, que contamine la respuesta si se
+lee en el contexto principal. La solución es delegar: el agente principal lanza **en
+paralelo** un subagente por archivo, cada uno lee el suyo, descarta lo que no es
+relevante o está obsoleto y devuelve un resumen con su fuente. El principal solo
+sintetiza esos resúmenes, con lo que su ventana contiene lo mínimo y trazable.
+
+```mermaid
+flowchart TD
+    B["Búsqueda: articulo_1 … articulo_4"] --> D{"Delegar en paralelo"}
+    D --> A1["Subagente 1<br />Lee articulo_1"]
+    D --> A2["Subagente 2<br />Lee articulo_2"]
+    D --> A3["Subagente 3<br />Artículo de hace dos años: no relevante"]
+    D --> A4["Subagente 4<br />Lee articulo_4"]
+    A1 --> S["Agente principal<br />Sintetiza resúmenes y fuentes"]
+    A2 --> S
+    A4 --> S
+```
+
+### Búsqueda exacta y búsqueda semántica
+
+`grep` encuentra coincidencias **exactas** de palabras clave. Si la consulta es
+«financiación de la empresa A», casa con una nota que contiene esas palabras y no con
+otra que diga «la empresa A cierra una serie B de 50 millones», aunque trate del mismo
+hecho. Funciona muy bien con términos concretos, pero obliga a probar sinónimos cuando
+no se conoce la redacción exacta.
+
+La **búsqueda semántica** compara por significado. Un modelo de _embeddings_ convierte
+la consulta y cada fragmento en vectores, y los fragmentos se ordenan por su **similitud
+del coseno** con la consulta, siendo $\mathbf{a}$ el vector de la consulta y
+$\mathbf{b}$ el de un fragmento:
 
 $$
 \cos(\theta) = \frac{\mathbf{a} \cdot \mathbf{b}}{\Vert \mathbf{a} \Vert \, \Vert \mathbf{b} \Vert}
 $$
 
-En ambos casos conviene que el agente reciba la ruta de los archivos y lea únicamente lo
-que necesita, en lugar de recibir el documento completo, y que tras un `grep` conserve
-el texto circundante para tener el contexto del fragmento, como el capítulo al que
-pertenece. Cuando los datos cambian con frecuencia, la fuente debe ser una API o un
-servidor MCP en tiempo real, como el descrito en el [capítulo de MCP](section_5_mcp.md),
-porque de lo contrario el agente trabajaría con copias antiguas.
+El ejemplo siguiente usa `fastembed`, una biblioteca de _embeddings_ que ejecuta un
+modelo pequeño en local, sobre cinco anuncios de alquiler. Se busca «pet-friendly 1BR»
+con las dos técnicas.
+
+```bash linenums="1"
+uv add fastembed numpy
+```
+
+```python linenums="1"
+import numpy as np
+from fastembed import TextEmbedding
+
+PARRAFOS: dict[str, str] = {
+    "alder-avenue.md": "This 1BR is pet-friendly, with a small yard out back.",
+    "birch-lane.md": "Small dogs and cats are welcome in this 1BR loft, and there's a dog run.",
+    "cedar-court.md": "Bring your furry friend: this 1BR building has a grooming station.",
+    "dover-street.md": "No animals allowed in this quiet 1BR near the university.",
+    "elm-street.md": "Sunny kitchen with new appliances and a view of the park.",
+}
+CONSULTA: str = "pet-friendly 1BR"
+
+
+def similitud_coseno(consulta: np.ndarray, matriz: np.ndarray) -> np.ndarray:
+    """Calcula la similitud del coseno entre un vector y cada fila de una matriz.
+
+    Args:
+        consulta: Vector de la consulta, de forma `(d,)`.
+        matriz: Vectores de los fragmentos, de forma `(n, d)`.
+
+    Returns:
+        Similitudes de cada fragmento con la consulta, de forma `(n,)`.
+    """
+    normas = np.linalg.norm(matriz, axis=1) * np.linalg.norm(consulta)
+    return matriz @ consulta / normas
+
+
+# Búsqueda exacta: solo coincide el texto que contiene la palabra clave
+coinciden = [archivo for archivo, texto in PARRAFOS.items() if "pet-friendly" in texto]
+print("grep:", coinciden)
+
+# Búsqueda semántica con un modelo de embeddings pequeño que se ejecuta en local
+modelo = TextEmbedding("BAAI/bge-small-en-v1.5")
+vectores = np.array(list(modelo.embed(list(PARRAFOS.values()))))
+vector_consulta = np.array(list(modelo.embed([CONSULTA])))[0]
+
+similitudes = similitud_coseno(vector_consulta, vectores)
+for indice in np.argsort(similitudes)[::-1]:
+    print(f"{similitudes[indice]:.3f} {list(PARRAFOS)[indice]}")
+```
+
+```plaintext title="Expected output"
+grep: ['alder-avenue.md']
+0.884 alder-avenue.md
+0.754 cedar-court.md
+0.748 birch-lane.md
+0.646 dover-street.md
+0.604 elm-street.md
+```
+
+`grep` solo encuentra un anuncio, mientras que la búsqueda semántica sitúa en cabeza los
+tres que hablan de mascotas con palabras distintas, como «perros y gatos» o «amigo
+peludo». El resultado también enseña dos límites. La similitud mide cercanía temática y
+no verdad lógica, de modo que el anuncio que prohíbe los animales queda en cuarto lugar
+con una puntuación alta, y solo el texto completo permite descartarlo. Además, como en
+la mayoría de los almacenes vectoriales, cada fragmento conserva únicamente el texto del
+párrafo, y el título y la fecha viajan como metadatos que el modelo nunca ve. Si la
+fecha importa para descartar anuncios obsoletos, hay que incluirla en el texto que se
+devuelve al agente.
+
+### Recuperación en dos pasos y recuperación agéntica
+
+El esquema clásico de **RAG** (_Retrieval-Augmented Generation_) de dos pasos recupera
+los fragmentos más similares a la pregunta y se los entrega al modelo para que responda.
+La **recuperación agéntica** convierte la búsqueda en un bucle que el propio agente
+controla. Piensa qué necesita, busca, lee y decide si le falta información, en cuyo caso
+vuelve a buscar con lo aprendido, por ejemplo al encontrar un producto nuevo de una
+empresa y buscar después su precio.
+
+```mermaid
+flowchart LR
+    subgraph RAG["RAG de dos pasos"]
+        R1["Recuperar"] --> R2["Responder"]
+    end
+    subgraph AG["Recuperación agéntica"]
+        P["Pensar"] --> B["Buscar"] --> L["Leer"] --> N{"¿Necesita más?"}
+        N -->|"Sí, buscar de nuevo"| B
+        N -->|"No"| X["Responder"]
+    end
+```
+
+### Técnicas disponibles
+
+La recuperación no es una técnica única sino un conjunto que se combina con la
+ingeniería de contexto. Por un lado están las formas de **traer** información: RAG con
+búsqueda vectorial, búsqueda en el sistema de archivos con `ls`, `glob`, `grep` y
+`read_file`, _skills_ que se cargan bajo demanda y subagentes que actúan como
+recuperadores. Por otro lado están las formas de **dar forma** al contexto una vez
+traído: descarga al disco, resumen, subagentes que aíslan el trabajo y memoria de largo
+plazo. Un buen diseño elige de cada grupo lo que su problema necesita. Cuando los datos
+cambian con frecuencia, la fuente debe ser una API o un servidor MCP en tiempo real,
+como el descrito en el [capítulo de MCP](section_5_mcp.md), porque de lo contrario el
+agente trabajaría con copias antiguas.
 
 ## Aprobación humana
 
